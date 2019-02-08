@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Collection #getMany can get records from an array of primary keys 1`] = `
+Array [
+  Object {
+    "band_id": undefined,
+    "coverUrl": "the link",
+    "id": undefined,
+    "name": "my album",
+    "releaseDate": undefined,
+  },
+  Object {
+    "band_id": undefined,
+    "coverUrl": undefined,
+    "id": undefined,
+    "name": "my second album",
+    "releaseDate": undefined,
+  },
+]
+`;
+
+exports[`Collection #getMany can get records from an array of primary keys 2`] = `
+Array [
+  Object {
+    "band_id": undefined,
+    "coverUrl": undefined,
+    "id": undefined,
+    "name": "my second album",
+    "releaseDate": undefined,
+  },
+]
+`;
+
+exports[`Collection #items reflects the records present in _collection 1`] = `
+Object {
+  "band_id": undefined,
+  "coverUrl": "the link",
+  "id": undefined,
+  "name": "my album",
+  "releaseDate": undefined,
+}
+`;
+
+exports[`Collection #items reflects the records present in _collection 2`] = `
+Object {
+  "band_id": undefined,
+  "coverUrl": undefined,
+  "id": undefined,
+  "name": "my second album",
+  "releaseDate": undefined,
+}
+`;
+
+exports[`Collection #itemsPrimaryKeys returns a list a the primary keys of the items 1`] = `
+Array [
+  1,
+  3,
+]
+`;
+
+exports[`Collection #set can set a record from an object reprentation 1`] = `
+Object {
+  "band_id": undefined,
+  "coverUrl": "the link",
+  "id": undefined,
+  "name": "my album",
+  "releaseDate": undefined,
+}
+`;
+
+exports[`Collection #set does nothing if an exisiting record instance is passed as argument 1`] = `
+Object {
+  "band_id": undefined,
+  "coverUrl": "the link",
+  "id": undefined,
+  "name": "my album",
+  "releaseDate": undefined,
+}
+`;
+
+exports[`Collection #setMany can set records from an array of record plain objects 1`] = `
+Object {
+  "band_id": undefined,
+  "coverUrl": "the link",
+  "id": undefined,
+  "name": "my album",
+  "releaseDate": undefined,
+}
+`;
+
+exports[`Collection #setMany can set records from an array of record plain objects 2`] = `
+Object {
+  "band_id": undefined,
+  "coverUrl": undefined,
+  "id": undefined,
+  "name": "my second album",
+  "releaseDate": undefined,
+}
+`;
+
+exports[`Collection #unsetMany can delete records from an array of primary keys 1`] = `
+Object {
+  "band_id": undefined,
+  "coverUrl": undefined,
+  "id": undefined,
+  "name": "my third album",
+  "releaseDate": undefined,
+}
+`;

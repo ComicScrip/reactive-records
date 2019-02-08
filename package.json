@@ -1,0 +1,90 @@
+{
+  "name": "reactive-records",
+  "version": "0.1.0",
+  "description": "Observable business records",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "build-lib": "shx rm -rf lib && tsc",
+    "test": "cd tests && jest -u && jest-coverage-badges",
+    "tdd": "cd tests && jest --watchAll",
+    "generate-docs": "./node_modules/typedoc/bin/typedoc --out ./docs ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ComicScrip/reactive-records.git"
+  },
+  "keywords": [
+    "mobx",
+    "store",
+    "records",
+    "reactive",
+    "rest",
+    "offline"
+  ],
+  "author": "Pierre Genthon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ComicScrip/reactive-records/issues"
+  },
+  "homepage": "https://github.com/ComicScrip/reactive-records",
+  "files": [
+    "lib"
+  ],
+  "jest": {
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "/tests/.*\\.spec\\.(ts|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "json-summary",
+      "lcov",
+      "text-summary",
+      "html"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.ts"
+    ],
+    "coverageDirectory": "tests/coverage"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn generate-docs && yarn build-lib"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --no-semi --parser typescript --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "bluebird": "^3.5.2",
+    "lodash": "^4.17.10",
+    "mobx": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/lodash": "^4.14.116",
+    "husky": "^1.0.0-rc.14",
+    "jest": "23.4.2",
+    "jest-coverage-badges": "^1.0.0",
+    "lint-staged": "^7.2.2",
+    "prettier": "1.14.2",
+    "shx": "^0.3.2",
+    "ts-jest": "^23.1.4",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.0.3"
+  }
+}

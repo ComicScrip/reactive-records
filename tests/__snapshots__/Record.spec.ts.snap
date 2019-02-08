@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Record pseudo-refelection methods # get _ownAttributes 1`] = `
+Object {
+  "band_id": undefined,
+  "coverUrl": "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg",
+  "id": 1,
+  "name": "Foxtrot",
+  "releaseDate": undefined,
+}
+`;
+
+exports[`Record pseudo-refelection methods # get _ownAttributesNames 1`] = `
+Array [
+  "id",
+]
+`;
+
+exports[`Record pseudo-refelection methods # get _ownAttributesNames 2`] = `
+Array [
+  "id",
+  "coverUrl",
+  "name",
+  "releaseDate",
+  "band_id",
+]
+`;
+
+exports[`Record pseudo-refelection methods # get _ownAttributesNames 3`] = `
+Array [
+  "id",
+  "duration",
+  "name",
+  "album_id",
+]
+`;
+
+exports[`Record pseudo-refelection methods # get _toOneAssociations 1`] = `Object {}`;
