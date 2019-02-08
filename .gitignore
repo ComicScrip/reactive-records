@@ -18,3 +18,4 @@ yarn.lock
 .idea
 
 tests/coverage
+!tests/coverage/badge*
