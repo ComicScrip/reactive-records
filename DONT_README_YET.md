@@ -1,4 +1,4 @@
-![Line coverage percent](https://cdn.rawgit.com/ComicScrip/reactive-records/e459ceab/tests/coverage/badge-lines.svg)
+![Line coverage percent](https://raw.githubusercontent.com/ComicScrip/reactive-records/master/tests/coverage/badge-lines.svg?sanitize=true)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## [WIP] 
@@ -47,13 +47,14 @@ import {observable} from 'mobx'
 import {Collection, Record, ownAttribute} from 'reactive-records'
 
 class Album extends Record {
-    // Declare @observable properties for oberservers of this record to be notified as the values are mutated
-    // Notice how you will have nice autocompletion everywhere (and typechecking if using typescript) ?
+    // declare @observable properties for oberservers of 
+    // this record to be notified as the values are mutated
+    // notice how you will have nice autocompletion everywhere (and typechecking if using typescript) ?
     @observable @ownAttribute id: number
     @observable @ownAttribute releaseDate: Date
     @observable @ownAttribute name: string
    
-    // Use @computed to derive data from @observable properties
+    // use @computed to derive data from @observable properties
     @computed get nameWithReleaseYear() { return `${this.name} (${this.releaseDate.getFullYear()})` }
 }
 
@@ -74,27 +75,34 @@ _demo.ts_
 import {reaction} from 'mobx'
 import {albumCollection} from './Data/Ressources/Albums.ts'
 
-// 'autorun', 'when', 'reaction' or 'observer' functions provided by mobx can be used to react to mutations in your collection or in your records
-// let's program a reaction that prints the name and release year of every album in our collection every time those pieces of information are updated
+// 'autorun', 'when', 'reaction' or 'observer' functions provided by mobx 
+// can be used to react to mutations in your collection or in your records
+// let's program a reaction that prints the name and release year of every album in our 
+// collection every time those pieces of information are updated
 reaction(
     () => albumCollection.items.map(album => album.nameWithReleaseYear),
     displayTitles => {
-        // this is for exemple where you can re-render your UI to always reflect the last state of your data
+        // this is for exemple where you can re-render 
+        // your UI to always reflect the last state of your data
         console.log(`a simple view of albums in the collection : ${displayTitles.join(', ')}`)
     }
 )
 
-// let's create a new record : the simplest way is to create it directly form the collection thanks to the 'set' method
+// let's create a new record : the simplest way is to create it d
+// directly form the collection thanks to the 'set' method
 albumCollection.set({id: 123, name: 'Nursery Cryme', releaseDate: new Date('November 12, 1970')})
 // The console logs : "a simple view of albums in the collection : Nursery Cryme (1970)"
-// if the provided record representation contains an 'id' (or the primary key you have defined) that is already in the collection, the record will be updated
+// if the provided record representation contains an 'id' (or the primary key you have defined) 
+// that is already in the collection, the record will be updated
 albumCollection.set({id: 123, name: 'Nursery Cryme', releaseDate: new Date('November 12, 1971')})
 // The console logs : "a simple view of albums in the collection : Nursery Cryme (1971)"
 
-const album = albumCollection.get(123) // you can get a particular record in the collection by providing its primary key value
-// you can get meta information about a record's instance : for exemple, '_ownAtttributeNames' will retrieve all properties decorated with @ownAttribute
+// you can get a particular record in the collection by providing its primary key value
+const album = albumCollection.get(123)
+// you can get meta information about a record's instance
+// for exemple, '_ownAtttributeNames' will retrieve all properties decorated with @ownAttribute
 album._ownAttributesNames // ['id', 'name', 'releaseDate']
-album._ownAttributes // {id: 123, name: 'Nursery Cryme', relaseDate: Fri Nov 12 1971 00:00:00 GMT+0100 (CET)}
+album._ownAttributes // {id: 123, name: 'Nursery Cryme', relaseDate: Fri Nov 12 1971
 
 // if you don't provide a primary key value, a temporary identifier value is given
 const otherAlbum = albumCollection.set({name: 'Foxrot', releaseDate: new Date('October 6, 1972')})
@@ -103,9 +111,11 @@ otherAlbum._primaryKeyValue // 'optimistic_2'
 // Woops, there's a typo ! Let's correct that :
 otherAlbum.name = 'Foxtrot'
 // The console logs : "a simple view of albums in the collection : Nursery Cryme (1971), Foxtrot (1972)"
-// For now, otherAlbum has a temporary identifier. Let's assume we saved it in our backend and a real identifier is now available
+// For now, otherAlbum has a temporary identifier. 
+// Let's assume we saved it in our backend and a real identifier is now available
 otherAlbum.id = 124
-// The console logs : NOTHING because only the 'name' and 'releaseDate' properties are involved in our reaction, so nothing needs to be re-logged ! 
+// The console logs : NOTHING because only the 'name' and 'releaseDate' 
+// properties are involved in our reaction, so nothing needs to be re-logged ! 
 otherAlbum._primaryKeyValue // 124
 ```
 
@@ -125,7 +135,8 @@ import {toOneAssociation, toManyAssociation} from 'reactive-records'
 class Album extends Record {
     // ... (attributes)
     
-    // a toOne association indicates a strong link between this record and the foreign record (the band of the album).
+    // a toOne association indicates a strong link between 
+    // this record and the foreign record (the band of the album).
     @observable @toOneAssociation({
         foreignCollection: () => bandCollection,
         foreignKeyAttribute: "band_id"
@@ -150,8 +161,11 @@ reaction(() => bandCollection.items, bands => {
     JSON.stringify({name: band.name, pkValue: band._primaryKeyValue})
   ).join(',') + ']')
 })
-reaction(() => ({band_id: album.band_id, bandName: album.band ? album.band.name : undefined}), albumState => {
-  console.log(`-- album.band.name : ${albumState.bandName}, album.band_id : ${albumState.band_id}`)
+reaction(() => (
+        {band_id: album.band_id, bandName: album.band ? album.band.name : undefined}
+    ), 
+    albumState => {
+        console.log(`-- album.band.name : ${albumState.bandName}, album.band_id : ${albumState.band_id}`)
 })
 
 // The simpliest way to associate the album with a new band is
