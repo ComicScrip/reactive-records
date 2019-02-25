@@ -239,5 +239,35 @@ describe("Collection", () => {
         )
       })
     })
+
+    describe("saveOne", () => {
+      it("should call the collection's persistence stategy saveOne method with the right params", async () => {
+        const saveAlbum = jest.fn()
+        albumCollection.persistenceStrategy.saveOne = saveAlbum
+        const defaultScope = albumCollection.provideScope()
+        const record = albumCollection.set({ id: 2 })
+        await albumCollection.saveOne(record)
+        expect(saveAlbum).toHaveBeenLastCalledWith({}, record, defaultScope)
+
+        const customScope = albumCollection.provideScope("scope1")
+        await albumCollection.saveOne(record, customScope.name)
+        expect(saveAlbum).toHaveBeenLastCalledWith({}, record, customScope)
+      })
+    })
+
+    describe("destroyOne", () => {
+      it("should call the collection's persistence stategy destroyOne method with the right params", async () => {
+        const destroyAlbum = jest.fn()
+        albumCollection.persistenceStrategy.destroyOne = destroyAlbum
+        const defaultScope = albumCollection.provideScope()
+        const record = albumCollection.set({ id: 2 })
+        await albumCollection.destroyOne(record)
+        expect(destroyAlbum).toHaveBeenLastCalledWith({}, record, defaultScope)
+
+        const customScope = albumCollection.provideScope("scope1")
+        await albumCollection.destroyOne(record, customScope.name)
+        expect(destroyAlbum).toHaveBeenLastCalledWith({}, record, customScope)
+      })
+    })
   })
 })

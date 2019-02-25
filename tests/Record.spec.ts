@@ -689,6 +689,53 @@ Array [
 
   describe("polyMorphic associations", () => {})
 
+  describe("persistence methods", () => {
+    describe("#load", () => {
+      it("should call 'loadOne' method on the record's collection with the right params", async () => {
+        const colltionLoadOne = jest.fn()
+        const album = albumCollection.set({})
+        Object.defineProperty(albumCollection, "loadOne", {
+          value: colltionLoadOne,
+          writable: true
+        })
+        await album._load("scope1", { id: 123 })
+        expect(colltionLoadOne).toHaveBeenLastCalledWith(album, "scope1", {
+          id: 123
+        })
+      })
+    })
+
+    describe("#save", () => {
+      it("should call 'saveOne' method on the record's collection with the right params", async () => {
+        const colltionLoadOne = jest.fn()
+        const album = albumCollection.set({})
+        Object.defineProperty(albumCollection, "saveOne", {
+          value: colltionLoadOne,
+          writable: true
+        })
+        await album._save("scope1", { id: 123 })
+        expect(colltionLoadOne).toHaveBeenLastCalledWith(album, "scope1", {
+          id: 123
+        })
+      })
+    })
+
+    describe("#destroy", () => {
+      it("should call 'destroyOne' method on the record's collection with the right params", async () => {
+        const colltionLoadOne = jest.fn()
+        const album = albumCollection.set({})
+        Object.defineProperty(albumCollection, "destroyOne", {
+          value: colltionLoadOne,
+          writable: true
+        })
+        await album._destroy("scope1", { id: 123 })
+        expect(colltionLoadOne).toHaveBeenLastCalledWith(album, "scope1", {
+          id: 123
+        })
+      })
+    })
+  })
+
   /*
   describe("#_toJS", () => {
     describe("called with default options", () => {
