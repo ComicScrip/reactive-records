@@ -62,7 +62,7 @@
 					<a href="_collection_.collection.html">Collection</a>
 				</li>
 			</ul>
-			<h1>Class Collection&lt;T&gt;</h1>
+			<h1>Class Collection&lt;RecordType&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -81,7 +81,7 @@
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
-						<h4>T<span class="tsd-signature-symbol">: </span><a href="_record_.record.html" class="tsd-signature-type">Record</a></h4>
+						<h4>RecordType<span class="tsd-signature-symbol">: </span><a href="_record_.record.html" class="tsd-signature-type">Record</a></h4>
 					</li>
 				</ul>
 			</section>
@@ -97,10 +97,12 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_collection_.collection.html#persistencestrategy" class="tsd-kind-icon">persistence<wbr>Strategy</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_collection_.collection.html#records" class="tsd-kind-icon">records</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_collection_.collection.html#scopes" class="tsd-kind-icon">scopes</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -116,12 +118,20 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#clear" class="tsd-kind-icon">clear</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#destroyone" class="tsd-kind-icon">destroy<wbr>One</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#getmany" class="tsd-kind-icon">get<wbr>Many</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#getpersistancestrategy" class="tsd-kind-icon">get<wbr>Persistance<wbr>Strategy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#getscope" class="tsd-kind-icon">get<wbr>Scope</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#has" class="tsd-kind-icon">has</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#load" class="tsd-kind-icon">load</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#loadone" class="tsd-kind-icon">load<wbr>One</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#providescope" class="tsd-kind-icon">provide<wbr>Scope</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#saveone" class="tsd-kind-icon">save<wbr>One</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#set" class="tsd-kind-icon">set</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#setmany" class="tsd-kind-icon">set<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#setrecord" class="tsd-kind-icon">set<wbr>Record</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#setscope" class="tsd-kind-icon">set<wbr>Scope</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#unset" class="tsd-kind-icon">unset</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#unsetmany" class="tsd-kind-icon">unset<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#updaterecordprimarykey" class="tsd-kind-icon">update<wbr>Record<wbr>Primary<wbr>Key</a></li>
@@ -131,22 +141,52 @@
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="persistencestrategy" class="tsd-anchor"></a>
+					<h3>persistence<wbr>Strategy</h3>
+					<div class="tsd-signature tsd-kind-icon">persistence<wbr>Strategy<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_types_.persistencestrategy.html" class="tsd-signature-type">PersistenceStrategy</a><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in Collection.ts:31</li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="records" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> records</h3>
-					<div class="tsd-signature tsd-kind-icon">records<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;PrimaryKey, T&gt;()</span></div>
+					<div class="tsd-signature tsd-kind-icon">records<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;PrimaryKey, RecordType&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Collection.ts:16</li>
+							<li>Defined in Collection.ts:17</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Holds the _collection&#39;s records&#39; instances
+							<p>Holds all the collection&#39;s records&#39; instances
 							The map is indexed by the records&#39; primary key values.</p>
 						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="scopes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> scopes</h3>
+					<div class="tsd-signature tsd-kind-icon">scopes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, Scope&lt;RecordType&gt;&gt;()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in Collection.ts:29</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The collection&#39;s scopes</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>type</dt>
+							<dd><p>{Map}</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
@@ -156,13 +196,13 @@
 					<a name="items" class="tsd-anchor"></a>
 					<h3>items</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> items<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> items<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:34</li>
+									<li>Defined in Collection.ts:99</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -170,7 +210,7 @@
 									<p>Get a list of the _collection&#39;s record instances</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>An array of Record instances</p>
 						</li>
 					</ul>
@@ -185,7 +225,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:24</li>
+									<li>Defined in Collection.ts:89</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -202,12 +242,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:21</li>
+									<li>Defined in Collection.ts:22</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Get the _collection&#39;s records&#39; constructor</p>
+									<p>Get the collection&#39;s records&#39; constructor</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="_record_.record.html" class="tsd-signature-type">Record</a></h4>
@@ -224,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:90</li>
+									<li>Defined in Collection.ts:155</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -250,7 +290,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:183</li>
+									<li>Defined in Collection.ts:251</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -263,16 +303,50 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="get" class="tsd-anchor"></a>
-					<h3>get</h3>
+					<a name="destroyone" class="tsd-anchor"></a>
+					<h3>destroy<wbr>One</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>primaryKey<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+						<li class="tsd-signature tsd-kind-icon">destroy<wbr>One<span class="tsd-signature-symbol">(</span>record<span class="tsd-signature-symbol">: </span><a href="_record_.record.html" class="tsd-signature-type">Record</a>, scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:57</li>
+									<li>Defined in Collection.ts:310</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Destroys one record into the collection using the collection&#39;s persitence strategy</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>record: <a href="_record_.record.html" class="tsd-signature-type">Record</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> scopeName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;default&quot;</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get" class="tsd-anchor"></a>
+					<h3>get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>primaryKey<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RecordType</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:122</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -289,7 +363,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">RecordType</span></h4>
 							<p>The record instance or undefined if there is no record with the given primary key</p>
 						</li>
 					</ul>
@@ -298,13 +372,13 @@
 					<a name="getmany" class="tsd-anchor"></a>
 					<h3>get<wbr>Many</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Many<span class="tsd-signature-symbol">(</span>primaryKeyList<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Many<span class="tsd-signature-symbol">(</span>primaryKeyList<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:76</li>
+									<li>Defined in Collection.ts:141</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -321,7 +395,58 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getpersistancestrategy" class="tsd-anchor"></a>
+					<h3>get<wbr>Persistance<wbr>Strategy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Persistance<wbr>Strategy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.persistencestrategy.html" class="tsd-signature-type">PersistenceStrategy</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:33</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_types_.persistencestrategy.html" class="tsd-signature-type">PersistenceStrategy</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getscope" class="tsd-anchor"></a>
+					<h3>get<wbr>Scope</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Scope<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:49</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a collection scope by name</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>: the name of the scope</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -335,7 +460,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:48</li>
+									<li>Defined in Collection.ts:113</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -358,16 +483,152 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="set" class="tsd-anchor"></a>
-					<h3>set</h3>
+					<a name="load" class="tsd-anchor"></a>
+					<h3>load</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>recordProperties<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+						<li class="tsd-signature tsd-kind-icon">load<span class="tsd-signature-symbol">(</span>scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:102</li>
+									<li>Defined in Collection.ts:260</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Loads items into the collection using the collection&#39;s persitence strategy</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> scopeName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;default&quot;</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="loadone" class="tsd-anchor"></a>
+					<h3>load<wbr>One</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">load<wbr>One<span class="tsd-signature-symbol">(</span>record<span class="tsd-signature-symbol">: </span><a href="_record_.record.html" class="tsd-signature-type">Record</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a>, scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:274</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Loads a record into the collection using the collection&#39;s persitence strategy</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>record: <a href="_record_.record.html" class="tsd-signature-type">Record</a><span class="tsd-signature-symbol"> | </span><a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> scopeName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;default&quot;</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="providescope" class="tsd-anchor"></a>
+					<h3>provide<wbr>Scope</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">provide<wbr>Scope<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:59</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get an existing scope or create a new one</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;default&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>: The name of the scope</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> params: <span class="tsd-signature-type">object</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>: the scope&#39;s params to be set if specified</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="saveone" class="tsd-anchor"></a>
+					<h3>save<wbr>One</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">save<wbr>One<span class="tsd-signature-symbol">(</span>record<span class="tsd-signature-symbol">: </span><a href="_record_.record.html" class="tsd-signature-type">Record</a>, scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:294</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Saves one record into the collection using the collection&#39;s persitence strategy</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>record: <a href="_record_.record.html" class="tsd-signature-type">Record</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> scopeName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;default&quot;</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="set" class="tsd-anchor"></a>
+					<h3>set</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>recordProperties<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RecordType</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:167</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -378,7 +639,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>recordProperties: <a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>recordProperties: <a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>A plain object reprsentation of the record&#39;s properties</p>
 									</div>
@@ -392,7 +653,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">RecordType</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -400,13 +661,13 @@
 					<a name="setmany" class="tsd-anchor"></a>
 					<h3>set<wbr>Many</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Many<span class="tsd-signature-symbol">(</span>recordPropertiesList<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Many<span class="tsd-signature-symbol">(</span>recordPropertiesList<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:147</li>
+									<li>Defined in Collection.ts:212</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -417,7 +678,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>recordPropertiesList: <a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>recordPropertiesList: <a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>An array of plain object reprsentation of the records&#39; properties</p>
 									</div>
@@ -431,7 +692,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -439,13 +700,13 @@
 					<a name="setrecord" class="tsd-anchor"></a>
 					<h3>set<wbr>Record</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Record<span class="tsd-signature-symbol">(</span>recordInstance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Record<span class="tsd-signature-symbol">(</span>recordInstance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RecordType</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:119</li>
+									<li>Defined in Collection.ts:184</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -456,13 +717,43 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>recordInstance: <span class="tsd-signature-type">T</span></h5>
+									<h5>recordInstance: <span class="tsd-signature-type">RecordType</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The record instance to set in the collection</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">RecordType</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setscope" class="tsd-anchor"></a>
+					<h3>set<wbr>Scope</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Scope<span class="tsd-signature-symbol">(</span>scope<span class="tsd-signature-symbol">: </span><a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:84</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set a scope into the collection&#39;s scope set</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>scope: <a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -476,7 +767,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:161</li>
+									<li>Defined in Collection.ts:229</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -507,7 +798,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:171</li>
+									<li>Defined in Collection.ts:239</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -538,7 +829,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:131</li>
+									<li>Defined in Collection.ts:196</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -570,25 +861,25 @@
 					<a name="wherepropeq" class="tsd-anchor"></a>
 					<h3>where<wbr>Prop<wbr>Eq</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">where<wbr>Prop<wbr>Eq<span class="tsd-signature-symbol">(</span>propName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof T</span>, propValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">where<wbr>Prop<wbr>Eq<span class="tsd-signature-symbol">(</span>propName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof RecordType</span>, propValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:61</li>
+									<li>Defined in Collection.ts:126</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propName: <span class="tsd-signature-type">keyof T</span></h5>
+									<h5>propName: <span class="tsd-signature-type">keyof RecordType</span></h5>
 								</li>
 								<li>
 									<h5>propValue: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -605,6 +896,9 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_record_.html">"<wbr>Record"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_scope_.html">"<wbr>Scope"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_decorators_.html">"decorators"</a>
@@ -627,8 +921,14 @@
 					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_collection_.collection.html" class="tsd-kind-icon">Collection</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_collection_.collection.html#persistencestrategy" class="tsd-kind-icon">persistence<wbr>Strategy</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_collection_.collection.html#records" class="tsd-kind-icon">records</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_collection_.collection.html#scopes" class="tsd-kind-icon">scopes</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="_collection_.collection.html#items" class="tsd-kind-icon">items</a>
@@ -646,13 +946,34 @@
 								<a href="_collection_.collection.html#clear" class="tsd-kind-icon">clear</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_collection_.collection.html#destroyone" class="tsd-kind-icon">destroy<wbr>One</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_collection_.collection.html#get" class="tsd-kind-icon">get</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_collection_.collection.html#getmany" class="tsd-kind-icon">get<wbr>Many</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_collection_.collection.html#getpersistancestrategy" class="tsd-kind-icon">get<wbr>Persistance<wbr>Strategy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_collection_.collection.html#getscope" class="tsd-kind-icon">get<wbr>Scope</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_collection_.collection.html#has" class="tsd-kind-icon">has</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_collection_.collection.html#load" class="tsd-kind-icon">load</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_collection_.collection.html#loadone" class="tsd-kind-icon">load<wbr>One</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_collection_.collection.html#providescope" class="tsd-kind-icon">provide<wbr>Scope</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_collection_.collection.html#saveone" class="tsd-kind-icon">save<wbr>One</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_collection_.collection.html#set" class="tsd-kind-icon">set</a>
@@ -662,6 +983,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_collection_.collection.html#setrecord" class="tsd-kind-icon">set<wbr>Record</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_collection_.collection.html#setscope" class="tsd-kind-icon">set<wbr>Scope</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_collection_.collection.html#unset" class="tsd-kind-icon">unset</a>

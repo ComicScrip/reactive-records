@@ -1,4 +1,8 @@
-import { Collection, toManyAssociationsDescription } from "./internals"
+import {
+  Collection,
+  PersistenceServiceName,
+  toManyAssociationsDescription
+} from "./internals"
 import {
   toOneAssociationsDescription,
   OptimisticPrimaryKey,
@@ -25,12 +29,19 @@ export declare class Record {
    */
   static primaryKeyName: string
   /**
+   * Either false or the persistence service currently used to fetch the record
+   * You can use this for exemple to differentiate data loaded form local app storage or a remote API
+   */
+  _loadingFrom: PersistenceServiceName | boolean
+  /**
+   * Either false or the persistence service lastly used to fetch the record
+   * You can use this for exemple to differentiate data loaded form local app storage or a remote API
+   */
+  _lastLoadedFrom: PersistenceServiceName | boolean
+  /**
    * The store holding the record's instance in its 'records' field
    */
   _collection: Collection<Record> | null
-  /**
-   *
-   */
   /**
    * Instanciate a new Record
    * @param collection The foreignCollection instance holding the record
@@ -97,4 +108,22 @@ export declare class Record {
    * @param strict Indicates if an an error should be thrown when a key that is not supposed to exist in the 'properties' param
    */
   _mergeProperties(properties: Partial<this>, strict?: boolean): this
+  /**
+   * Calls the record's collection 'loadOne' method with provided params
+   * @param {string} scopeName : The name of the scope the item should be loaded into
+   * @param {object} params : params passed to the persistence service
+   */
+  _load(scopeName: string, params: object): Promise<any>
+  /**
+   * Calls the record's collection 'saveOne' method with provided params
+   * @param {string} scopeName : The name of the scope the item should be saved into
+   * @param {object} params : params passed to the persistence service
+   */
+  _save(scopeName: string, params: object): Promise<any>
+  /**
+   * Calls the record's collection 'saveOne' method with provided params
+   * @param {string} scopeName : The name of the scope the item should deleted from
+   * @param {object} params : params passed to the persistence service
+   */
+  _destroy(scopeName: string, params: object): Promise<any>
 }

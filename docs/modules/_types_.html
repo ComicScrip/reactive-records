@@ -73,11 +73,9 @@
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_types_.recordconfig.html" class="tsd-kind-icon">Record<wbr>Config</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_types_.persistenceservice.html" class="tsd-kind-icon">Persistence<wbr>Service</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_types_.persistencestrategy.html" class="tsd-kind-icon">Persistence<wbr>Strategy</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_types_.recordconstructor.html" class="tsd-kind-icon">Record<wbr>Constructor</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_types_.recorddatasynchronizer.html" class="tsd-kind-icon">Record<wbr>Data<wbr>Synchronizer</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_types_.recorddatasynchronizerstrategy.html" class="tsd-kind-icon">Record<wbr>Data<wbr>Synchronizer<wbr>Strategy</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_types_.recordhooks.html" class="tsd-kind-icon">Record<wbr>Hooks</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_types_.tojsoptions.html" class="tsd-kind-icon">toJSOptions</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter"><a href="../interfaces/_types_.tomanyassociationdescription.html" class="tsd-kind-icon">to<wbr>Many<wbr>Association<wbr>Description</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter"><a href="../interfaces/_types_.tomanyassociationsdescription.html" class="tsd-kind-icon">to<wbr>Many<wbr>Associations<wbr>Description</a></li>
@@ -88,9 +86,9 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_types_.html#hooklist" class="tsd-kind-icon">Hook<wbr>List</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_types_.html#optimisticprimarykey" class="tsd-kind-icon">Optimistic<wbr>Primary<wbr>Key</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter"><a href="_types_.html#partial" class="tsd-kind-icon">Partial</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_types_.html#persistenceservicename" class="tsd-kind-icon">Persistence<wbr>Service<wbr>Name</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_types_.html#primarykey" class="tsd-kind-icon">Primary<wbr>Key</a></li>
 							</ul>
 						</section>
@@ -100,22 +98,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="hooklist" class="tsd-anchor"></a>
-					<h3>Hook<wbr>List</h3>
-					<div class="tsd-signature tsd-kind-icon">Hook<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in types.ts:38</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="optimisticprimarykey" class="tsd-anchor"></a>
 					<h3>Optimistic<wbr>Primary<wbr>Key</h3>
 					<div class="tsd-signature tsd-kind-icon">Optimistic<wbr>Primary<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:4</li>
+							<li>Defined in types.ts:5</li>
 						</ul>
 					</aside>
 				</section>
@@ -125,7 +113,7 @@
 					<div class="tsd-signature tsd-kind-icon">Partial<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:3</li>
+							<li>Defined in types.ts:4</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -135,12 +123,22 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="persistenceservicename" class="tsd-anchor"></a>
+					<h3>Persistence<wbr>Service<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">Persistence<wbr>Service<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in types.ts:35</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
 					<a name="primarykey" class="tsd-anchor"></a>
 					<h3>Primary<wbr>Key</h3>
 					<div class="tsd-signature tsd-kind-icon">Primary<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in types.ts:5</li>
+							<li>Defined in types.ts:6</li>
 						</ul>
 					</aside>
 				</section>
@@ -159,6 +157,9 @@
 						<a href="_record_.html">"<wbr>Record"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_scope_.html">"<wbr>Scope"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_decorators_.html">"decorators"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -175,19 +176,13 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_types_.recordconfig.html" class="tsd-kind-icon">Record<wbr>Config</a>
+						<a href="../interfaces/_types_.persistenceservice.html" class="tsd-kind-icon">Persistence<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/_types_.persistencestrategy.html" class="tsd-kind-icon">Persistence<wbr>Strategy</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_types_.recordconstructor.html" class="tsd-kind-icon">Record<wbr>Constructor</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_types_.recorddatasynchronizer.html" class="tsd-kind-icon">Record<wbr>Data<wbr>Synchronizer</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_types_.recorddatasynchronizerstrategy.html" class="tsd-kind-icon">Record<wbr>Data<wbr>Synchronizer<wbr>Strategy</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_types_.recordhooks.html" class="tsd-kind-icon">Record<wbr>Hooks</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_types_.tojsoptions.html" class="tsd-kind-icon">toJSOptions</a>
@@ -205,13 +200,13 @@
 						<a href="../interfaces/_types_.tooneassociationsdescription.html" class="tsd-kind-icon">to<wbr>One<wbr>Associations<wbr>Description</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="_types_.html#hooklist" class="tsd-kind-icon">Hook<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="_types_.html#optimisticprimarykey" class="tsd-kind-icon">Optimistic<wbr>Primary<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_types_.html#partial" class="tsd-kind-icon">Partial</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_types_.html#persistenceservicename" class="tsd-kind-icon">Persistence<wbr>Service<wbr>Name</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="_types_.html#primarykey" class="tsd-kind-icon">Primary<wbr>Key</a>

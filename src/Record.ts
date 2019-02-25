@@ -1,6 +1,10 @@
 import { action, computed, intercept, observable, reaction } from "mobx"
 import { uniqueId, keys, isObject, isEmpty, isArray } from "lodash"
-import { Collection, toManyAssociationsDescription } from "./internals"
+import {
+  Collection,
+  PersistenceServiceName,
+  toManyAssociationsDescription
+} from "./internals"
 import {
   toOneAssociationsDescription,
   OptimisticPrimaryKey,
@@ -37,14 +41,23 @@ export class Record {
   public static primaryKeyName = "id"
 
   /**
+   * Either false or the persistence service currently used to fetch the record
+   * You can use this for exemple to differentiate data loaded form local app storage or a remote API
+   */
+  @observable
+  public _loadingFrom: PersistenceServiceName | boolean = false
+
+  /**
+   * Either false or the persistence service lastly used to fetch the record
+   * You can use this for exemple to differentiate data loaded form local app storage or a remote API
+   */
+  @observable
+  public _lastLoadedFrom: PersistenceServiceName | boolean = false
+
+  /**
    * The store holding the record's instance in its 'records' field
    */
   public _collection: Collection<Record> | null = null
-
-  /**
-   *
-   */
-  //public _hooks:
 
   /**
    * Instanciate a new Record
@@ -398,6 +411,36 @@ export class Record {
     }
 
     return this
+  }
+
+  /**
+   * Calls the record's collection 'loadOne' method with provided params
+   * @param {string} scopeName : The name of the scope the item should be loaded into
+   * @param {object} params : params passed to the persistence service
+   */
+  @action.bound
+  public async _load(scopeName: string = "default", params: object) {
+    return this._collection.loadOne(this, scopeName, params)
+  }
+
+  /**
+   * Calls the record's collection 'saveOne' method with provided params
+   * @param {string} scopeName : The name of the scope the item should be saved into
+   * @param {object} params : params passed to the persistence service
+   */
+  @action.bound
+  public async _save(scopeName: string = "default", params: object) {
+    return this._collection.saveOne(this, scopeName, params)
+  }
+
+  /**
+   * Calls the record's collection 'saveOne' method with provided params
+   * @param {string} scopeName : The name of the scope the item should deleted from
+   * @param {object} params : params passed to the persistence service
+   */
+  @action.bound
+  public async _destroy(scopeName: string = "default", params: object) {
+    return this._collection.destroyOne(this, scopeName, params)
   }
 
   /**

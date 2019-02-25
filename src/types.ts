@@ -1,4 +1,5 @@
 import { Record, Collection } from "./internals"
+import { Scope } from "./Scope"
 
 export type Partial<T> = { [P in keyof T]?: T[P] }
 export type OptimisticPrimaryKey = string
@@ -6,10 +7,6 @@ export type PrimaryKey = string | number
 
 export interface RecordConstructor {
   new (): Record
-}
-
-export interface RecordConfig {
-  progressDebounceMs: number
 }
 
 export interface toOneAssociationDescription<T> {
@@ -35,24 +32,20 @@ export interface toJSOptions {
   expandAssociationsLevels: number
 }
 
-export type HookList = Array<(Record) => Promise<any>>
+export type PersistenceServiceName = string
 
-export interface RecordHooks {
-  beforeDestroy: HookList
-  afterCreate: HookList
-  beforeSave: HookList
-  afterSave: HookList
-  onAttributesMutation: HookList
+export interface PersistenceService {
+  name: PersistenceServiceName
+  loadMany(params: object, scope: Scope<Record>): Promise<any>
+  loadOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
+  saveOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
+  destroyOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
 }
 
-export interface RecordDataSynchronizer {
-  name: string
-  pull: (Record) => Promise<any>
-  push: (Record) => Promise<any>
-}
-
-export interface RecordDataSynchronizerStrategy {
-  onSave: (Record) => {}
-  onLoad: (Record) => {}
-  onDelete: () => {}
+export interface PersistenceStrategy {
+  persistenceServices: Map<PersistenceServiceName, PersistenceService>
+  loadMany(params: object, scope: Scope<Record>): Promise<any>
+  loadOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
+  saveOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
+  destroyOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
 }

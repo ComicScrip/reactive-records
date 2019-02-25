@@ -1,24 +1,89 @@
 import { action, computed, observable } from "mobx"
 import * as Bluebird from "bluebird"
 Promise = Bluebird as any
-import { Record, Partial, PrimaryKey } from "./internals"
+import { Record, Partial, PrimaryKey, PersistenceStrategy } from "./internals"
+import { Scope } from "./Scope"
 
 /**
  * A Store for records.
  * All Storage related manipulations are done here (local and remote synchronisations, instances in memory, ...)
  */
-export abstract class Collection<T extends Record> {
+export abstract class Collection<RecordType extends Record> {
   /**
-   * Holds the _collection's records' instances
+   * Holds all the collection's records' instances
    * The map is indexed by the records' primary key values.
    */
   @observable.shallow
-  private records = new Map<PrimaryKey, T>()
+  private records = new Map<PrimaryKey, RecordType>()
 
   /**
-   * Get the _collection's records' constructor
+   * Get the collection's records' constructor
    */
   public abstract get recordClass(): typeof Record
+
+  /**
+   * The collection's scopes
+   * @type {Map}
+   */
+  @observable
+  private scopes = new Map<string, Scope<RecordType>>()
+
+  public persistenceStrategy: PersistenceStrategy = null
+
+  public getPersistanceStrategy(): PersistenceStrategy {
+    if (this.persistenceStrategy === null) {
+      throw new Error(
+        `Please define a persistence strategy for the collection '${
+          (this.constructor as any).name
+        }'`
+      )
+    }
+    return this.persistenceStrategy
+  }
+
+  /**
+   * Get a collection scope by name
+   * @param {string} name : the name of the scope
+   * @return {Scope<RecordType extends Record>}
+   */
+  public getScope(name: string): Scope<RecordType> | undefined {
+    return this.scopes.get(name)
+  }
+
+  /**
+   * Get an existing scope or create a new one
+   * @param {string} name : The name of the scope
+   * @param {object} params : the scope's params to be set if specified
+   * @return {Scope<RecordType extends Record>}
+   */
+  public provideScope(
+    name: string = "default",
+    params?: object
+  ): Scope<RecordType> {
+    let scope = this.getScope(name)
+
+    if (scope) {
+      return scope
+    } else {
+      scope = new Scope(this, name)
+      this.setScope(scope)
+    }
+
+    if (params) {
+      scope.setParams(params)
+    }
+
+    return scope
+  }
+
+  /**
+   * Set a scope into the collection's scope set
+   * @param {Scope<RecordType extends Record>} scope
+   */
+  @action.bound
+  public setScope(scope: Scope<RecordType>) {
+    this.scopes.set(scope.name, scope)
+  }
 
   @computed
   get itemsPrimaryKeys(): PrimaryKey[] {
@@ -31,7 +96,7 @@ export abstract class Collection<T extends Record> {
    * @returns An array of Record instances
    */
   @computed
-  public get items(): Array<T> {
+  public get items(): Array<RecordType> {
     const items = []
     for (let i = 0; i < this.itemsPrimaryKeys.length; i++) {
       const itemPrimaryKey = this.itemsPrimaryKeys[i]
@@ -54,11 +119,11 @@ export abstract class Collection<T extends Record> {
    * @param primaryKey the reocrd's primary key value
    * @return The record instance or undefined if there is no record with the given primary key
    */
-  public get(primaryKey: PrimaryKey): T {
+  public get(primaryKey: PrimaryKey): RecordType {
     return this.records.get(primaryKey)
   }
 
-  public wherePropEq(propName: keyof T, propValue: any): T[] {
+  public wherePropEq(propName: keyof RecordType, propValue: any): RecordType[] {
     const filteredRecords = []
     for (let i = 0; i < this.items.length; i++) {
       const item = this.items[i]
@@ -73,7 +138,7 @@ export abstract class Collection<T extends Record> {
    * Get multiple record instances in the _collection form their primary keys
    * @param primaryKeyList the reocrds' primary key values
    */
-  public getMany(primaryKeyList: PrimaryKey[]): T[] {
+  public getMany(primaryKeyList: PrimaryKey[]): RecordType[] {
     const recordInstances = []
     for (let i = 0; i < primaryKeyList.length; i++) {
       const primaryKey = primaryKeyList[i]
@@ -99,12 +164,12 @@ export abstract class Collection<T extends Record> {
    * as being a property of the Record subclass associated with the colection
    */
   @action.bound
-  public set(recordProperties: Partial<T>, strict = true): T {
+  public set(recordProperties: Partial<RecordType>, strict = true): RecordType {
     if (recordProperties instanceof Record) {
-      return recordProperties as T
+      return recordProperties as RecordType
     }
     const recordClass = this.recordClass
-    const recordInstance = new recordClass(this) as T
+    const recordInstance = new recordClass(this) as RecordType
     recordInstance._mergeProperties(recordProperties, strict)
     this.records.set(recordInstance._primaryKeyValue, recordInstance)
 
@@ -116,7 +181,7 @@ export abstract class Collection<T extends Record> {
    * @param recordInstance The record instance to set in the collection
    */
   @action.bound
-  public setRecord(recordInstance: T): T {
+  public setRecord(recordInstance: RecordType): RecordType {
     this.records.set(recordInstance._primaryKeyValue, recordInstance)
     return recordInstance
   }
@@ -144,7 +209,10 @@ export abstract class Collection<T extends Record> {
    * as being a property of the Record subclass associated with the colection
    */
   @action.bound
-  public setMany(recordPropertiesList: Partial<T>[], strict = true): T[] {
+  public setMany(
+    recordPropertiesList: Partial<RecordType>[],
+    strict = true
+  ): RecordType[] {
     const recordInstances = []
     for (let i = 0; i < recordPropertiesList.length; i++) {
       const recordProperties = recordPropertiesList[i]
@@ -183,5 +251,71 @@ export abstract class Collection<T extends Record> {
   public clear(): this {
     this.records.clear()
     return this
+  }
+
+  /**
+   * Loads items into the collection using the collection's persitence strategy
+   */
+  @action.bound
+  public async load(
+    scopeName: string = "default",
+    params: object = {}
+  ): Promise<any> {
+    return this.getPersistanceStrategy().loadMany(
+      params,
+      this.provideScope(scopeName, params)
+    )
+  }
+
+  /**
+   * Loads a record into the collection using the collection's persitence strategy
+   */
+  @action.bound
+  public async loadOne(
+    record: Record | PrimaryKey,
+    scopeName: string = "default",
+    params: object = {}
+  ): Promise<any> {
+    if (!(record instanceof Record)) {
+      const r = { [this.recordClass.primaryKeyName]: record } as any
+      record = this.set(r)
+    }
+    return this.getPersistanceStrategy().loadOne(
+      params,
+      record as Record,
+      this.provideScope(scopeName, params)
+    )
+  }
+
+  /**
+   * Saves one record into the collection using the collection's persitence strategy
+   */
+  @action.bound
+  public async saveOne(
+    record: Record,
+    scopeName: string = "default",
+    params: object = {}
+  ): Promise<any> {
+    return this.getPersistanceStrategy().saveOne(
+      params,
+      record,
+      this.provideScope(scopeName, params)
+    )
+  }
+
+  /**
+   * Destroys one record into the collection using the collection's persitence strategy
+   */
+  @action.bound
+  public async destroyOne(
+    record: Record,
+    scopeName: string = "default",
+    params: object = {}
+  ): Promise<any> {
+    return this.getPersistanceStrategy().destroyOne(
+      params,
+      record,
+      this.provideScope(scopeName, params)
+    )
   }
 }

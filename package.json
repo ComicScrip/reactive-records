@@ -6,7 +6,7 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "build-lib": "shx rm -rf lib && tsc",
-    "test": "cd tests && jest -u && jest-coverage-badges",
+    "test": "cd tests && jest --collectCoverage -u && jest-coverage-badges",
     "tdd": "cd tests && jest --watchAll",
     "generate-docs": "./node_modules/typedoc/bin/typedoc --out ./docs ./src"
   },
@@ -45,7 +45,7 @@
       "json",
       "node"
     ],
-    "collectCoverage": true,
+    "collectCoverage": false,
     "coverageReporters": [
       "json",
       "json-summary",

@@ -16,6 +16,8 @@ import {
   trackCollection
 } from "../internals"
 import { toOneAssociation, toManyAssociation } from "../../src/decorators"
+import { NetworkOnlyStrategy } from "../persistenceStrategies/NetworkOnlyStrategy"
+import { ApiClient } from "../mocks/apiClient"
 
 export interface AlbumAttributes extends BaseRecordAttributes {
   name: string
@@ -69,7 +71,13 @@ export class Album extends Record implements AlbumAttributes {
   }
 }
 
+const persistenceStrategy = new NetworkOnlyStrategy()
+persistenceStrategy.persistenceServices = new Map([
+  ["RESTAPI", ApiClient.createCRUDHandlers("/v1/albums")]
+])
+
 export class AlbumCollection extends Collection<Album> {
+  public persistenceStrategy = persistenceStrategy
   get recordClass(): typeof Album {
     return Album
   }

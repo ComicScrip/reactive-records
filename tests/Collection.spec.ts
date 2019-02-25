@@ -1,6 +1,13 @@
 import { each } from "lodash"
-import { Collection, Partial } from "../src/internals"
-import { Album, albumCollection } from "./internals"
+import {
+  Collection,
+  Partial,
+  PersistenceService,
+  PersistenceStrategy
+} from "../src/internals"
+import { Album, AlbumCollection, albumCollection, ApiClient } from "./internals"
+import { Scope } from "../src/Scope"
+import { NetworkOnlyStrategy } from "./persistenceStrategies/NetworkOnlyStrategy"
 
 describe("Collection", () => {
   beforeEach(() => {
@@ -161,6 +168,76 @@ describe("Collection", () => {
       const pks = albums.map(album => album._primaryKeyValue)
       albumCollection.unsetMany([pks[0], pks[1], "not_existing_pk"])
       expect(albumCollection.items[0]._ownAttributes).toMatchSnapshot()
+    })
+  })
+
+  describe("scopes", () => {
+    describe("#getScope", () => {
+      it("should return the desired scope if it exists", () => {
+        const ac = albumCollection as any
+        const s = new Scope(albumCollection, "scope1")
+        ac.scopes = new Map([["scope1", s]])
+        expect((ac as AlbumCollection).getScope("scope1")).toBe(s)
+      })
+
+      it("should return undefined if the scope does not exist on the collection", () => {
+        const ac = albumCollection as any
+        const s = new Scope(albumCollection, "scope1")
+        ac.scopes = new Map([["scope1", s]])
+        expect((ac as AlbumCollection).getScope("scope2")).toBe(undefined)
+      })
+    })
+
+    describe("provideScope", () => {
+      it("should return the desired scope if it exists", () => {
+        const ac = albumCollection as any
+        const s = new Scope(albumCollection, "scope1")
+        ac.scopes = new Map([["scope1", s]])
+        expect((ac as AlbumCollection).provideScope("scope1")).toBe(s)
+      })
+
+      it("should return a new scope if the scope does not exist on the collection", () => {
+        const ac = albumCollection as any
+        const s = new Scope(albumCollection, "scope1")
+        ac.scopes = new Map([["scope1", s]])
+        const s2 = (ac as AlbumCollection).provideScope("scope2")
+        expect(s2 instanceof Scope).toBe(true)
+      })
+    })
+  })
+
+  describe("persistence methods", () => {
+    describe("load", () => {
+      it("should call the collection's persistence stategy loadMany method with the right params", async () => {
+        const loadAlbums = jest.fn()
+        albumCollection.persistenceStrategy.loadMany = loadAlbums
+        const defaultScope = albumCollection.provideScope()
+        await albumCollection.load()
+        expect(loadAlbums).toHaveBeenLastCalledWith({}, defaultScope)
+
+        const customScope = albumCollection.provideScope("scope1")
+        await albumCollection.load(customScope.name, { year: 1970 })
+        expect(loadAlbums).toHaveBeenLastCalledWith({ year: 1970 }, customScope)
+      })
+    })
+
+    describe("loadOne", () => {
+      it("should call the collection's persistence stategy loadOne method with the right params", async () => {
+        const loadAlbum = jest.fn()
+        albumCollection.persistenceStrategy.loadOne = loadAlbum
+        const defaultScope = albumCollection.provideScope()
+        const record = albumCollection.set({ id: 2 })
+        await albumCollection.loadOne(record)
+        expect(loadAlbum).toHaveBeenLastCalledWith({}, record, defaultScope)
+
+        const customScope = albumCollection.provideScope("scope1")
+        await albumCollection.loadOne(record, customScope.name, { year: 1970 })
+        expect(loadAlbum).toHaveBeenLastCalledWith(
+          { year: 1970 },
+          record,
+          customScope
+        )
+      })
     })
   })
 })
