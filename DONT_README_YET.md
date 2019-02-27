@@ -183,7 +183,8 @@ album.band.id = 123
 // the console logs :
 // -- bandCollection : [{"name":"The Warlocks","pkValue":123}]
 // -- album.band.name : The Warlocks, album.band_id : 123
-// Notice that album.band_id is kept in sync with band.id ! So you don't ever have to worry about having to update stale ids yourself.
+// Notice that album.band_id is kept in sync with band.id ! 
+// So you don't ever have to worry about having to update stale ids yourself.
 
 // You could also assign an existing band instance to the album
 const secondBand = bandCollection.set({name: 'The Falling Spikes', id: 124})
@@ -196,7 +197,10 @@ album.band = secondBand
 const thirdBand = bandCollection.set({name: 'The Velvet Underground', id: 125})
 album.band_id = thirdBand.id
 // the console logs :
-// -- bandCollection : [{"name":"The Warlocks","pkValue":123},{"name":"The Falling Spikes","pkValue":124},{"name":"The Velvet Underground","pkValue":125}]
+// -- bandCollection : [
+    {"name":"The Warlocks","pkValue":123},{"name":"The Falling Spikes","pkValue":124},
+    {"name":"The Velvet Underground","pkValue":125}
+]
 // -- album.band.name : The Velvet Underground, album.band_id : 125
 ```
 
@@ -209,7 +213,7 @@ import {observable} from 'mobx'
 class Album extends Record {
    // ... (attributes)
     
-   // a 'toMany' association allows the album to be linked to multiple tracks (well it would be a 'single' otherwise...)
+   // a 'toMany' association allows the album to be linked to multiple tracks 
    // interally this is an observable computed value 
    // derived form the tracksCollection items matching the album's _primaryKeyValue 
    @toManyAssociation<Track>({
@@ -273,7 +277,8 @@ album.tracks = [otherTrack]
 // ]
 // -- album's tracks names: All Tomorrow's Parties
 //
-// Notice how you can pass an exisiting record and how the track list of the album is entirely redifined when assigning an array
+// Notice how you can pass an exisiting record and how the track list of the album 
+// is entirely redifined when assigning an array
 
 // you can also perform operations on the array, like push(), splice(), etc
 album.tracks.push({name: 'There She Goes Again'})
@@ -332,11 +337,11 @@ Why not use a property called 'attrbitutes' to store data ?
 
 Well, it's just not convinient, just imaging you want to access data on a three-level-deep association :
 
-album.attributes.band.attributes.members[0].attributes.name
+```album.attributes.band.attributes.members[0].attributes.name```
 
 instead of 
 
-album.band.members[0].name
+```album.band.members[0].name```
 
 Which one does the least hurt your brain ?
 
