@@ -90,7 +90,9 @@ reaction(
 )
 ```
 let's create a new record : the simplest way is to create it directly form the collection thanks to the 'set' method
-```ts albumCollection.set({id: 123, name: 'Nursery Cryme', releaseDate: new Date('November 12, 1970')})``` 
+```ts 
+albumCollection.set({id: 123, name: 'Nursery Cryme', releaseDate: new Date('November 12, 1970')})
+``` 
 <details><summary>The console logs : </summary>
 <p>
 
@@ -103,30 +105,80 @@ let's create a new record : the simplest way is to create it directly form the c
 
 If the provided record representation contains an 'id' (or the primary key you have defined) that is already 
 in the collection, the record will be updated.
+```ts
 albumCollection.set({id: 123, name: 'Nursery Cryme', releaseDate: new Date('November 12, 1971')})
-// The console logs : "a simple view of albums in the collection : Nursery Cryme (1971)"
+```
+<details><summary>The console logs : </summary>
+<p>
 
-// you can get a particular record in the collection by providing its primary key value
+```
+"a simple view of albums in the collection : Nursery Cryme (1971)"
+```
+
+</p>
+</details> 
+
+You can get a particular record in the collection by providing its primary key value
+```ts
 const album = albumCollection.get(123)
-// you can get meta information about a record's instance
-// for exemple, '_ownAtttributeNames' will retrieve all properties decorated with @ownAttribute
+```
+
+You can get meta information about a record's instance, for exemple, ```_ownAtttributeNames``` will retrieve all properties decorated with ```@ownAttribute```
+
+```ts
 album._ownAttributesNames // ['id', 'name', 'releaseDate']
 album._ownAttributes // {id: 123, name: 'Nursery Cryme', relaseDate: Fri Nov 12 1971
-
-// if you don't provide a primary key value, a temporary identifier value is given
-const otherAlbum = albumCollection.set({name: 'Foxrot', releaseDate: new Date('October 6, 1972')})
-otherAlbum._primaryKeyValue // 'optimistic_2'
-// The console logs : "a simple view of albums in the collection : Nursery Cryme (1971), Foxrot (1972)"
-// Woops, there's a typo ! Let's correct that :
-otherAlbum.name = 'Foxtrot'
-// The console logs : "a simple view of albums in the collection : Nursery Cryme (1971), Foxtrot (1972)"
-// For now, otherAlbum has a temporary identifier. 
-// Let's assume we saved it in our backend and a real identifier is now available
-otherAlbum.id = 124
-// The console logs : NOTHING because only the 'name' and 'releaseDate' 
-// properties are involved in our reaction, so nothing needs to be re-logged ! 
-otherAlbum._primaryKeyValue // 124
 ```
+If you don't provide a primary key value, a temporary identifier value is given
+
+```ts
+const otherAlbum = albumCollection.set({name: 'Foxrot', releaseDate: new Date('October 6, 1972')})
+otherAlbum._primaryKeyValue // '<random number>'
+```
+
+<details><summary>The console logs : </summary>
+<p>
+
+```
+"a simple view of albums in the collection : Nursery Cryme (1971), Foxrot (1972)"
+```
+
+</p>
+</details>
+
+Woops, there's a typo ! Let's correct that :
+```ts
+otherAlbum.name = 'Foxtrot'
+```
+
+<details><summary>The console logs : </summary>
+<p>
+
+```
+"a simple view of albums in the collection : Nursery Cryme (1971), Foxtrot (1972)"
+```
+
+</p>
+</details>
+
+For now, ```otherAlbum``` has a temporary identifier. 
+Let's assume we saved it in our backend and a real identifier is now available
+
+```ts
+otherAlbum.id = 124
+```
+The console logs : 
+
+<details><summary>The console logs : </summary>
+<p>
+
+```
+NOTHING because only the 'name' and 'releaseDate' 
+// properties are involved in our reaction, so nothing needs to be re-logged ! 
+```
+
+</p>
+</details>
 
 ### Relationships between Records
 
