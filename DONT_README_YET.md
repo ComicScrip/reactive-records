@@ -59,7 +59,8 @@ class Album extends Record {
 }
 
 // This collection acts as a store. 
-// It will contain all the album records instances and allow to perform operation on the latter as a set
+// It will contain all the album records instances 
+// and allow to perform operation on the latter as sets and subsets
 class AlbumCollection extends Collection<Album> {
     get recordClass(): typeof Album {
         return Album
@@ -87,13 +88,21 @@ reaction(
         console.log(`a simple view of albums in the collection : ${displayTitles.join(', ')}`)
     }
 )
+```
+let's create a new record : the simplest way is to create it directly form the collection thanks to the 'set' method
+```ts albumCollection.set({id: 123, name: 'Nursery Cryme', releaseDate: new Date('November 12, 1970')})``` 
+<details><summary>The console logs : </summary>
+<p>
 
-// let's create a new record : the simplest way is to create it d
-// directly form the collection thanks to the 'set' method
-albumCollection.set({id: 123, name: 'Nursery Cryme', releaseDate: new Date('November 12, 1970')})
-// The console logs : "a simple view of albums in the collection : Nursery Cryme (1970)"
-// if the provided record representation contains an 'id' (or the primary key you have defined) 
-// that is already in the collection, the record will be updated
+```
+"a simple view of albums in the collection : Nursery Cryme (1970)"
+```
+
+</p>
+</details>
+
+If the provided record representation contains an 'id' (or the primary key you have defined) that is already 
+in the collection, the record will be updated.
 albumCollection.set({id: 123, name: 'Nursery Cryme', releaseDate: new Date('November 12, 1971')})
 // The console logs : "a simple view of albums in the collection : Nursery Cryme (1971)"
 
@@ -335,7 +344,7 @@ without affecting the developper experience too much.
 
 Why not use a property called 'attrbitutes' to store data ?
 
-Well, it's just not convinient, just imaging you want to access data on a three-level-deep association :
+Well, it's just not convinient, just imagine you want to access data on a three-level-deep association :
 
 ```album.attributes.band.attributes.members[0].attributes.name```
 
