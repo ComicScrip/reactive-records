@@ -37,9 +37,8 @@ that you can ealily extends or override if needed.
 ## Getting started : concepts & features
 
 In this section, you will understand the basics of this library through a simple yet realistic music app example. 
-For advanced usage, check out the API documentation [TODO : deploy the doc and link it here]
 
-### The core : Records & Collections
+### The core : Records, Collections and Scopes
 
 _Data/Ressources/Albums.ts_
 ```ts
@@ -70,6 +69,8 @@ class AlbumCollection extends Collection<Album> {
 // the collections are typically used as singletons across all the app
 export const albumCollection = new AlbumCollection()
 ```
+
+#### Playing with Records and Collections
 _demo.ts_
 
 ```ts
@@ -172,11 +173,46 @@ otherAlbum.id = 124
 <p>
 
 ```
-NOTHING because only the 'name' and 'releaseDate' properties are involved in our reaction, so nothing needs to be re-logged ! 
+NOTHING because only the 'name' and 'releaseDate' properties are 
+involved in our reaction, so nothing needs to be re-logged ! 
 ```
 
 </p>
 </details>
+
+#### Using scopes
+
+So as we've seen above, records are held in collections and you can access all the records in a collection with the `items` getter :
+
+```ts
+myCollection.items // [record1, record2, ...]
+```
+But what if I want to have the items filtered, or in a specific order ?
+What if I have multiple views displaying different subsets of my collection ?
+
+It's time to use scopes ! 
+Scopes are just ordered collection subsets. 
+They have a ```name``` and hold an ordered list of record primary keys. 
+Here's an exemple usage : 
+
+```ts
+import albumCollection from './Data/Ressources/Albums.ts'
+
+albumCollection.set([
+  {id: 1, name: 'The Man Who Sold The World'} 
+  {id: 2, name: 'Hunky Dory'} 
+  {id: 3, name: 'The Rise And Fall Of Ziggy Stardust And The Spiders From Mars'} 
+])
+
+// 'provideScope' will return an existing collection scope or create a new one if it does not exist
+cosnt myScope = albumCollection.provideScope('scope1')
+myScope.itemPrimaryKeys = [1, 3]
+myScope.items.map(a => a.name) // ['The Man Who Sold The World', 'The Rise And Fall Of Ziggy Stardust And The Spiders From Mars']
+
+cosnt myOtherScope = albumCollection.provideScope('scope2')
+myOtherScope.itemPrimaryKeys = [3, 2]
+myScope.items.map(a => a.name) // ['The Rise And Fall Of Ziggy Stardust And The Spiders From Mars', 'Hunky Dory']
+```
 
 ### Relationships between Records
 
@@ -188,6 +224,7 @@ and allows you to manipulate your state as a graph, here's how:
 
 #### "toOne" associations
 
+_Data/Ressources/Albums.ts_
 ```ts
 import {toOneAssociation, toManyAssociation} from 'reactive-records'
 
@@ -210,10 +247,11 @@ _demo.ts_
 
 ```ts
 import {reaction} from 'mobx'
-import {albumCollection} from './Data/Ressources/Albums.ts'
-import {bandCollection} from './Data/Ressources/Bands.ts'
+import albumCollection from './Data/Ressources/Albums.ts'
+import bandCollection from './Data/Ressources/Bands.ts'
 
 const album = albumCollection.set({name: 'Exploding Plastic Inevitable'})
+
 // let's programm two reactions to see what's going on as we do the operations
 reaction(() => bandCollection.items, bands => {
   console.log('bandCollection : [' + bands.map(band =>
@@ -228,7 +266,7 @@ reaction(
 )
 ```
 
-The simpliest way to associate the album with a new band is by assigning a POJO representation of the latter
+The simplest way to associate the album with a new band is by assigning a POJO representation of the latter
 ```ts
 album.band = {name: 'The Warlocks'}
 ```
@@ -308,7 +346,7 @@ album.band.name : The Velvet Underground, album.band_id : 125
 </details> 
 
 #### "toMany" associations
-
+_Data/Ressources/Albums.ts_
 ```ts
 import {toOneAssociation, toManyAssociation} from 'reactive-records'
 import {observable} from 'mobx'
@@ -327,7 +365,9 @@ class Album extends Record {
 
    // ...
 }
-
+```
+_Data/Ressources/Albums.ts_
+```ts
 class Track extends Record {
    // ... (attributes)
    
@@ -353,7 +393,7 @@ reaction(
 )
 ```
 
-The simpliest way to set an album's associated by assigning a POJO representation of the latter.
+The simplest way to set an album's associated by assigning a POJO representation of the latter.
 ```ts
 album.tracks = [{name: "Sunday Morning"}, {name: "Venus in Furs"}]
 ```
@@ -453,6 +493,158 @@ album's tracks names: Sunday Morning, There She Goes Again
 
 </p>
 </details> 
+
+### Dealing with persistence
+
+Good persistence managment is crucial to every app's user experience. It's mostly about : 
+- speed : too long loading or processing delays makes a user go away.  
+- reliability : stale data might be printed on screen and give false information so we want that data to
+reflect the "truth" as often as possible. 
+- resilience : What happens if one of your API gateways is down ? 
+What if the user is in the middle of the desert and he would like to access some information 
+he has seen earlier, when he had some network access ?
+ 
+In the real world, implementing data access in an app can be a challenge :
+- You may have to deal with asynchronicity
+- You want to have your data in a coherent state all the time
+- You may have to deal with bad network conditions, handeling possible errors you cannot prevent, etc
+
+There are always tradoffs. For exemple, if you want your lists of <whatever> to load super fastly,
+you might want to implement some sort of client-side caching. You will have to trade off reliability for speed and resisilence, but 
+that can be totally acceptable.
+One strategy could be : data is loaded form the server at a time T, we store that data in the local storage of the app. 
+Then the next time the loading of data is required, we can directly return what's been saved in the local storage. 
+Maybe if current time is less than T + Delay ? It's really up to you to define what's acceptable.  
+You could display that data with a visual indication 
+informing the user that it might not be up to date (like reducing the opacity ?)
+In the same time, you could send the API a request to make sure the user eventually gets the good version of the system's state.
+That way, the user does not have to look at a loadng indicator for 5 seconds,
+when all he wanted to do was viewing previously loaded data. In the same time he knows that he is in offline mode and
+what he sees might not be perfectly up to date, but at least he can see something !
+In the browser, we could leverage APIs like localStorage or sessionStorage, or implementing an offline service worker that 
+caches network calls. In React Native, you can leverage persistence APIs like AsyncStorage or Realm DB, SQLite, ...
+  
+
+The way records are persisted in an application is usually specific to the application.
+That's why the persistence layer is completely abstracted in this library, thanks to ```PeristenceService``` and ```PersistenceStrategy``` interfaces.
+
+In a traditonnal application, you often want perform basic operations like : 
+- Retrieve items of a collection from a remote data source (like an API) or a local one (like localStorage or AsyncStorage or whatever is avalable in your app's environement)
+- Load, save or destroy individual records and sync changes with the data source(s).
+
+These operations are known as "CRUD" operations (Create, Read, Update, Delete). 
+In order to stay "DRY" but yet flexible, we can write generic persistence strategies 
+that can be shared between our collections (and locally overriden if necessary).
+
+Before seeing how persistence strategies can be implemented, let's see how to use persistence methods that will rely on the latter.
+
+#### Using peristence methods in collections, scopes and records
+
+```ts
+import albumCollection from './Data/Ressources/Albums.ts'
+import bandCollection from './Data/Ressources/Bands.ts'
+
+await albumCollection.load('scope1', {band_id: 2}) 
+// In english : wait until all the albums that have a 
+// will call the collection's persistence strategy's 'loadMany' method 
+
+```
+
+#### Implementing generic peristence services & strategies
+In a traditonnal application, you often want perform basic operations like : 
+- Retrieve items of a collection from a remote data source (like an API) or a local one (like localStorage or AsyncStorage or whatever is avalable in your app's environement)
+- Load, save or destroy individual records and sync changes to the data sources.
+
+These operations are known as "CRUD" operations (Create, Read, Update, Delete). 
+In order to stay "DRY" but yet flexible, we can write generic persistence strategies 
+that can be shared between our collections (and locally overriden if necessary).
+
+In order to do that, we just have to implement the ```PersistenceStrategy``` interface.
+Here's an exemple implementation that first  
+
+_Data/PersistenceStrategies/OfflineFirstStrategy.ts_
+```ts
+export class OfflineFirstStrategy implements PersistenceStrategy {
+  persistenceServices = new Map()
+
+  get localPersistenceService() {
+    return this.peristenceServices.get('LOCAL_STORAGE')
+  }
+  
+  get remotePersistenceService() {
+    return this.peristenceServices.get('RESTAPI')
+  }
+  
+  async loadMany(params, scope) {
+    try {
+        await this.localPeristenceService.loadMany(params, scope)
+    } 
+  }
+
+  async loadOne(params, record, scope) {
+    const { collection } = scope
+    let fetchedRecord = {}
+
+    try {
+      scope.loadingFrom = "RESTAPI"
+      fetchedRecord = ((await this.persistenceServices
+        .get("RESTAPI")
+        .loadOne(params, record, scope)) || {}) as Record
+      collection.set(fetchedRecord)
+      scope.addPk(fetchedRecord[record._collection.recordClass.primaryKeyName])
+      scope.lastLoadedFrom = "RESTAPI"
+    } catch (e) {
+      console.error(e)
+    }
+
+    return fetchedRecord
+  }
+
+  async saveOne(
+    params: object,
+    record: Record,
+    scope: Scope<Record>
+  ): Promise<any> {
+    const { collection } = scope
+    const newRecord = record._realPrimaryKey === null
+    let savedRecord = {}
+
+    try {
+      savedRecord = ((await this.persistenceServices
+        .get("RESTAPI")
+        .saveOne(params, record, scope)) || {}) as Record
+      collection.set(savedRecord)
+      if (newRecord) {
+        scope.addPk(savedRecord[record._collection.recordClass.primaryKeyName])
+      }
+    } catch (e) {
+      console.error(e)
+    }
+
+    return savedRecord
+  }
+
+  destroyOne(
+    params: object,
+    record: Record,
+    scope: Scope<Record>
+  ): Promise<any> {
+    return undefined
+  }
+}
+
+
+
+```
+
+
+
+
+
+
+
+
+
 
 ### Basic usage with React
 
