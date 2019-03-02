@@ -133,7 +133,7 @@ If you don't provide a primary key value, a temporary identifier value is given
 
 ```ts
 const otherAlbum = albumCollection.set({name: 'Foxrot', releaseDate: new Date('October 6, 1972')})
-otherAlbum._primaryKeyValue // '<random number>'
+otherAlbum._primaryKeyValue // <random number prefixed by 'optimistic_'>
 ```
 
 <details><summary>See console logs </summary>
@@ -167,7 +167,6 @@ Let's assume we saved it in our backend and a real identifier is now available
 ```ts
 otherAlbum.id = 124
 ```
-See console logs 
 
 <details><summary>See console logs </summary>
 <p>
@@ -218,7 +217,7 @@ import {bandCollection} from './Data/Ressources/Bands.ts'
 const album = albumCollection.set({name: 'Exploding Plastic Inevitable'})
 // let's programm two reactions to see what's going on as we do the operations
 reaction(() => bandCollection.items, bands => {
-  console.log('-- bandCollection : [' + bands.map(band =>
+  console.log('bandCollection : [' + bands.map(band =>
     JSON.stringify({name: band.name, pkValue: band._primaryKeyValue})
   ).join(',') + ']')
 })
@@ -226,7 +225,7 @@ reaction(() => (
         {band_id: album.band_id, bandName: album.band ? album.band.name : undefined}
     ), 
     albumState => {
-        console.log(`-- album.band.name : ${albumState.bandName}, album.band_id : ${albumState.band_id}`)
+        console.log(`album.band.name : ${albumState.bandName}, album.band_id : ${albumState.band_id}`)
 })
 ```
 
@@ -238,9 +237,9 @@ album.band = {name: 'The Warlocks'}
 <details><summary>See console logs </summary>
 <p>
 
-```ts
--- bandCollection : [{"name":"The Warlocks","pkValue":"optimistic_2"}]
--- album.band.name : The Warlocks, album.band_id : optimistic_2
+```
+bandCollection : [{"name":"The Warlocks","pkValue":"optimistic_2"}]
+album.band.name : The Warlocks, album.band_id : optimistic_2
 ```
 
 </p>
@@ -259,8 +258,8 @@ album.band.id = 123
 <p>
 
 ```
--- bandCollection : [{"name":"The Warlocks","pkValue":123}]
--- album.band.name : The Warlocks, album.band_id : 123
+bandCollection : [{"name":"The Warlocks","pkValue":123}]
+album.band.name : The Warlocks, album.band_id : 123
 ```
 
 </p>
@@ -279,8 +278,8 @@ album.band = secondBand
 <p>
 
 ```
--- bandCollection : [{"name":"The Warlocks","pkValue":123},{"name":"The Falling Spikes","pkValue":124}]
--- album.band.name : The Falling Spikes, album.band_id : 124
+bandCollection : [{"name":"The Warlocks","pkValue":123},{"name":"The Falling Spikes","pkValue":124}]
+album.band.name : The Falling Spikes, album.band_id : 124
 ```
 
 </p>
@@ -298,12 +297,12 @@ album.band_id = thirdBand.id
 <p>
 
 ```
--- bandCollection : [
-     {"name":"The Warlocks","pkValue":123},
-     {"name":"The Falling Spikes","pkValue":124},
-     {"name":"The Velvet Underground","pkValue":125}
-   ]
--- album.band.name : The Velvet Underground, album.band_id : 125
+bandCollection : [
+  {"name":"The Warlocks","pkValue":123},
+  {"name":"The Falling Spikes","pkValue":124},
+  {"name":"The Velvet Underground","pkValue":125}
+]
+album.band.name : The Velvet Underground, album.band_id : 125
 ```
 
 </p>
@@ -357,10 +356,7 @@ reaction(
 
 The simpliest way to set an album's associated by assigning a POJO representation of the latter.
 ```ts
-album.tracks = [
-  {name: "Sunday Morning"},
-  {name: "Venus in Furs"},
-] as Track[]
+album.tracks = [{name: "Sunday Morning"}, {name: "Venus in Furs"}]
 ```
 
 <details><summary>See console logs </summary>
@@ -459,10 +455,7 @@ album's tracks names: Sunday Morning, There She Goes Again
 </p>
 </details> 
 
-```
-
 ### Basic usage with React
-
 
 ### Tested environements support
 
