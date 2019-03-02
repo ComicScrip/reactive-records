@@ -172,8 +172,7 @@ otherAlbum.id = 124
 <p>
 
 ```
-NOTHING because only the 'name' and 'releaseDate' 
-// properties are involved in our reaction, so nothing needs to be re-logged ! 
+NOTHING because only the 'name' and 'releaseDate' properties are involved in our reaction, so nothing needs to be re-logged ! 
 ```
 
 </p>
@@ -221,12 +220,12 @@ reaction(() => bandCollection.items, bands => {
     JSON.stringify({name: band.name, pkValue: band._primaryKeyValue})
   ).join(',') + ']')
 })
-reaction(() => (
-        {band_id: album.band_id, bandName: album.band ? album.band.name : undefined}
-    ), 
+reaction(
+    () => ({band_id: album.band_id, bandName: album.band ? album.band.name : undefined}), 
     albumState => {
         console.log(`album.band.name : ${albumState.bandName}, album.band_id : ${albumState.band_id}`)
-})
+    }
+)
 ```
 
 The simpliest way to associate the album with a new band is by assigning a POJO representation of the latter
@@ -245,7 +244,7 @@ album.band.name : The Warlocks, album.band_id : optimistic_2
 </p>
 </details>
 
-Notice that a new Band instance is created within the dedicated collection 
+Notice that a new ```Band``` instance is created within the dedicated collection 
 ```album.band``` now returns a reference to the ```Band``` instance and ```album.band_id``` matches the optimistic 
 identifier given to the band (since we did not provide an id).
 
@@ -265,7 +264,7 @@ album.band.name : The Warlocks, album.band_id : 123
 </p>
 </details> 
 
-Notice that album.band_id is kept in sync with band.id ! 
+Notice that ```album.band_id``` is kept in sync with ```band.id``` ! 
 So you don't ever have to worry about having to update stale ids yourself.
 
 You could also assign an existing band instance to the album : 
@@ -362,7 +361,7 @@ album.tracks = [{name: "Sunday Morning"}, {name: "Venus in Furs"}]
 <details><summary>See console logs </summary>
 <p>
 
-```ts
+```
 tracksCollection [
    {"pkValue":"optimistic_2","name":"Sunday Morning","album_id":"optimistic_1"},
    {"pkValue":"optimistic_3","name":"Venus in Furs","album_id":"optimistic_1"}
@@ -381,7 +380,7 @@ const otherTrack = trackCollection.set({name: "All Tomorrow's Parties"})
 <details><summary>See console logs </summary>
 <p>
 
-```ts
+```
 tracksCollection [
   {"pkValue":"optimistic_2","name":"Sunday Morning","album_id":"optimistic_1"},
   {"pkValue":"optimistic_3","name":"Venus in Furs","album_id":"optimistic_1"},
@@ -399,7 +398,7 @@ album.tracks = [otherTrack]
 <details><summary>See console logs </summary>
 <p>
 
-```ts
+```
 tracksCollection [
   {"pkValue":"optimistic_2","name":"Sunday Morning","album_id":null},
   {"pkValue":"optimistic_3","name":"Venus in Furs","album_id":null},
@@ -421,7 +420,7 @@ album.tracks.push({name: 'There She Goes Again'})
 <details><summary>See console logs </summary>
 <p>
 
-```ts
+```
 tracksCollection [
   {"pkValue":"optimistic_2","name":"Sunday Morning","album_id":null},
   {"pkValue":"optimistic_3","name":"Venus in Furs","album_id":null},
@@ -442,7 +441,7 @@ album.tracks[0] = trackCollection.items[0]
 <details><summary>See console logs </summary>
 <p>
 
-```ts
+```
 tracksCollection [
   {"pkValue":"optimistic_2","name":"Sunday Morning","album_id":"optimistic_1"},
   {"pkValue":"optimistic_3","name":"Venus in Furs","album_id":null},
