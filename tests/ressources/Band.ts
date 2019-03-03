@@ -1,5 +1,5 @@
 import { observable } from "mobx"
-import { Collection, Record, ownAttribute } from "../../src/internals"
+import { Collection, Record, ownAttribute, toManyAssociation } from "../../src/internals"
 import {
   BaseRecordAttributes,
   Artist,
@@ -21,12 +21,10 @@ export class Band extends Record implements BandAttributes {
   @ownAttribute
   name: string = ""
   @observable
-  /*
-  @association({
+  @toManyAssociation({
     foreignCollection: () => artistCollection,
-    type: "toMany",
-    foreignKeyAttribute: "member_ids"
-  })*/
+    foreignKeyAttribute: "band_id"
+  })
   members: Array<Artist>
 }
 

@@ -30,6 +30,11 @@ export declare class Record {
    */
   _lastLoadedFrom: PersistenceServiceName | boolean
   /**
+   * Either null or the time when the record was lastely loaded
+   * You can use this for exemple to decide if a record can be returned from cache when you have to (re)load it
+   */
+  _lastLoadedAt: Date | null
+  /**
    * The store holding the record's instance in its 'records' field
    */
   _collection: Collection<Record> | null

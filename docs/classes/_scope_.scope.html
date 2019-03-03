@@ -201,7 +201,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="lastloadedat" class="tsd-anchor"></a>
 					<h3>last<wbr>Loaded<wbr>At</h3>
-					<div class="tsd-signature tsd-kind-icon">last<wbr>Loaded<wbr>At<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#persistenceservicename" class="tsd-signature-type">PersistenceServiceName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<div class="tsd-signature tsd-kind-icon">last<wbr>Loaded<wbr>At<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in Scope.ts:35</li>
@@ -209,8 +209,8 @@
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Either false or the persistence service lastly used to fetch the items
-							You can use this for exemple to differentiate data loaded form local app storage or a remote API</p>
+							<p>Either null or the time when the scope was lastely loaded
+							You can use this for exemple to decide if a scope can be returned from cache when you have to (re)load it</p>
 						</div>
 					</div>
 				</section>

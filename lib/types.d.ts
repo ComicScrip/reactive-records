@@ -25,15 +25,8 @@ export interface toJSOptions {
   expandAssociationsLevels: number
 }
 export declare type PersistenceServiceName = string
-export interface PersistenceService {
-  name: PersistenceServiceName
-  loadMany(params: object, scope: Scope<Record>): Promise<any>
-  loadOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
-  saveOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
-  destroyOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
-}
 export interface PersistenceStrategy {
-  persistenceServices: Map<PersistenceServiceName, PersistenceService>
+  persistenceServices: Map<PersistenceServiceName, object>
   loadMany(params: object, scope: Scope<Record>): Promise<any>
   loadOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
   saveOne(params: object, record: Record, scope: Scope<Record>): Promise<any>

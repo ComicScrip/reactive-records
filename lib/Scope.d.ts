@@ -18,10 +18,10 @@ export declare class Scope<RecordType extends Record> {
    */
   lastLoadedFrom: PersistenceServiceName | boolean
   /**
-   * Either false or the persistence service lastly used to fetch the items
-   * You can use this for exemple to differentiate data loaded form local app storage or a remote API
+   * Either null or the time when the scope was lastely loaded
+   * You can use this for exemple to decide if a scope can be returned from cache when you have to (re)load it
    */
-  lastLoadedAt: PersistenceServiceName | boolean
+  lastLoadedAt: Date | null
   /**
    * The name of the scope, can be any string
    */

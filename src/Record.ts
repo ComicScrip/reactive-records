@@ -1,5 +1,5 @@
 import { action, computed, intercept, observable, reaction } from "mobx"
-import { uniqueId, keys, isObject, isEmpty, isArray } from "lodash"
+import { uniqueId, keys, isObject, isEmpty, isArray, includes, clone } from "lodash"
 import { Collection, PersistenceServiceName, toManyAssociationsDescription } from "./internals"
 import { toOneAssociationsDescription, OptimisticPrimaryKey, PrimaryKey, Partial } from "./types"
 
@@ -429,26 +429,33 @@ export class Record {
   }
 
   /**
-   * Get a record's plain object representation.
-   * Associations can be expanded or kept as a primary key identifier
-   * (or a list of primary keys when dealing with to many _toOneAssociations)
-   * @returns An plain object representation of the record's _ownAttributes
+   * Tries to populate the graph object in paramters with the record's properties
+   * @returns The populated given graph object with the records's Poperties and eventually its associated records properties
    */
 
-  /*
-  public _toJS(
-    options: toJSOptions = {
-      expandAssociations: false,
-      expandAssociationsLevels: null
+  public _populate(graph: object): object {
+    const ks = keys(graph)
+    const toOneAssociationNames = this._toOneAssociationsNames
+    const toManyAssociationNames = this._toManyAssociationsNames
+    for (let i = 0; i < ks.length; i++) {
+      const k = ks[i]
+      if (isObject(graph[k])) {
+        if (includes(toOneAssociationNames, k)) {
+          this[k]._populate(graph[k])
+        } else if (includes(toManyAssociationNames, k)) {
+          const associatedDesc = graph[k]
+          graph[k] = []
+          const numberOfAssociatedRecords = this[k].length
+          for (let j = 0; j < numberOfAssociatedRecords; j++) {
+            const associatedRecord = this[k][j]
+            graph[k][j] = clone(associatedDesc)
+            associatedRecord._populate(graph[k][j])
+          }
+        }
+      } else if (this[k] !== undefined) {
+        graph[k] = this[k]
+      }
     }
-  ): object {
-    const result = {}
-
-    if (options.expandAssociations) {
-    } else {
-    }
-
-    return result
+    return graph
   }
-  */
 }

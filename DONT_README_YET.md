@@ -503,6 +503,100 @@ album's tracks names: Sunday Morning, There She Goes Again
 </p>
 </details> 
 
+#### Getting a graph out of a record
+
+```ts
+const rawAlbum = {
+  id: 1,
+  name: "Foxtrot",
+  tracks: [
+    { id: 11, name: "Watcher of the skies", duration: 443 },
+    { id: 22, name: "Time table", duration: 286 },
+    { name: "Horizons", duration: 101 }
+  ],
+  band: {
+    id: 123,
+    name: "Genesis",
+    members: [
+      {
+        id: 1,
+        firstName: "Peter",
+        lastName: "Gabriel",
+        birthDate: "1950-02-13"
+      },
+      {
+        id: 2,
+        firstName: "Tony",
+        lastName: "Banks",
+        birthDate: "1950-03-27"
+      },
+      {
+        id: 3,
+        firstName: "Mike",
+        lastName: "Rutherford",
+        birthDate: "1950-10-02"
+      },
+      {
+        id: 4,
+        firstName: "Steve",
+        lastName: "Hackett",
+        birthDate: "1950-02-12"
+      },
+      {
+        id: 5,
+        firstName: "Phil",
+        lastName: "Collins",
+        birthDate: "1951-01-30"
+      }
+    ]
+  },
+  coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg"
+}
+
+const album = albumCollection.set(rawAlbum)
+const graph = {
+  name: undefined,
+  band: {
+    name: undefined,
+    members: {
+      fullName: undefined
+    }
+  },
+  tracks: {
+    id: null
+  }
+}
+
+console.log(album._populate(graph))
+```
+
+<details><summary>See console logs </summary>
+<p>
+
+```
+{
+  name: 'Foxtrot',
+  band: {
+    name: "Genesis",
+    members: [
+      { fullName: 'Peter Gabriel' },
+      { fullName: 'Tony Banks' },
+      { fullName: 'Mike Rutherford' },
+      { fullName: 'Steve Hackett' },
+      { fullName: 'Phil Collins' }
+    ]
+  },
+  tracks: [
+    {id: 11},
+    {id: 22},
+    {id: null},
+  ]
+}
+```
+
+</p>
+</details>
+
 ### Dealing with persistence
 
 Good persistence managment is crucial to every app's user experience. It's mostly about : 

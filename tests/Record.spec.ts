@@ -18,58 +18,8 @@ import { toManyAssociation, toOneAssociation } from "../src/decorators"
 
 describe("Record", () => {
   let album: Album
-  let rawAlbum: AlbumAttributes
 
   beforeEach(() => {
-    /*
-    rawAlbum = {
-      id: 1,
-      name: "Foxtrot",
-      tracks: [
-        { id: 11, name: "Watcher of the skies", duration: 443 },
-        { id: 22, name: "Time table", duration: 286 },
-        { id: 33, name: "Horizons", duration: 101 }
-      ],
-      band: {
-        id: 123,
-        name: "Genesis",
-        members: [
-          {
-            id: 1,
-            firstName: "Peter",
-            lastName: "Gabriel",
-            birthDate: "1950-02-13"
-          },
-          {
-            id: 2,
-            firstName: "Banks",
-            lastName: "Tony",
-            birthDate: "1950-03-27"
-          },
-          {
-            id: 3,
-            firstName: "Rutherford",
-            lastName: "Mike",
-            birthDate: "1950-10-02"
-          },
-          {
-            id: 4,
-            firstName: "Hackett",
-            lastName: "Steve",
-            birthDate: "1950-02-12"
-          },
-          {
-            id: 5,
-            firstName: "Collins",
-            lastName: "Phil",
-            birthDate: "1951-01-30"
-          }
-        ]
-      },
-      coverUrl:
-        "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg"
-    };
-    */
     trackCollection.clear()
     albumCollection.clear()
   })
@@ -733,14 +683,137 @@ Array [
     })
   })
 
-  /*
-  describe("#_toJS", () => {
-    describe("called with default options", () => {
-      it("retrieves _ownAttributes and pk of associatons", () => {
-        album = albumCollection.set(rawAlbum as Partial<Album>);
-        expect(album._toJS()).toMatchSnapshot();
-      });
-    });
-  });
-  */
+  describe("#_populate", () => {
+    let rawAlbum = {}
+
+    beforeAll(() => {
+      rawAlbum = {
+        id: 1,
+        name: "Foxtrot",
+        tracks: [
+          { id: 11, name: "Watcher of the skies", duration: 443 },
+          { id: 22, name: "Time table", duration: 286 },
+          { name: "Horizons", duration: 101 }
+        ],
+        band: {
+          id: 123,
+          name: "Genesis",
+          members: [
+            {
+              id: 1,
+              firstName: "Peter",
+              lastName: "Gabriel",
+              birthDate: "1950-02-13"
+            },
+            {
+              id: 2,
+              firstName: "Tony",
+              lastName: "Banks",
+              birthDate: "1950-03-27"
+            },
+            {
+              id: 3,
+              firstName: "Mike",
+              lastName: "Rutherford",
+              birthDate: "1950-10-02"
+            },
+            {
+              id: 4,
+              firstName: "Steve",
+              lastName: "Hackett",
+              birthDate: "1950-02-12"
+            },
+            {
+              id: 5,
+              firstName: "Phil",
+              lastName: "Collins",
+              birthDate: "1951-01-30"
+            }
+          ]
+        },
+        coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg"
+      }
+    })
+
+    it("should work with the record ownAttributes", () => {
+      const album = albumCollection.set(rawAlbum as Album)
+      const graph = {
+        name: "",
+        label: "unknown",
+        coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg"
+      }
+      expect(album._populate(graph)).toEqual({
+        name: "Foxtrot",
+        coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg",
+        label: "unknown"
+      })
+    })
+
+    it("should work with toOne association", () => {
+      const album = albumCollection.set(rawAlbum as Album)
+      let graph = {
+        name: undefined,
+        band: {
+          name: undefined
+        }
+      }
+      expect(album._populate(graph)).toEqual({
+        name: "Foxtrot",
+        band: {
+          name: "Genesis"
+        }
+      })
+
+      graph = {
+        name: undefined,
+        notdfinedWithDefault: "test",
+        band: {
+          name: undefined,
+          notdefined: {
+            notdefined: {}
+          }
+        }
+      } as any
+      expect(album._populate(graph)).toEqual({
+        name: "Foxtrot",
+        notdfinedWithDefault: "test",
+        band: {
+          name: "Genesis",
+          notdefined: {
+            notdefined: {}
+          }
+        }
+      })
+    })
+
+    it("should work with toMany association", () => {
+      const album = albumCollection.set(rawAlbum as Album)
+      let graph = {
+        name: undefined,
+        band: {
+          name: undefined,
+          members: {
+            fullName: "default"
+          }
+        },
+        tracks: {
+          id: null
+        }
+      }
+      expect(album._populate(graph)).toEqual({
+        name: "Foxtrot",
+        band: {
+          name: "Genesis",
+          members: [
+            { fullName: "Peter Gabriel" },
+            { fullName: "Tony Banks" },
+            { fullName: "Mike Rutherford" },
+            { fullName: "Steve Hackett" },
+            { fullName: "Phil Collins" }
+          ]
+        },
+        tracks: [{ id: 11 }, { id: 22 }, { id: null }]
+      })
+    })
+  })
 })

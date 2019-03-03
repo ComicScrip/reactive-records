@@ -91,6 +91,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_record_.record.html#_collection" class="tsd-kind-icon">_collection</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_record_.record.html#_lastloadedat" class="tsd-kind-icon">_last<wbr>Loaded<wbr>At</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_record_.record.html#_lastloadedfrom" class="tsd-kind-icon">_last<wbr>Loaded<wbr>From</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_record_.record.html#_loadingfrom" class="tsd-kind-icon">_loading<wbr>From</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_record_.record.html#_optimisticprimarykey" class="tsd-kind-icon">_optimistic<wbr>Primary<wbr>Key</a></li>
@@ -139,7 +140,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:51</li>
+									<li>Defined in Record.ts:58</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -171,12 +172,28 @@
 					<div class="tsd-signature tsd-kind-icon">_collection<span class="tsd-signature-symbol">:</span> <a href="_collection_.collection.html" class="tsd-signature-type">Collection</a><span class="tsd-signature-symbol">&lt;</span><a href="_record_.record.html" class="tsd-signature-type">Record</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Record.ts:51</li>
+							<li>Defined in Record.ts:58</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The store holding the record&#39;s instance in its &#39;records&#39; field</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_lastloadedat" class="tsd-anchor"></a>
+					<h3>_last<wbr>Loaded<wbr>At</h3>
+					<div class="tsd-signature tsd-kind-icon">_last<wbr>Loaded<wbr>At<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in Record.ts:53</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Either null or the time when the record was lastely loaded
+							You can use this for exemple to decide if a record can be returned from cache when you have to (re)load it</p>
 						</div>
 					</div>
 				</section>
@@ -272,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:293</li>
+									<li>Defined in Record.ts:300</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -295,7 +312,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:283</li>
+									<li>Defined in Record.ts:290</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -340,7 +357,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:342</li>
+									<li>Defined in Record.ts:349</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -363,7 +380,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:325</li>
+									<li>Defined in Record.ts:332</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -386,7 +403,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:334</li>
+									<li>Defined in Record.ts:341</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -409,7 +426,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:316</li>
+									<li>Defined in Record.ts:323</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -432,7 +449,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:308</li>
+									<li>Defined in Record.ts:315</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -458,7 +475,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:269</li>
+									<li>Defined in Record.ts:276</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -475,7 +492,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:144</li>
+									<li>Defined in Record.ts:151</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -498,7 +515,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:72</li>
+									<li>Defined in Record.ts:79</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -521,7 +538,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:420</li>
+									<li>Defined in Record.ts:427</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -558,7 +575,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:355</li>
+									<li>Defined in Record.ts:362</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -590,7 +607,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:400</li>
+									<li>Defined in Record.ts:407</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -627,7 +644,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:375</li>
+									<li>Defined in Record.ts:382</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -664,7 +681,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:410</li>
+									<li>Defined in Record.ts:417</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -734,6 +751,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_record_.record.html#_collection" class="tsd-kind-icon">_collection</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_record_.record.html#_lastloadedat" class="tsd-kind-icon">_last<wbr>Loaded<wbr>At</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_record_.record.html#_lastloadedfrom" class="tsd-kind-icon">_last<wbr>Loaded<wbr>From</a>
