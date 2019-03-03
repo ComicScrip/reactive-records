@@ -1,8 +1,4 @@
-import {
-  Record,
-  toOneAssociationDescription,
-  toManyAssociationDescription
-} from "./internals"
+import { Record, toOneAssociationDescription, toManyAssociationDescription } from "./internals"
 /**
  * Marks a Record member as being an ownAttribute of a Record
  * @param target The record

@@ -1,16 +1,7 @@
 import { action, computed, intercept, observable, reaction } from "mobx"
 import { uniqueId, keys, isObject, isEmpty, isArray } from "lodash"
-import {
-  Collection,
-  PersistenceServiceName,
-  toManyAssociationsDescription
-} from "./internals"
-import {
-  toOneAssociationsDescription,
-  OptimisticPrimaryKey,
-  PrimaryKey,
-  Partial
-} from "./types"
+import { Collection, PersistenceServiceName, toManyAssociationsDescription } from "./internals"
+import { toOneAssociationsDescription, OptimisticPrimaryKey, PrimaryKey, Partial } from "./types"
 
 export class Record {
   /**
@@ -92,9 +83,7 @@ export class Record {
       let foreignKey: string = associationDesc.foreignKeyAttribute
       if (isEmpty(foreignKey)) {
         // give it a default name if none was specified
-        foreignKey = `${associationName}_${
-          foreignCollection.recordClass.primaryKeyName
-        }`
+        foreignKey = `${associationName}_${foreignCollection.recordClass.primaryKeyName}`
       }
 
       let foreignPkTrakingDisposer = () => {}
@@ -169,9 +158,7 @@ export class Record {
       let foreignKey: string = associationDesc.foreignKeyAttribute
       if (isEmpty(foreignKey)) {
         // give it a default name if none was specified
-        foreignKey = `${thisClassName}_${
-          this._collection.recordClass.primaryKeyName
-        }`
+        foreignKey = `${thisClassName}_${this._collection.recordClass.primaryKeyName}`
       }
 
       const trackForeignRecordPk = () => {
@@ -239,10 +226,7 @@ export class Record {
           // this way, the associated record will always be lazy loaded
           // the returned value needs to be an observable array in order to manage pushs, etc
           const a = observable.array(
-            foreignCollection.wherePropEq(
-              foreignKey as keyof Record,
-              this._primaryKeyValue
-            )
+            foreignCollection.wherePropEq(foreignKey as keyof Record, this._primaryKeyValue)
           )
           a.intercept(interceptArrayMutations)
           return a
@@ -267,19 +251,13 @@ export class Record {
             }
             // we have to nullify foreign keys for exisiting associated records whose pk does not appear in new values
             for (let j = 0; j < existingAssociatedRecords.length; j++) {
-              if (
-                !newValuesPkBoolMap[
-                  existingAssociatedRecords[j]._primaryKeyValue
-                ]
-              ) {
+              if (!newValuesPkBoolMap[existingAssociatedRecords[j]._primaryKeyValue]) {
                 existingAssociatedRecords[j][foreignKey] = null
               }
             }
             foreignCollection.setMany(recordsToSet, false)
           } else {
-            throw new Error(
-              'You tried to assign a non array to a "toMany" association'
-            )
+            throw new Error('You tried to assign a non array to a "toMany" association')
           }
 
           trackForeignRecordPk()
@@ -415,32 +393,32 @@ export class Record {
 
   /**
    * Calls the record's collection 'loadOne' method with provided params
+   * @param {object} params : params passed to the persistence service
    * @param {string} scopeName : The name of the scope the item should be loaded into
-   * @param {object} params : params passed to the persistence service
    */
   @action.bound
-  public async _load(scopeName: string = "default", params: object) {
-    return this._collection.loadOne(this, scopeName, params)
+  public async _load(params: object, scopeName: string = "default") {
+    return this._collection.loadOne(this, params, scopeName)
   }
 
   /**
    * Calls the record's collection 'saveOne' method with provided params
+   * @param {object} params : params passed to the persistence service
    * @param {string} scopeName : The name of the scope the item should be saved into
-   * @param {object} params : params passed to the persistence service
    */
   @action.bound
-  public async _save(scopeName: string = "default", params: object) {
-    return this._collection.saveOne(this, scopeName, params)
+  public async _save(params: object, scopeName: string = "default") {
+    return this._collection.saveOne(this, params, scopeName)
   }
 
   /**
    * Calls the record's collection 'saveOne' method with provided params
-   * @param {string} scopeName : The name of the scope the item should deleted from
    * @param {object} params : params passed to the persistence service
+   * @param {string} scopeName : The name of the scope the item should deleted from
    */
   @action.bound
-  public async _destroy(scopeName: string = "default", params: object) {
-    return this._collection.destroyOne(this, scopeName, params)
+  public async _destroy(params: object, scopeName: string = "default") {
+    return this._collection.destroyOne(this, params, scopeName)
   }
 
   /**

@@ -3,6 +3,7 @@ import * as Bluebird from "bluebird"
 Promise = Bluebird as any
 import { Record, Partial, PrimaryKey, PersistenceStrategy } from "./internals"
 import { Scope } from "./Scope"
+import any = jasmine.any
 
 /**
  * A Store for records.
@@ -56,10 +57,7 @@ export abstract class Collection<RecordType extends Record> {
    * @param {object} params : the scope's params to be set if specified
    * @return {Scope<RecordType extends Record>}
    */
-  public provideScope(
-    name: string = "default",
-    params?: object
-  ): Scope<RecordType> {
+  public provideScope(name: string = "default", params?: object): Scope<RecordType> {
     let scope = this.getScope(name)
 
     if (scope) {
@@ -209,10 +207,7 @@ export abstract class Collection<RecordType extends Record> {
    * as being a property of the Record subclass associated with the colection
    */
   @action.bound
-  public setMany(
-    recordPropertiesList: Partial<RecordType>[],
-    strict = true
-  ): RecordType[] {
+  public setMany(recordPropertiesList: Partial<RecordType>[], strict = true): RecordType[] {
     const recordInstances = []
     for (let i = 0; i < recordPropertiesList.length; i++) {
       const recordProperties = recordPropertiesList[i]
@@ -257,14 +252,8 @@ export abstract class Collection<RecordType extends Record> {
    * Loads items into the collection using the collection's persitence strategy
    */
   @action.bound
-  public async load(
-    scopeName: string = "default",
-    params: object = {}
-  ): Promise<any> {
-    return this.getPersistanceStrategy().loadMany(
-      params,
-      this.provideScope(scopeName, params)
-    )
+  public async load(params: object = {}, scopeName: string = "default"): Promise<any> {
+    return this.getPersistanceStrategy().loadMany(params, this.provideScope(scopeName, params))
   }
 
   /**
@@ -273,8 +262,8 @@ export abstract class Collection<RecordType extends Record> {
   @action.bound
   public async loadOne(
     record: Record | PrimaryKey,
-    scopeName: string = "default",
-    params: object = {}
+    params: object = {},
+    scopeName: string = "default"
   ): Promise<any> {
     if (!(record instanceof Record)) {
       const r = { [this.recordClass.primaryKeyName]: record } as any
@@ -293,8 +282,8 @@ export abstract class Collection<RecordType extends Record> {
   @action.bound
   public async saveOne(
     record: Record,
-    scopeName: string = "default",
-    params: object = {}
+    params: object = {},
+    scopeName: string = "default"
   ): Promise<any> {
     return this.getPersistanceStrategy().saveOne(
       params,
@@ -309,8 +298,8 @@ export abstract class Collection<RecordType extends Record> {
   @action.bound
   public async destroyOne(
     record: Record,
-    scopeName: string = "default",
-    params: object = {}
+    params: object = {},
+    scopeName: string = "default"
   ): Promise<any> {
     return this.getPersistanceStrategy().destroyOne(
       params,

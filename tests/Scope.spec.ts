@@ -113,13 +113,10 @@ describe("Scope", () => {
       })
       const s = new Scope(albumCollection)
       await s.load()
-      expect(albumCollection.load).toHaveBeenLastCalledWith(s.name, s.params)
+      expect(albumCollection.load).toHaveBeenLastCalledWith(s.params, s.name)
       const customParams = { status: "active" }
       await s.load(customParams)
-      expect(albumCollection.load).toHaveBeenLastCalledWith(
-        s.name,
-        customParams
-      )
+      expect(albumCollection.load).toHaveBeenLastCalledWith(customParams, s.name)
     })
   })
 })

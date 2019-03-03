@@ -6,11 +6,4 @@ import {
   PrimaryKey,
   Partial
 } from "./internals"
-export {
-  Collection,
-  Record,
-  ownAttribute,
-  toOneAssociation,
-  PrimaryKey,
-  Partial
-}
+export { Collection, Record, ownAttribute, toOneAssociation, PrimaryKey, Partial }

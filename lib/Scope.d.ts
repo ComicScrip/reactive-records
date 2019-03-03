@@ -1,9 +1,4 @@
-import {
-  Record,
-  PrimaryKey,
-  Collection,
-  PersistenceServiceName
-} from "./internals"
+import { Record, PrimaryKey, Collection, PersistenceServiceName } from "./internals"
 /**
  * A subset of a collection
  */
@@ -35,11 +30,7 @@ export declare class Scope<RecordType extends Record> {
    * The scope's collection
    */
   collection: Collection<RecordType>
-  constructor(
-    collection: Collection<RecordType>,
-    name?: string,
-    params?: object
-  )
+  constructor(collection: Collection<RecordType>, name?: string, params?: object)
   /**
    * Sets the scope's paramaters
    * @param {object} params

@@ -103,8 +103,7 @@ describe("Record", () => {
       const albumOwnAttributes = {
         id: 1,
         name: "Foxtrot",
-        coverUrl:
-          "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg"
+        coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg"
       }
       album.name = albumOwnAttributes.name
       album.id = albumOwnAttributes.id
@@ -164,8 +163,7 @@ Array [
         const albumOwnAttributes = {
           id: 1,
           name: "Foxtrot",
-          coverUrl:
-            "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg"
+          coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg"
         }
 
         album._mergeProperties(albumOwnAttributes)
@@ -178,8 +176,7 @@ Array [
         const invalidProps = {
           id: 1,
           name: "Foxtrot",
-          coverUrl:
-            "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg",
+          coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg",
           notADeclaredProp: 42
         }
 
@@ -192,8 +189,7 @@ Array [
         const invalidProps = {
           id: 1,
           name: "Foxtrot",
-          coverUrl:
-            "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg",
+          coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg",
           notADeclaredProp: 42
         }
 
@@ -475,14 +471,9 @@ Array [
             name: "Musical box",
             duration: 630
           })
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Watcher of the skies"
-          ])
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Watcher of the skies"])
           t2.album_id = album._primaryKeyValue
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Watcher of the skies",
-            "Time tabl"
-          ])
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Watcher of the skies", "Time tabl"])
           trackCollection.unset(11)
           expect(sideEffectFunc).toHaveBeenLastCalledWith(["Time tabl"])
           t2.name = t2.name + "e"
@@ -500,21 +491,13 @@ Array [
               sideEffectFunc(trackNames)
             }
           )
-          album.tracks = [
-            { name: "Musical box" },
-            { name: "Time table" }
-          ] as Track[]
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Musical box",
-            "Time table"
-          ])
+          album.tracks = [{ name: "Musical box" }, { name: "Time table" }] as Track[]
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Musical box", "Time table"])
           const incoherentValues = [null, undefined, {}, {}, "wut?!", 42]
           incoherentValues.forEach(incoherentValue => {
             expect(() => {
               album.tracks = incoherentValue as Track[]
-            }).toThrowError(
-              'You tried to assign a non array to a "toMany" association'
-            )
+            }).toThrowError('You tried to assign a non array to a "toMany" association')
           })
         })
 
@@ -529,24 +512,14 @@ Array [
           )
           expect(trackCollection.size).toBe(0)
           expect(album.tracks.length).toBe(0)
-          album.tracks = [
-            { name: "Musical box" },
-            { name: "Time table" }
-          ] as Track[]
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Musical box",
-            "Time table"
-          ])
+          album.tracks = [{ name: "Musical box" }, { name: "Time table" }] as Track[]
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Musical box", "Time table"])
           album.tracks = [
             trackCollection.items[1],
             trackCollection.set({ name: "test" }),
             trackCollection.set({ name: "test2" })
           ] as Track[]
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Time table",
-            "test",
-            "test2"
-          ])
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Time table", "test", "test2"])
           album.tracks = []
           expect(trackCollection.size).toBe(4)
           expect(sideEffectFunc).toHaveBeenLastCalledWith([])
@@ -598,10 +571,7 @@ Array [
           album.tracks = [tracks[0]]
           album.tracks.push({ name: "Watcher of the skies" } as Track)
           expect(trackCollection.size).toBe(3)
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Musical box",
-            "Watcher of the skies"
-          ])
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Musical box", "Watcher of the skies"])
           album.tracks.push(tracks[1])
           expect(sideEffectFunc).toHaveBeenLastCalledWith([
             "Musical box",
@@ -624,18 +594,12 @@ Array [
             { name: "Musical box" },
             { name: "Time table" }
           ] as Track[])
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Musical box",
-            "Time table"
-          ])
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Musical box", "Time table"])
           album.tracks.splice(0, 1)
           expect(sideEffectFunc).toHaveBeenLastCalledWith(["Time table"])
           expect(trackCollection.size).toBe(2)
           album.tracks.splice(0, 0, trackCollection.items[0])
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Musical box",
-            "Time table"
-          ])
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Musical box", "Time table"])
           expect(trackCollection.size).toBe(2)
         })
 
@@ -653,19 +617,13 @@ Array [
             { name: "Musical box" },
             { name: "Time table" }
           ] as Track[])
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Musical box",
-            "Time table"
-          ])
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Musical box", "Time table"])
           expect(trackCollection.size).toBe(2)
           album.tracks[1] = trackCollection.set({
             name: "Watcher of the skies"
           })
           expect(trackCollection.size).toBe(3)
-          expect(sideEffectFunc).toHaveBeenLastCalledWith([
-            "Musical box",
-            "Watcher of the skies"
-          ])
+          expect(sideEffectFunc).toHaveBeenLastCalledWith(["Musical box", "Watcher of the skies"])
           album.tracks[1] = null
           expect(trackCollection.size).toBe(3)
           expect(sideEffectFunc).toHaveBeenLastCalledWith(["Musical box"])
@@ -698,10 +656,14 @@ Array [
           value: colltionLoadOne,
           writable: true
         })
-        await album._load("scope1", { id: 123 })
-        expect(colltionLoadOne).toHaveBeenLastCalledWith(album, "scope1", {
-          id: 123
-        })
+        await album._load({ id: 123 }, "scope1")
+        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+          album,
+          {
+            id: 123
+          },
+          "scope1"
+        )
       })
     })
 
@@ -713,10 +675,14 @@ Array [
           value: colltionLoadOne,
           writable: true
         })
-        await album._save("scope1", { id: 123 })
-        expect(colltionLoadOne).toHaveBeenLastCalledWith(album, "scope1", {
-          id: 123
-        })
+        await album._save({ id: 123 }, "scope1")
+        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+          album,
+          {
+            id: 123
+          },
+          "scope1"
+        )
       })
     })
 
@@ -728,10 +694,14 @@ Array [
           value: colltionLoadOne,
           writable: true
         })
-        await album._destroy("scope1", { id: 123 })
-        expect(colltionLoadOne).toHaveBeenLastCalledWith(album, "scope1", {
-          id: 123
-        })
+        await album._destroy({ id: 123 }, "scope1")
+        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+          album,
+          {
+            id: 123
+          },
+          "scope1"
+        )
       })
     })
   })

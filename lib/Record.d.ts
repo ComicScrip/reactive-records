@@ -1,14 +1,5 @@
-import {
-  Collection,
-  PersistenceServiceName,
-  toManyAssociationsDescription
-} from "./internals"
-import {
-  toOneAssociationsDescription,
-  OptimisticPrimaryKey,
-  PrimaryKey,
-  Partial
-} from "./types"
+import { Collection, PersistenceServiceName, toManyAssociationsDescription } from "./internals"
+import { toOneAssociationsDescription, OptimisticPrimaryKey, PrimaryKey, Partial } from "./types"
 export declare class Record {
   /**
    * A uniquely generated identifier for the record.

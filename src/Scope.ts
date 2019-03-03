@@ -1,13 +1,7 @@
 import { action, computed, observable } from "mobx"
 import * as Bluebird from "bluebird"
 Promise = Bluebird as any
-import {
-  Record,
-  Partial,
-  PrimaryKey,
-  Collection,
-  PersistenceServiceName
-} from "./internals"
+import { Record, Partial, PrimaryKey, Collection, PersistenceServiceName } from "./internals"
 
 /**
  * A subset of a collection
@@ -34,6 +28,13 @@ export class Scope<RecordType extends Record> {
   public lastLoadedFrom: PersistenceServiceName | boolean = false
 
   /**
+   * Either false or the persistence service lastly used to fetch the items
+   * You can use this for exemple to differentiate data loaded form local app storage or a remote API
+   */
+  @observable
+  public lastLoadedAt: PersistenceServiceName | boolean = false
+
+  /**
    * The name of the scope, can be any string
    */
   public name: string
@@ -49,11 +50,7 @@ export class Scope<RecordType extends Record> {
    */
   public collection: Collection<RecordType>
 
-  constructor(
-    collection: Collection<RecordType>,
-    name: string = "default",
-    params: object = {}
-  ) {
+  constructor(collection: Collection<RecordType>, name: string = "default", params: object = {}) {
     this.params = params
     this.name = name
     this.collection = collection
@@ -77,7 +74,7 @@ export class Scope<RecordType extends Record> {
    */
   @action.bound
   public load(params?: object): Promise<any> {
-    return this.collection.load(this.name, params ? params : this.params)
+    return this.collection.load(params ? params : this.params, this.name)
   }
 
   /**

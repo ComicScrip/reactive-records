@@ -1,10 +1,5 @@
 import { each } from "lodash"
-import {
-  Collection,
-  Partial,
-  PersistenceService,
-  PersistenceStrategy
-} from "../src/internals"
+import { Collection, Partial, PersistenceService, PersistenceStrategy } from "../src/internals"
 import { Album, AlbumCollection, albumCollection, ApiClient } from "./internals"
 import { Scope } from "../src/Scope"
 import { NetworkOnlyStrategy } from "./persistenceStrategies/NetworkOnlyStrategy"
@@ -135,12 +130,8 @@ describe("Collection", () => {
       ])
 
       const pks = albums.map(album => album._primaryKeyValue)
-      expect(
-        albumCollection.getMany(pks).map(a => a._ownAttributes)
-      ).toMatchSnapshot()
-      expect(
-        albumCollection.getMany([pks[1]]).map(a => a._ownAttributes)
-      ).toMatchSnapshot()
+      expect(albumCollection.getMany(pks).map(a => a._ownAttributes)).toMatchSnapshot()
+      expect(albumCollection.getMany([pks[1]]).map(a => a._ownAttributes)).toMatchSnapshot()
     })
   })
 
@@ -216,7 +207,7 @@ describe("Collection", () => {
         expect(loadAlbums).toHaveBeenLastCalledWith({}, defaultScope)
 
         const customScope = albumCollection.provideScope("scope1")
-        await albumCollection.load(customScope.name, { year: 1970 })
+        await albumCollection.load({ year: 1970 }, customScope.name)
         expect(loadAlbums).toHaveBeenLastCalledWith({ year: 1970 }, customScope)
       })
     })
@@ -231,12 +222,8 @@ describe("Collection", () => {
         expect(loadAlbum).toHaveBeenLastCalledWith({}, record, defaultScope)
 
         const customScope = albumCollection.provideScope("scope1")
-        await albumCollection.loadOne(record, customScope.name, { year: 1970 })
-        expect(loadAlbum).toHaveBeenLastCalledWith(
-          { year: 1970 },
-          record,
-          customScope
-        )
+        await albumCollection.loadOne(record, { year: 1970 }, customScope.name)
+        expect(loadAlbum).toHaveBeenLastCalledWith({ year: 1970 }, record, customScope)
       })
     })
 
@@ -250,7 +237,7 @@ describe("Collection", () => {
         expect(saveAlbum).toHaveBeenLastCalledWith({}, record, defaultScope)
 
         const customScope = albumCollection.provideScope("scope1")
-        await albumCollection.saveOne(record, customScope.name)
+        await albumCollection.saveOne(record, {}, customScope.name)
         expect(saveAlbum).toHaveBeenLastCalledWith({}, record, customScope)
       })
     })
@@ -265,7 +252,7 @@ describe("Collection", () => {
         expect(destroyAlbum).toHaveBeenLastCalledWith({}, record, defaultScope)
 
         const customScope = albumCollection.provideScope("scope1")
-        await albumCollection.destroyOne(record, customScope.name)
+        await albumCollection.destroyOne(record, {}, customScope.name)
         expect(destroyAlbum).toHaveBeenLastCalledWith({}, record, customScope)
       })
     })

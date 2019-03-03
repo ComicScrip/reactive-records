@@ -8,12 +8,19 @@ Nothing to see here yet ;)
 
 Reactive-records lets you describe your app's domain data and its behaviour in a very expressive and DRY manner. 
 
-It relies on the Mobx library to make the records of your model observable and reactive to changes.
-It can be used to abstract away data synchronisation with your backend
-and also comes with offline capabilities as it handles local persistence and (optimstic/pessimistic) operations for you.
+It relies on the [Mobx](https://mobx.js.org/) library to make the records of your model observable and reactive to changes.
+It can be used to abstract data synchronisation with your backend 
+and also comes with offline capabilities as it helps you to implement the custom persistence strategies your 
+very special app needs.
+
+Don't really know how to build a fast, scalable, reliable and resilient data layer ?
+
+Do you have to deal with many data sources ?
 
 Tired of having your domain logic spread across different places in your app ?
+
 Tired of having to normalize your state ?
+
 Tired of writing CRUD boilerplates ?
 
 Want something that works out of the box, but yet adaptable to your needs ?
@@ -24,15 +31,14 @@ You're in the right place !
 
 This lib aims to help you write robust and efficient reactive models for your view layer to consume.
 
-While it tries to be as agnostic as possible concerning the view 
-framework or the kind of backend you're using, it does come with a few assumptions about your data. 
-Reactive-records was clearly built with the relationnal model in mind, so in order to do anything, the following is assumed :
+While it tries to be as agnostic as possible concerning your JavaScript stack, it does come with a few assumptions about your data. 
+Reactive-records was clearly built with the relationnal/object model in mind, so in order to do anything, the following is assumed :
  - Your business data is composed of ressources objects (Record instances, eg: users, todos, messages, unicorns, ...)
  that have serval poperties you want to display and process. 
  - These ressources are uniquely identified by some sort of primary key ('id' by default).
 
 Reactive-records tries to stay generic, but also pragmatic in its use. That's why it comes with default implementations
-that you can ealily extends or override if needed. 
+that you can ealily extend or override if needed. 
 
 ## Getting started : concepts & features
 
@@ -507,23 +513,30 @@ he has seen earlier, when he had some network access ?
 In the real world, implementing data access in an app can be a challenge :
 - You may have to deal with asynchronicity
 - You want to have your data in a coherent state all the time
-- You may have to deal with bad network conditions, handeling possible errors you cannot prevent, etc
+- You may have to deal with bad network conditions, handeling possible errors that you cannot prevent, etc
 
-There are always tradoffs. For exemple, if you want your lists of <whatever> to load super fastly,
+Moreover, there are always tradoffs. 
+
+For exemple, if you want your lists of <whatever> to load super fastly,
 you might want to implement some sort of client-side caching. You will have to trade off reliability for speed and resisilence, but 
 that can be totally acceptable.
-One strategy could be : data is loaded form the server at a time T, we store that data in the local storage of the app. 
-Then the next time the loading of data is required, we can directly return what's been saved in the local storage. 
+
+One strategy could be : 
+
+- data is loaded form the server at a time T, we store that data in the local storage of the app. 
+- then the next time the loading of data is required, we can directly return what's been saved in the local storage. 
+
 Maybe if current time is less than T + Delay ? It's really up to you to define what's acceptable.  
-You could display that data with a visual indication 
+You could also display that data with a visual indication 
 informing the user that it might not be up to date (like reducing the opacity ?)
+
 In the same time, you could send the API a request to make sure the user eventually gets the good version of the system's state.
 That way, the user does not have to look at a loadng indicator for 5 seconds,
 when all he wanted to do was viewing previously loaded data. In the same time he knows that he is in offline mode and
 what he sees might not be perfectly up to date, but at least he can see something !
-In the browser, we could leverage APIs like localStorage or sessionStorage, or implementing an offline service worker that 
+
+In the browser, you could leverage APIs like localStorage or sessionStorage, or implement an offline service worker that 
 caches network calls. In React Native, you can leverage persistence APIs like AsyncStorage or Realm DB, SQLite, ...
-  
 
 The way records are persisted in an application is usually specific to the application.
 That's why the persistence layer is completely abstracted in this library, thanks to ```PeristenceService``` and ```PersistenceStrategy``` interfaces.
@@ -534,30 +547,68 @@ In a traditonnal application, you often want perform basic operations like :
 
 These operations are known as "CRUD" operations (Create, Read, Update, Delete). 
 In order to stay "DRY" but yet flexible, we can write generic persistence strategies 
-that can be shared between our collections (and locally overriden if necessary).
+that can be shared between our collections (and overriden for a specific collection if necessary).
 
-Before seeing how persistence strategies can be implemented, let's see how to use persistence methods that will rely on the latter.
+Before seeing how persistence strategies can be implemented, let's see how to use reactive-records 
+persistence methods that will rely on the latter.
 
 #### Using peristence methods in collections, scopes and records
 
 ```ts
-import albumCollection from './Data/Ressources/Albums.ts'
-import bandCollection from './Data/Ressources/Bands.ts'
+import {Album} from './Data/Ressources/Albums.ts'
+import ApiClient from './Services/ApiClient'
 
-await albumCollection.load('scope1', {band_id: 2}) 
-// In english : wait until all the albums that have a 
-// will call the collection's persistence strategy's 'loadMany' method 
+export class AlbumCollection extends Collection<Album> {
+  public persistenceStrategy = new NetworkOnlyStrategy({
+    RESTAPI: ApiClient.createCRUDHandlers("/v1/albums")
+  })
+  
+  get recordClass(): typeof Album {
+    return Album
+  }
+}
 
+const albumCollection = new AlbumCollection()
+
+await albumCollection.load({band_id: 2}, 'scope1') 
+// In english : "wait until all the albums that have a band_id equal to 2 have been loaded into the albumCollection's scope named 'scope1'"
+// It's the PersistenceStrategy responsability to do whatever is needed to achieve that. 
+// 'load' will call the collection's persistence strategy's 'loadMany' method 
+// passing along the desired collection scope (which points back to the albumCollection with '.collection' attribute)
+// and the parameters of the requested subset of albums
+
+// You dont have to specify any parameter if you want to load all records in a scope named 'default'
+await albumCollection.load()
+
+// You can load a particular record by providing a primaryKey or an existing record instance 
+albumCollection.loadOne(123)
+
+// You can also use persistence methods on records
+const myAlbum = albumCollection.get(123)
+myAlbum.name = 'Updated name'
+// You dont have to act directly on the record's own attributes, you could also edit a copy of the record via a form
+// as long as the saveOne method on the persistence strategy knows how to deal with that form. 
+myAlbum.form.setFieldValue('name', 'updatedName')
+myAlbum.save() // will call 'saveOne' method of record's collection's persistenceStrategy
+myAlbum.load() // will call 'loadOne' method of record's collection's persistenceStrategy
+myAlbum.destroy() // will call 'destroyOne' method of record's collection's persistenceStrategy
+
+// There is also shortcut methods on scopes
+const s1 = albumCollection.provideScope('scope1')
+s1.load({band_id: 1}) // calls 'load' on the collection with the scope's name and provided params
 ```
+
+Notice how we can separate data manipulaton concerns from persistence concerns ? 
+See next section to learn how to deal with those persistence concerns.
 
 #### Implementing generic peristence services & strategies
 In a traditonnal application, you often want perform basic operations like : 
 - Retrieve items of a collection from a remote data source (like an API) or a local one (like localStorage or AsyncStorage or whatever is avalable in your app's environement)
 - Load, save or destroy individual records and sync changes to the data sources.
 
-These operations are known as "CRUD" operations (Create, Read, Update, Delete). 
+These operations are well known as "CRUD" operations (Create, Read, Update, Delete). 
 In order to stay "DRY" but yet flexible, we can write generic persistence strategies 
-that can be shared between our collections (and locally overriden if necessary).
+that can be shared between our collections (and overriden by some if necessary).
 
 In order to do that, we just have to implement the ```PersistenceStrategy``` interface.
 Here's an exemple implementation that first  
@@ -565,20 +616,47 @@ Here's an exemple implementation that first
 _Data/PersistenceStrategies/OfflineFirstStrategy.ts_
 ```ts
 export class OfflineFirstStrategy implements PersistenceStrategy {
+  // A persistence strategy can mix multiple persistence services (data sources) 
+  // in order to perform persistence operations on collections, scopes and records.
   persistenceServices = new Map()
-
+    
+  // helper methods (not in the interface)
   get localPersistenceService() {
     return this.peristenceServices.get('LOCAL_STORAGE')
   }
-  
   get remotePersistenceService() {
     return this.peristenceServices.get('RESTAPI')
   }
+  async loadManyWith(persistenceService, params, scope) {
+    scope.loadingFrom = persistenceService.name
+    let records = await persistenceService.loadMany(params, scope)
+    records = scope.collection.setMany(records)
+    scope.itemPrimaryKeys = records.map(r => r._primaryKeyValue)
+    scope.lastLoadedFrom = persistenceService.name
+    scope.lastLoadedAt = new Date()
+    return records
+  }
   
   async loadMany(params, scope) {
+    let records = []
+    
     try {
-        await this.localPeristenceService.loadMany(params, scope)
-    } 
+        // First, try to fast-load records form local storage to pre-fill the collection
+        records = await this.loadManyWith(this.localPeristenceService, params, scope)
+    } catch (error) {
+        console.error(error)
+    }
+    
+    try {
+        // Then, perform an API request to eventually get the latest data from the server
+        records = await this.loadManyWith(this.remotePeristenceService, params, scope)
+        // At this point, the API call was successful and we can cache data in local storage for the next call
+        this.localPersistenceService.saveScopeItems(scope)
+    } catch (error) {
+        console.error(error)
+    }
+    
+    return records
   }
 
   async loadOne(params, record, scope) {

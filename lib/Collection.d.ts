@@ -95,10 +95,7 @@ export abstract class Collection<RecordType extends Record> {
    * if one of the provided recordProperties keys is not defined
    * as being a property of the Record subclass associated with the colection
    */
-  setMany(
-    recordPropertiesList: Partial<RecordType>[],
-    strict?: boolean
-  ): RecordType[]
+  setMany(recordPropertiesList: Partial<RecordType>[], strict?: boolean): RecordType[]
   /**
    * Delete a record with a given primary key in the _collection
    * @param primaryKey The identifier of the record to delete from the _collection
@@ -120,11 +117,7 @@ export abstract class Collection<RecordType extends Record> {
   /**
    * Loads a record into the collection using the collection's persitence strategy
    */
-  loadOne(
-    record: Record | PrimaryKey,
-    scopeName?: string,
-    params?: object
-  ): Promise<any>
+  loadOne(record: Record | PrimaryKey, scopeName?: string, params?: object): Promise<any>
   /**
    * Saves one record into the collection using the collection's persitence strategy
    */
