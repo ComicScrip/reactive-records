@@ -18,6 +18,11 @@ export declare class Scope<RecordType extends Record> {
    */
   lastLoadedFrom: PersistenceServiceName | boolean
   /**
+   * Either false or the persistence service lastly used to fetch the items
+   * You can use this for exemple to differentiate data loaded form local app storage or a remote API
+   */
+  lastLoadedAt: PersistenceServiceName | boolean
+  /**
    * The name of the scope, can be any string
    */
   name: string

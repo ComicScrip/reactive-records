@@ -1,5 +1,11 @@
 import { each } from "lodash"
-import { Collection, Partial, PersistenceService, PersistenceStrategy } from "../src/internals"
+import {
+  Collection,
+  Partial,
+  PersistenceService,
+  PersistenceStrategy,
+  Record
+} from "../src/internals"
 import { Album, AlbumCollection, albumCollection, ApiClient } from "./internals"
 import { Scope } from "../src/Scope"
 import { NetworkOnlyStrategy } from "./persistenceStrategies/NetworkOnlyStrategy"
@@ -194,10 +200,30 @@ describe("Collection", () => {
         const s2 = (ac as AlbumCollection).provideScope("scope2")
         expect(s2 instanceof Scope).toBe(true)
       })
+
+      it("should se scope parameters if provided", () => {
+        const ac = albumCollection as any
+        const s = new Scope(albumCollection, "scope1")
+        ac.scopes = new Map([["scope1", s]])
+        const params = { band_id: 2 }
+        const s2 = (ac as AlbumCollection).provideScope("scope2", params)
+        expect(s2 instanceof Scope).toBe(true)
+        expect(s2.params).toBe(params)
+      })
     })
   })
 
   describe("persistence methods", () => {
+    describe("getPersistenceStrategy", () => {
+      it("should throw if no persistence Stragegy has been defined", () => {
+        let ac = new AlbumCollection()
+        ac.persistenceStrategy = null
+        expect(() => {
+          ac.getPersistanceStrategy()
+        }).toThrowError("Please define a persistence strategy for the collection 'AlbumCollection'")
+      })
+    })
+
     describe("load", () => {
       it("should call the collection's persistence stategy loadMany method with the right params", async () => {
         const loadAlbums = jest.fn()
@@ -213,6 +239,15 @@ describe("Collection", () => {
     })
 
     describe("loadOne", () => {
+      it("instanciate a record if a pk is provided", async () => {
+        const loadAlbum = jest.fn()
+        albumCollection.persistenceStrategy.loadOne = loadAlbum
+        const defaultScope = albumCollection.provideScope()
+        await albumCollection.loadOne(2)
+        expect(loadAlbum).toHaveBeenLastCalledWith({}, expect.any(Record), defaultScope)
+        expect(loadAlbum.mock.calls[0][1]._primaryKeyValue).toBe(2)
+      })
+
       it("should call the collection's persistence stategy loadOne method with the right params", async () => {
         const loadAlbum = jest.fn()
         albumCollection.persistenceStrategy.loadOne = loadAlbum

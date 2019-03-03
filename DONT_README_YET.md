@@ -1,4 +1,7 @@
 ![Line coverage percent](https://raw.githubusercontent.com/ComicScrip/reactive-records/master/tests/coverage/badge-lines.svg?sanitize=true)
+![Statements coverage percent](https://raw.githubusercontent.com/ComicScrip/reactive-records/master/tests/coverage/badge-statements.svg?sanitize=true)
+![Function coverage percent](https://raw.githubusercontent.com/ComicScrip/reactive-records/master/tests/coverage/badge-functions.svg?sanitize=true)
+![Branches coverage percent](https://raw.githubusercontent.com/ComicScrip/reactive-records/master/tests/coverage/badge-branches.svg?sanitize=true)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## [WIP] 

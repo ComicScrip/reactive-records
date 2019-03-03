@@ -664,10 +664,19 @@ Array [
           },
           "scope1"
         )
+
+        await album._load({ id: 123 })
+        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+          album,
+          {
+            id: 123
+          },
+          "default"
+        )
       })
     })
 
-    describe("#save", () => {
+    describe("#_save", () => {
       it("should call 'saveOne' method on the record's collection with the right params", async () => {
         const colltionLoadOne = jest.fn()
         const album = albumCollection.set({})
@@ -682,6 +691,15 @@ Array [
             id: 123
           },
           "scope1"
+        )
+
+        await album._save({ id: 123 })
+        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+          album,
+          {
+            id: 123
+          },
+          "default"
         )
       })
     })
@@ -701,6 +719,15 @@ Array [
             id: 123
           },
           "scope1"
+        )
+
+        await album._destroy({ id: 123 })
+        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+          album,
+          {
+            id: 123
+          },
+          "default"
         )
       })
     })

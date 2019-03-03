@@ -26,6 +26,16 @@ describe("Scope", () => {
       expect(s.itemPrimaryKeys[0]).toBe(123)
     })
 
+    it("shouldn't add an existing pk", () => {
+      const s = new Scope<Album>(albumCollection)
+      const album = albumCollection.set({ id: 123, name: "Foxtrot" })
+      expect(s.itemPrimaryKeys.length).toBe(0)
+      s.addPk(album._primaryKeyValue)
+      s.addPk(album._primaryKeyValue)
+      expect(s.itemPrimaryKeys.length).toBe(1)
+      expect(s.itemPrimaryKeys[0]).toBe(123)
+    })
+
     it("return the scope", () => {
       const s = new Scope<Album>(albumCollection)
       expect(s.addPk(999) === s).toBe(true)

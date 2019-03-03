@@ -101,20 +101,20 @@ export declare class Record {
   _mergeProperties(properties: Partial<this>, strict?: boolean): this
   /**
    * Calls the record's collection 'loadOne' method with provided params
+   * @param {object} params : params passed to the persistence service
    * @param {string} scopeName : The name of the scope the item should be loaded into
-   * @param {object} params : params passed to the persistence service
    */
-  _load(scopeName: string, params: object): Promise<any>
+  _load(params: object, scopeName?: string): Promise<any>
   /**
    * Calls the record's collection 'saveOne' method with provided params
+   * @param {object} params : params passed to the persistence service
    * @param {string} scopeName : The name of the scope the item should be saved into
-   * @param {object} params : params passed to the persistence service
    */
-  _save(scopeName: string, params: object): Promise<any>
+  _save(params: object, scopeName?: string): Promise<any>
   /**
    * Calls the record's collection 'saveOne' method with provided params
-   * @param {string} scopeName : The name of the scope the item should deleted from
    * @param {object} params : params passed to the persistence service
+   * @param {string} scopeName : The name of the scope the item should deleted from
    */
-  _destroy(scopeName: string, params: object): Promise<any>
+  _destroy(params: object, scopeName?: string): Promise<any>
 }

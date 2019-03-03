@@ -113,17 +113,17 @@ export abstract class Collection<RecordType extends Record> {
   /**
    * Loads items into the collection using the collection's persitence strategy
    */
-  load(scopeName?: string, params?: object): Promise<any>
+  load(params?: object, scopeName?: string): Promise<any>
   /**
    * Loads a record into the collection using the collection's persitence strategy
    */
-  loadOne(record: Record | PrimaryKey, scopeName?: string, params?: object): Promise<any>
+  loadOne(record: Record | PrimaryKey, params?: object, scopeName?: string): Promise<any>
   /**
    * Saves one record into the collection using the collection's persitence strategy
    */
-  saveOne(record: Record, scopeName?: string, params?: object): Promise<any>
+  saveOne(record: Record, params?: object, scopeName?: string): Promise<any>
   /**
    * Destroys one record into the collection using the collection's persitence strategy
    */
-  destroyOne(record: Record, scopeName?: string, params?: object): Promise<any>
+  destroyOne(record: Record, params?: object, scopeName?: string): Promise<any>
 }

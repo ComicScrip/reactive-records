@@ -107,6 +107,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_scope_.scope.html#collection" class="tsd-kind-icon">collection</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_scope_.scope.html#itemprimarykeys" class="tsd-kind-icon">item<wbr>Primary<wbr>Keys</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_scope_.scope.html#lastloadedat" class="tsd-kind-icon">last<wbr>Loaded<wbr>At</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_scope_.scope.html#lastloadedfrom" class="tsd-kind-icon">last<wbr>Loaded<wbr>From</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_scope_.scope.html#loadingfrom" class="tsd-kind-icon">loading<wbr>From</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_scope_.scope.html#name" class="tsd-kind-icon">name</a></li>
@@ -145,7 +146,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Scope.ts:50</li>
+									<li>Defined in Scope.ts:51</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -173,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">collection<span class="tsd-signature-symbol">:</span> <a href="_collection_.collection.html" class="tsd-signature-type">Collection</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Scope.ts:50</li>
+							<li>Defined in Scope.ts:51</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -188,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">item<wbr>Primary<wbr>Keys<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Scope.ts:20</li>
+							<li>Defined in Scope.ts:14</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -198,12 +199,28 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="lastloadedat" class="tsd-anchor"></a>
+					<h3>last<wbr>Loaded<wbr>At</h3>
+					<div class="tsd-signature tsd-kind-icon">last<wbr>Loaded<wbr>At<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#persistenceservicename" class="tsd-signature-type">PersistenceServiceName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in Scope.ts:35</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Either false or the persistence service lastly used to fetch the items
+							You can use this for exemple to differentiate data loaded form local app storage or a remote API</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="lastloadedfrom" class="tsd-anchor"></a>
 					<h3>last<wbr>Loaded<wbr>From</h3>
 					<div class="tsd-signature tsd-kind-icon">last<wbr>Loaded<wbr>From<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#persistenceservicename" class="tsd-signature-type">PersistenceServiceName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Scope.ts:34</li>
+							<li>Defined in Scope.ts:28</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -219,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">loading<wbr>From<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#persistenceservicename" class="tsd-signature-type">PersistenceServiceName</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Scope.ts:27</li>
+							<li>Defined in Scope.ts:21</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -235,7 +252,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Scope.ts:39</li>
+							<li>Defined in Scope.ts:40</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -250,7 +267,7 @@
 					<div class="tsd-signature tsd-kind-icon">params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Scope.ts:45</li>
+							<li>Defined in Scope.ts:46</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -273,7 +290,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Scope.ts:129</li>
+									<li>Defined in Scope.ts:126</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -298,7 +315,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Scope.ts:93</li>
+									<li>Defined in Scope.ts:90</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -326,7 +343,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Scope.ts:86</li>
+									<li>Defined in Scope.ts:83</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -354,7 +371,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Scope.ts:79</li>
+									<li>Defined in Scope.ts:76</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -382,7 +399,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Scope.ts:117</li>
+									<li>Defined in Scope.ts:114</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -410,7 +427,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Scope.ts:104</li>
+									<li>Defined in Scope.ts:101</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -441,7 +458,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Scope.ts:68</li>
+									<li>Defined in Scope.ts:65</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -505,6 +522,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_scope_.scope.html#itemprimarykeys" class="tsd-kind-icon">item<wbr>Primary<wbr>Keys</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_scope_.scope.html#lastloadedat" class="tsd-kind-icon">last<wbr>Loaded<wbr>At</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_scope_.scope.html#lastloadedfrom" class="tsd-kind-icon">last<wbr>Loaded<wbr>From</a>
