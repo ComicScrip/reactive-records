@@ -122,4 +122,9 @@ export declare class Record {
    * @param {string} scopeName : The name of the scope the item should deleted from
    */
   _destroy(params: object, scopeName?: string): Promise<any>
+  /**
+   * Tries to populate the graph object in paramters with the record's properties
+   * @returns The populated given graph object with the records's Poperties and eventually its associated records properties
+   */
+  _populate(graph: object): object
 }
