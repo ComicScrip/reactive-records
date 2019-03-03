@@ -46,6 +46,13 @@ export class Record {
   public _lastLoadedFrom: PersistenceServiceName | boolean = false
 
   /**
+   * Either null or the time when the record was lastely loaded
+   * You can use this for exemple to decide if a record can be returned from cache when you have to (re)load it
+   */
+  @observable
+  public _lastLoadedAt: Date | null = null
+
+  /**
    * The store holding the record's instance in its 'records' field
    */
   public _collection: Collection<Record> | null = null

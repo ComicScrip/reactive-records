@@ -83,6 +83,17 @@ export abstract class Collection<RecordType extends Record> {
     this.scopes.set(scope.name, scope)
   }
 
+  /**
+   * Set the collection's persistence strategy
+   * @param ps {PersistenceStrategy} : The persistence strategy to set
+   * @return {Collection<Record>} : The collection
+   */
+  @action.bound
+  public setPersistenceStratgy(ps: PersistenceStrategy) {
+    this.persistenceStrategy = ps
+    return this
+  }
+
   @computed
   get itemsPrimaryKeys(): PrimaryKey[] {
     // ObservebaleMap.prototype._keys is much faster than keys() and returns directly what we need

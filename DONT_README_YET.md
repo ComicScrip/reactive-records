@@ -614,7 +614,7 @@ In order to stay "DRY" but yet flexible, we can write generic persistence strate
 that can be shared between our collections (and overriden by some if necessary).
 
 In order to do that, we just have to implement the ```PersistenceStrategy``` interface.
-Here's an exemple implementation that first  
+Here's an exemple implementation that first use a local persistence service before hitting a remote REST API.
 
 _Data/PersistenceStrategies/OfflineFirstStrategy.ts_
 ```ts
@@ -718,18 +718,9 @@ export class OfflineFirstStrategy implements PersistenceStrategy {
 
 ```
 
+## Basic usage with React
 
-
-
-
-
-
-
-
-
-### Basic usage with React
-
-### Tested environements support
+## Tested environements support
 
 - ReactNative 
 - [TODO] Browsers : all majors

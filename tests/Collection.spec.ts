@@ -1,12 +1,6 @@
 import { each } from "lodash"
-import {
-  Collection,
-  Partial,
-  PersistenceService,
-  PersistenceStrategy,
-  Record
-} from "../src/internals"
-import { Album, AlbumCollection, albumCollection, ApiClient } from "./internals"
+import { Collection, Partial, Record } from "../src/internals"
+import { Album, AlbumCollection, albumCollection } from "./internals"
 import { Scope } from "../src/Scope"
 import { NetworkOnlyStrategy } from "./persistenceStrategies/NetworkOnlyStrategy"
 
@@ -214,6 +208,22 @@ describe("Collection", () => {
   })
 
   describe("persistence methods", () => {
+    describe("setPersistenceStrategy", () => {
+      it("should set the collection persistence strategy with provided param", () => {
+        let ac = new AlbumCollection()
+        const ps = new NetworkOnlyStrategy()
+        ac.setPersistenceStratgy(ps)
+        expect(ac.getPersistanceStrategy()).toBe(ps)
+      })
+
+      it("should return the collection", () => {
+        let ac = new AlbumCollection()
+        const ps = new NetworkOnlyStrategy()
+        ac.setPersistenceStratgy(ps)
+        expect(ac.setPersistenceStratgy(ps)).toBe(ac)
+      })
+    })
+
     describe("getPersistenceStrategy", () => {
       it("should throw if no persistence Stragegy has been defined", () => {
         let ac = new AlbumCollection()
