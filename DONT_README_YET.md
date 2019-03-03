@@ -505,6 +505,98 @@ album's tracks names: Sunday Morning, There She Goes Again
 
 #### Getting a graph out of a record
 
+_Data/Ressources/Albums.ts_
+```ts
+// <imports>
+
+export class Album extends Record {
+  @observable @ownAttribute id: number
+  @observable @ownAttribute coverUrl: string
+  @observable @ownAttribute name: string
+  @observable @ownAttribute releaseDate: Date
+  @observable @ownAttribute band_id: PrimaryKey
+
+  @toOneAssociation({foreignCollection: () => bandCollection, foreignKeyAttribute: "band_id"}) band: Partial<Band>
+  @toManyAssociation<Track>({foreignKeyAttribute: "album_id", foreignCollection: () => trackCollection})
+  tracks: Array<Partial<Track>> = []
+}
+
+export class AlbumCollection extends Collection<Album> {
+  get recordClass(): typeof Album {
+    return Album
+  }
+}
+
+export const albumCollection = new AlbumCollection()
+```
+
+_Data/Ressources/Tracks.ts_
+```ts
+// <imports>
+
+export class Track extends Record implements TrackAttributes {
+  @observable @ownAttribute id: number
+  @observable @ownAttribute duration: number = 0
+  @observable @ownAttribute name: string = ""
+  @observable @ownAttribute album_id: PrimaryKey
+}
+
+export class TrackCollection extends Collection<Track> {
+  get recordClass(): typeof Track {
+    return Track
+  }
+}
+
+export const trackCollection = new TrackCollection()
+```
+
+_Data/Ressources/Bands.ts_
+```ts
+// <imports>
+
+export class Band extends Record implements BandAttributes {
+  @observable @ownAttribute id: number
+  @observable @ownAttribute name: string = ""
+  @observable @toManyAssociation({foreignCollection: () => artistCollection, foreignKeyAttribute: "band_id"})
+  members: Array<Artist>
+}
+
+export class BandCollection extends Collection<Band> {
+  get recordClass(): typeof Band {
+    return Band
+  }
+}
+
+export const bandCollection = new BandCollection()
+```
+
+_Data/Ressources/Artists.ts_
+```ts
+// <imports>
+
+export class Artist extends Record {
+  @observable @ownAttribute id: number
+  @observable @ownAttribute bio: string = "No bio for this artist yet"
+  @observable @ownAttribute birthDate: string
+  @observable @ownAttribute firstName: string = ""
+  @observable @ownAttribute lastName: string = ""
+
+  @computed
+  public get fullName() {
+    return this.firstName + " " + this.lastName
+  }
+}
+
+export class ArtistCollection extends Collection<Artist> {
+  get recordClass(): typeof Artist {
+    return Artist
+  }
+}
+
+export const artistCollection = new ArtistCollection()
+```
+
+_demo.ts_
 ```ts
 const rawAlbum = {
   id: 1,
@@ -555,7 +647,7 @@ const rawAlbum = {
 
 const album = albumCollection.set(rawAlbum)
 const graph = {
-  name: undefined,
+  name: undefined, // final values are defaults
   band: {
     name: undefined,
     members: {
@@ -564,10 +656,11 @@ const graph = {
   },
   tracks: {
     id: null
-  }
+  },
+  label: 'Unknown label'
 }
-
-console.log(album._populate(graph))
+album._populate(graph)
+console.log(graph)
 ```
 
 <details><summary>See console logs </summary>
@@ -589,8 +682,9 @@ console.log(album._populate(graph))
   tracks: [
     {id: 11},
     {id: 22},
-    {id: null},
+    {id: null}, // the third track does not have an id, null is given since it was provided as default
   ]
+  label: 'Unknown label'
 }
 ```
 

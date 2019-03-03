@@ -1,12 +1,6 @@
 import { observable } from "mobx"
 import { Collection, Record, ownAttribute, toManyAssociation } from "../../src/internals"
-import {
-  BaseRecordAttributes,
-  Artist,
-  ArtistAttributes,
-  ArtistCollection,
-  artistCollection
-} from "../internals"
+import { BaseRecordAttributes, Artist, ArtistAttributes, artistCollection } from "../internals"
 
 export interface BandAttributes extends BaseRecordAttributes {
   name: string
