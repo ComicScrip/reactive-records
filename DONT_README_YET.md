@@ -503,7 +503,7 @@ album's tracks names: Sunday Morning, There She Goes Again
 </p>
 </details> 
 
-#### Getting a graph out of a record
+#### Getting a state subgraph out of a record
 
 _Data/Ressources/Albums.ts_
 ```ts
@@ -646,8 +646,8 @@ const rawAlbum = {
 }
 
 const album = albumCollection.set(rawAlbum)
-const graph = {
-  name: undefined, // final values are defaults
+const subgraph = {
+  name: undefined, 
   band: {
     name: undefined,
     members: {
@@ -657,10 +657,10 @@ const graph = {
   tracks: {
     id: null
   },
-  label: 'Unknown label'
+  label: 'Unknown label' // final values are treated as defaults, if the corressponding key in the record is undefined
 }
-album._populate(graph)
-console.log(graph)
+album._populate(subgraph)
+console.log(subgraph)
 ```
 
 <details><summary>See console logs </summary>
@@ -684,7 +684,7 @@ console.log(graph)
     {id: 22},
     {id: null}, // the third track does not have an id, null is given since it was provided as default
   ]
-  label: 'Unknown label'
+  label: 'Unknown label' // album does not have a 'label' prop, default provided in original subgraph is taken
 }
 ```
 
@@ -730,7 +730,7 @@ In the browser, you could leverage APIs like localStorage or sessionStorage, or 
 caches network calls. In React Native, you can leverage persistence APIs like AsyncStorage or Realm DB, SQLite, ...
 
 The way records are persisted in an application is usually specific to the application.
-That's why the persistence layer is completely abstracted in this library, thanks to ```PeristenceService``` and ```PersistenceStrategy``` interfaces.
+That's why the persistence layer is completely abstracted in this library, thanks to ```PersistenceStrategy``` interface.
 
 In a traditonnal application, you often want perform basic operations like : 
 - Retrieve items of a collection from a remote data source (like an API) or a local one (like localStorage or AsyncStorage or whatever is avalable in your app's environement)
