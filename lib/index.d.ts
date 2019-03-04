@@ -4,6 +4,25 @@ import {
   ownAttribute,
   toOneAssociation,
   PrimaryKey,
-  Partial
+  Partial,
+  toOneAssociationDescription,
+  toOneAssociationsDescription,
+  toManyAssociationDescription,
+  toManyAssociationsDescription,
+  PersistenceServiceName,
+  PersistenceStrategy
 } from "./internals"
-export { Collection, Record, ownAttribute, toOneAssociation, PrimaryKey, Partial }
+export {
+  Collection,
+  Record,
+  ownAttribute,
+  toOneAssociation,
+  PrimaryKey,
+  Partial,
+  toOneAssociationsDescription,
+  toManyAssociationDescription,
+  toOneAssociationDescription,
+  toManyAssociationsDescription,
+  PersistenceStrategy,
+  PersistenceServiceName
+}
