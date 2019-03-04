@@ -10,7 +10,8 @@ import {
   toManyAssociationDescription,
   toManyAssociationsDescription,
   PersistenceServiceName,
-  PersistenceStrategy
+  PersistenceStrategy,
+  Scope
 } from "./internals"
 
 export {
@@ -25,5 +26,6 @@ export {
   toOneAssociationDescription,
   toManyAssociationsDescription,
   PersistenceStrategy,
-  PersistenceServiceName
+  PersistenceServiceName,
+  Scope
 }
