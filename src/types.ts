@@ -27,11 +27,6 @@ export interface toManyAssociationsDescription<T> {
   [name: string]: toManyAssociationDescription<T>
 }
 
-export interface toJSOptions {
-  expandAssociations: boolean | string
-  expandAssociationsLevels: number
-}
-
 export type PersistenceServiceName = string
 
 export interface PersistenceStrategy {

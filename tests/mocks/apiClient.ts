@@ -1,5 +1,3 @@
-import { PersistenceService } from "../../src/types"
-
 export class ApiClient {
   static baseUrl = "http://myapi.net"
 
@@ -10,15 +8,12 @@ export class ApiClient {
     delete: (url: string, params: object) => {}
   }
 
-  static createCRUDHandlers(collectionUrl): PersistenceService {
+  static createCRUDHandlers(collectionUrl) {
     return {
       name: "RESTAPI",
 
       async loadMany(params, scope) {
-        return ApiClient.apiAdapter.get(
-          ApiClient.baseUrl + collectionUrl,
-          params
-        )
+        return ApiClient.apiAdapter.get(ApiClient.baseUrl + collectionUrl, params)
       },
       async loadOne(params, record, scope) {
         return ApiClient.apiAdapter.get(
@@ -33,10 +28,7 @@ export class ApiClient {
             record._ownAttributes
           )
         } else {
-          return ApiClient.apiAdapter.post(
-            ApiClient.baseUrl + collectionUrl,
-            record._ownAttributes
-          )
+          return ApiClient.apiAdapter.post(ApiClient.baseUrl + collectionUrl, record._ownAttributes)
         }
       },
       async destroyOne(params, record, scope) {

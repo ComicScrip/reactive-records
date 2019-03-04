@@ -4,7 +4,13 @@ import {
   ownAttribute,
   toOneAssociation,
   PrimaryKey,
-  Partial
+  Partial,
+  toOneAssociationDescription,
+  toOneAssociationsDescription,
+  toManyAssociationDescription,
+  toManyAssociationsDescription,
+  PersistenceServiceName,
+  PersistenceStrategy
 } from "./internals"
 
 export {
@@ -13,5 +19,11 @@ export {
   ownAttribute,
   toOneAssociation,
   PrimaryKey,
-  Partial
+  Partial,
+  toOneAssociationsDescription,
+  toManyAssociationDescription,
+  toOneAssociationDescription,
+  toManyAssociationsDescription,
+  PersistenceStrategy,
+  PersistenceServiceName
 }
