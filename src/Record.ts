@@ -432,7 +432,6 @@ export class Record {
    * Tries to populate the graph object in paramters with the record's properties
    * @returns The populated given graph object with the records's Poperties and eventually its associated records properties
    */
-
   public _populate(graph: object): object {
     const ks = keys(graph)
     const toOneAssociationNames = this._toOneAssociationsNames

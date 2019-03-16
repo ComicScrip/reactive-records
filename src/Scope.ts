@@ -87,6 +87,7 @@ export class Scope<RecordType extends Record> {
   /**
    * adds primary key in the scope's pk list, if the latter is not already there
    */
+  @action.bound
   public addPk(pk: PrimaryKey) {
     if (!this.hasPk(pk)) {
       this.itemPrimaryKeys.push(pk)
@@ -98,6 +99,7 @@ export class Scope<RecordType extends Record> {
   /**
    * replace primary key in the scope's pk list by another one
    */
+  @action.bound
   public replacePk(oldpk: PrimaryKey, newPk: PrimaryKey) {
     const pkIndex = this.itemPrimaryKeys.findIndex(p => p == oldpk)
     if (pkIndex !== -1) {
@@ -111,6 +113,7 @@ export class Scope<RecordType extends Record> {
    * @param {PrimaryKey} pk
    * @return {Scope<RecordType extends Record>}
    */
+  @action.bound
   public removePk(pk: PrimaryKey): Scope<RecordType> {
     const idx = this.itemPrimaryKeys.findIndex(p => p == pk)
     if (idx !== -1) {
