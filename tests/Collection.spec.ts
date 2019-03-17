@@ -164,6 +164,17 @@ describe("Collection", () => {
   })
 
   describe("scopes", () => {
+    describe("unsetScope", () => {
+      it("should remove the scope from the collection's scopes map", () => {
+        new Scope(albumCollection, "s1")
+        const s2 = new Scope(albumCollection, "s2")
+        new Scope(albumCollection, "s3")
+        expect(albumCollection.scopesNames.length).toEqual(3)
+        albumCollection.unsetScope(s2)
+        expect(albumCollection.scopesNames.length).toEqual(2)
+      })
+    })
+
     describe("#getScope", () => {
       it("should return the desired scope if it exists", () => {
         const ac = albumCollection as any
@@ -248,7 +259,7 @@ describe("Collection", () => {
         expect(s2 instanceof Scope).toBe(true)
       })
 
-      it("should se scope parameters if provided", () => {
+      it("should pass scope parameters if provided", () => {
         const ac = albumCollection as any
         const s = new Scope(albumCollection, "scope1")
         ac.scopes = new Map([["scope1", s]])
@@ -293,7 +304,10 @@ describe("Collection", () => {
         albumCollection.persistenceStrategy.loadMany = loadAlbums
         const defaultScope = albumCollection.provideScope()
         await albumCollection.load()
-        expect(loadAlbums).toHaveBeenLastCalledWith({}, defaultScope)
+        expect(loadAlbums).toHaveBeenLastCalledWith(
+          { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+          defaultScope
+        )
 
         const customScope = albumCollection.provideScope("scope1")
         await albumCollection.load({ year: 1970 }, customScope.name)
@@ -307,7 +321,11 @@ describe("Collection", () => {
         albumCollection.persistenceStrategy.loadOne = loadAlbum
         const defaultScope = albumCollection.provideScope()
         await albumCollection.loadOne(2)
-        expect(loadAlbum).toHaveBeenLastCalledWith({}, expect.any(Record), defaultScope)
+        expect(loadAlbum).toHaveBeenLastCalledWith(
+          { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+          expect.any(Record),
+          defaultScope
+        )
         expect(loadAlbum.mock.calls[0][1]._primaryKeyValue).toBe(2)
       })
 
@@ -317,7 +335,11 @@ describe("Collection", () => {
         const defaultScope = albumCollection.provideScope()
         const record = albumCollection.set({ id: 2 })
         await albumCollection.loadOne(record)
-        expect(loadAlbum).toHaveBeenLastCalledWith({}, record, defaultScope)
+        expect(loadAlbum).toHaveBeenLastCalledWith(
+          { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+          record,
+          defaultScope
+        )
 
         const customScope = albumCollection.provideScope("scope1")
         await albumCollection.loadOne(record, { year: 1970 }, customScope.name)
@@ -332,11 +354,23 @@ describe("Collection", () => {
         const defaultScope = albumCollection.provideScope()
         const record = albumCollection.set({ id: 2 })
         await albumCollection.saveOne(record)
-        expect(saveAlbum).toHaveBeenLastCalledWith({}, record, defaultScope)
+        expect(saveAlbum).toHaveBeenLastCalledWith(
+          { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+          record,
+          defaultScope
+        )
 
         const customScope = albumCollection.provideScope("scope1")
-        await albumCollection.saveOne(record, {}, customScope.name)
-        expect(saveAlbum).toHaveBeenLastCalledWith({}, record, customScope)
+        await albumCollection.saveOne(
+          record,
+          { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+          customScope.name
+        )
+        expect(saveAlbum).toHaveBeenLastCalledWith(
+          { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+          record,
+          customScope
+        )
       })
     })
 
@@ -347,11 +381,23 @@ describe("Collection", () => {
         const defaultScope = albumCollection.provideScope()
         const record = albumCollection.set({ id: 2 })
         await albumCollection.destroyOne(record)
-        expect(destroyAlbum).toHaveBeenLastCalledWith({}, record, defaultScope)
+        expect(destroyAlbum).toHaveBeenLastCalledWith(
+          { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+          record,
+          defaultScope
+        )
 
         const customScope = albumCollection.provideScope("scope1")
-        await albumCollection.destroyOne(record, {}, customScope.name)
-        expect(destroyAlbum).toHaveBeenLastCalledWith({}, record, customScope)
+        await albumCollection.destroyOne(
+          record,
+          { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+          customScope.name
+        )
+        expect(destroyAlbum).toHaveBeenLastCalledWith(
+          { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+          record,
+          customScope
+        )
       })
     })
   })

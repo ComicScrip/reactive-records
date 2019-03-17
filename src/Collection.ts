@@ -119,6 +119,11 @@ export abstract class Collection<RecordType extends Record> {
     this.scopes.set(scope.name, scope)
   }
 
+  @action.bound
+  public unsetScope(scope: Scope<RecordType>) {
+    this.scopes.delete(scope.name)
+  }
+
   /**
    * Set the collection's persistence strategy
    * @param ps {PersistenceStrategy} : The persistence strategy to set
@@ -299,7 +304,10 @@ export abstract class Collection<RecordType extends Record> {
    * Loads items into the collection using the collection's persitence strategy
    */
   @action.bound
-  public async load(params: object = {}, scopeName: string = "default"): Promise<any> {
+  public async load(
+    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+    scopeName: string = "default"
+  ): Promise<any> {
     return this.getPersistanceStrategy().loadMany(params, this.provideScope(scopeName, params))
   }
 
@@ -309,7 +317,7 @@ export abstract class Collection<RecordType extends Record> {
   @action.bound
   public async loadOne(
     record: Record | PrimaryKey,
-    params: object = {},
+    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
     scopeName: string = "default"
   ): Promise<any> {
     if (!(record instanceof Record)) {
@@ -329,7 +337,7 @@ export abstract class Collection<RecordType extends Record> {
   @action.bound
   public async saveOne(
     record: Record,
-    params: object = {},
+    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
     scopeName: string = "default"
   ): Promise<any> {
     return this.getPersistanceStrategy().saveOne(
@@ -345,7 +353,7 @@ export abstract class Collection<RecordType extends Record> {
   @action.bound
   public async destroyOne(
     record: Record,
-    params: object = {},
+    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
     scopeName: string = "default"
   ): Promise<any> {
     return this.getPersistanceStrategy().destroyOne(

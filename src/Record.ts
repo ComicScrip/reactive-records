@@ -404,7 +404,10 @@ export class Record {
    * @param {string} scopeName : The name of the scope the item should be loaded into
    */
   @action.bound
-  public async _load(params: object, scopeName: string = "default") {
+  public async _load(
+    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+    scopeName: string = "default"
+  ) {
     return this._collection.loadOne(this, params, scopeName)
   }
 
@@ -414,7 +417,10 @@ export class Record {
    * @param {string} scopeName : The name of the scope the item should be saved into
    */
   @action.bound
-  public async _save(params: object, scopeName: string = "default") {
+  public async _save(
+    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+    scopeName: string = "default"
+  ) {
     return this._collection.saveOne(this, params, scopeName)
   }
 
@@ -424,7 +430,10 @@ export class Record {
    * @param {string} scopeName : The name of the scope the item should deleted from
    */
   @action.bound
-  public async _destroy(params: object, scopeName: string = "default") {
+  public async _destroy(
+    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
+    scopeName: string = "default"
+  ) {
     return this._collection.destroyOne(this, params, scopeName)
   }
 

@@ -50,10 +50,14 @@ export class Scope<RecordType extends Record> {
    */
   public collection: Collection<RecordType>
 
-  constructor(collection: Collection<RecordType>, name: string = "default", params: object = {}) {
+  constructor(
+    collection: Collection<RecordType>,
+    name: string = "default",
+    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} }
+  ) {
     this.params = params
     this.name = name
-    this.collection = collection
+    collection.setScope(this)
   }
 
   /**

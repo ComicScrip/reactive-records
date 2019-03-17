@@ -6,7 +6,7 @@ describe("Scope", () => {
     it("should set default values for name and params", () => {
       const s = new Scope(albumCollection)
       expect(s.name).toEqual("default")
-      expect(s.params).toEqual({})
+      expect(s.params).toEqual({ persistenceServiceParams: {}, persistenceSrategyParams: {} })
     })
 
     it("should set name and params values if provided", () => {
