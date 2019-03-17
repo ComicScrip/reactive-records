@@ -3,6 +3,7 @@ import { Collection, Partial, Record } from "../src/internals"
 import { Album, AlbumCollection, albumCollection } from "./internals"
 import { Scope } from "../src/Scope"
 import { NetworkOnlyStrategy } from "./persistenceStrategies/NetworkOnlyStrategy"
+import { reaction } from "mobx"
 
 describe("Collection", () => {
   beforeEach(() => {
@@ -176,6 +177,58 @@ describe("Collection", () => {
         const s = new Scope(albumCollection, "scope1")
         ac.scopes = new Map([["scope1", s]])
         expect((ac as AlbumCollection).getScope("scope2")).toBe(undefined)
+      })
+    })
+
+    describe("#getScopesMatching", () => {
+      it("should return scopes mathing regex", () => {
+        const ac = albumCollection as any
+        const s = new Scope(albumCollection, "myScreenPage1")
+        const s2 = new Scope(albumCollection, "myScreenPage2")
+        const s3 = new Scope(albumCollection, "myOtherScreenPage1")
+        ac.scopes = new Map([
+          ["myScreenPage1", s],
+          ["myScreenPage2", s2],
+          ["myOtherScreenPage1", s3]
+        ])
+        expect((ac as AlbumCollection).getScopesMatching(/myScreen.*/).map(s => s.name)).toEqual([
+          "myScreenPage1",
+          "myScreenPage2"
+        ])
+      })
+    })
+
+    describe("#combineScopeItems", () => {
+      it("should return scopes mathing regex", () => {
+        const ac = albumCollection as any
+        const reactionCallBack = jest.fn()
+        reaction(
+          () =>
+            (ac as AlbumCollection)
+              .combineScopeItems(/myScreen.*/)
+              .map(i => i.name)
+              .join(", "),
+          reactionCallBack
+        )
+        const r1 = albumCollection.set({ name: "album1" })
+        const r2 = albumCollection.set({ name: "album2" })
+        const r3 = albumCollection.set({ name: "album3" })
+
+        const s = new Scope(albumCollection, "myScreenPage1")
+        const s2 = new Scope(albumCollection, "myScreenPage2")
+        const s3 = new Scope(albumCollection, "myOtherScreenPage1")
+        s.addPk(r1._primaryKeyValue)
+        s2.addPk(r2._primaryKeyValue)
+        s3.addPk(r3._primaryKeyValue)
+        ac.scopes = new Map([["myScreenPage1", s], ["myOtherScreenPage1", s3]])
+        expect(reactionCallBack).toHaveBeenLastCalledWith("album1", expect.anything())
+        ac.scopes.set("myScreenPage2", s2)
+        expect(reactionCallBack).toHaveBeenLastCalledWith("album1, album2", expect.anything())
+        s2.addPk(r3._primaryKeyValue)
+        expect(reactionCallBack).toHaveBeenLastCalledWith(
+          "album1, album2, album3",
+          expect.anything()
+        )
       })
     })
 

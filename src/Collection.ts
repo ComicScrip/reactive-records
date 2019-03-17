@@ -1,9 +1,9 @@
 import { action, computed, observable } from "mobx"
+import { createTransformer } from "mobx-utils"
 import * as Bluebird from "bluebird"
 Promise = Bluebird as any
 import { Record, Partial, PrimaryKey, PersistenceStrategy } from "./internals"
 import { Scope } from "./Scope"
-import any = jasmine.any
 
 /**
  * A Store for records.
@@ -50,6 +50,42 @@ export abstract class Collection<RecordType extends Record> {
   public getScope(name: string): Scope<RecordType> | undefined {
     return this.scopes.get(name)
   }
+
+  public get scopesNames(): string[] {
+    return (this.scopes as any)._keys
+  }
+
+  /**
+   * Get a collection scopes whose name matches a given regex
+   * @return {Scope<RecordType extends Record>}
+   * @param regex The regex that will be used against all scopes name
+   */
+  public getScopesMatching(regex: RegExp): Array<Scope<RecordType>> {
+    return this.scopesNames
+      .filter(scopeName => scopeName.match(regex))
+      .map(name => this.scopes.get(name))
+  }
+
+  public getCombinedScopeItems = ((regex: RegExp) => {
+    const scopeNames = this.scopesNames
+    let items = []
+    for (let i = 0; i < scopeNames.length; i++) {
+      const scope = scopeNames[i]
+      if (scope.match(regex)) {
+        items = items.concat(this.scopes.get(scope).items)
+      }
+    }
+    return items
+  }).bind(this)
+
+  /**
+   * Takes all scopes mathcing a regex and concat their items
+   * @return {RecordType[]}
+   * @param regex The regex that will be used against all scopes name
+   */
+  public combineScopeItems = createTransformer(this.getCombinedScopeItems) as (
+    regex: RegExp
+  ) => RecordType[]
 
   /**
    * Get an existing scope or create a new one
