@@ -109,19 +109,19 @@ export declare class Record {
    * @param {object} params : params passed to the persistence service
    * @param {string} scopeName : The name of the scope the item should be loaded into
    */
-  _load(params: object, scopeName?: string): Promise<any>
+  _load(params?: object, scopeName?: string): Promise<any>
   /**
    * Calls the record's collection 'saveOne' method with provided params
    * @param {object} params : params passed to the persistence service
    * @param {string} scopeName : The name of the scope the item should be saved into
    */
-  _save(params: object, scopeName?: string): Promise<any>
+  _save(params?: object, scopeName?: string): Promise<any>
   /**
    * Calls the record's collection 'saveOne' method with provided params
    * @param {object} params : params passed to the persistence service
    * @param {string} scopeName : The name of the scope the item should deleted from
    */
-  _destroy(params: object, scopeName?: string): Promise<any>
+  _destroy(params?: object, scopeName?: string): Promise<any>
   /**
    * Tries to populate the graph object in paramters with the record's properties
    * @returns The populated given graph object with the records's Poperties and eventually its associated records properties

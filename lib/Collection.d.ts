@@ -53,6 +53,7 @@ export abstract class Collection<RecordType extends Record> {
    * @param {Scope<RecordType extends Record>} scope
    */
   setScope(scope: Scope<RecordType>): void
+  unsetScope(scope: Scope<RecordType>): void
   /**
    * Set the collection's persistence strategy
    * @param ps {PersistenceStrategy} : The persistence strategy to set
