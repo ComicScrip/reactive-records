@@ -57,6 +57,7 @@ export class Scope<RecordType extends Record> {
   ) {
     this.params = params
     this.name = name
+    this.collection = collection
     collection.setScope(this)
   }
 
