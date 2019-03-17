@@ -100,6 +100,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_collection_.collection.html#combinescopeitems" class="tsd-kind-icon">combine<wbr>Scope<wbr>Items</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_collection_.collection.html#getcombinedscopeitems" class="tsd-kind-icon">get<wbr>Combined<wbr>Scope<wbr>Items</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_collection_.collection.html#persistencestrategy" class="tsd-kind-icon">persistence<wbr>Strategy</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_collection_.collection.html#records" class="tsd-kind-icon">records</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_collection_.collection.html#scopes" class="tsd-kind-icon">scopes</a></li>
@@ -111,6 +113,7 @@
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_collection_.collection.html#items" class="tsd-kind-icon">items</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_collection_.collection.html#itemsprimarykeys" class="tsd-kind-icon">items<wbr>Primary<wbr>Keys</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_collection_.collection.html#recordclass" class="tsd-kind-icon">record<wbr>Class</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_collection_.collection.html#scopesnames" class="tsd-kind-icon">scopes<wbr>Names</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_collection_.collection.html#size" class="tsd-kind-icon">size</a></li>
 							</ul>
 						</section>
@@ -123,6 +126,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#getmany" class="tsd-kind-icon">get<wbr>Many</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#getpersistancestrategy" class="tsd-kind-icon">get<wbr>Persistance<wbr>Strategy</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#getscope" class="tsd-kind-icon">get<wbr>Scope</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#getscopesmatching" class="tsd-kind-icon">get<wbr>Scopes<wbr>Matching</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#has" class="tsd-kind-icon">has</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#load" class="tsd-kind-icon">load</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_collection_.collection.html#loadone" class="tsd-kind-icon">load<wbr>One</a></li>
@@ -144,6 +148,59 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="combinescopeitems" class="tsd-anchor"></a>
+					<h3>combine<wbr>Scope<wbr>Items</h3>
+					<div class="tsd-signature tsd-kind-icon">combine<wbr>Scope<wbr>Items<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> =&nbsp;createTransformer(this.getCombinedScopeItems) as (regex: RegExp) &#x3D;&gt; RecordType[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in Collection.ts:86</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Takes all scopes mathcing a regex and concat their items</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd></dd>
+							<dt>param</dt>
+							<dd><p>The regex that will be used against all scopes name</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>regex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">[]</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>regex: <span class="tsd-signature-type">RegExp</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">[]</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="getcombinedscopeitems" class="tsd-anchor"></a>
+					<h3>get<wbr>Combined<wbr>Scope<wbr>Items</h3>
+					<div class="tsd-signature tsd-kind-icon">get<wbr>Combined<wbr>Scope<wbr>Items<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;((regex: RegExp) &#x3D;&gt; {const scopeNames &#x3D; this.scopesNameslet items &#x3D; []for (let i &#x3D; 0; i &lt; scopeNames.length; i++) {const scope &#x3D; scopeNames[i]if (scope.match(regex)) {items &#x3D; items.concat(this.scopes.get(scope).items)}}return items}).bind(this)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in Collection.ts:69</li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="persistencestrategy" class="tsd-anchor"></a>
 					<h3>persistence<wbr>Strategy</h3>
@@ -203,7 +260,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:108</li>
+									<li>Defined in Collection.ts:144</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -226,7 +283,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:98</li>
+									<li>Defined in Collection.ts:134</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -256,6 +313,23 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="scopesnames" class="tsd-anchor"></a>
+					<h3>scopes<wbr>Names</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> scopesNames<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:54</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="size" class="tsd-anchor"></a>
 					<h3>size</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
@@ -265,7 +339,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:164</li>
+									<li>Defined in Collection.ts:200</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -291,7 +365,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:257</li>
+									<li>Defined in Collection.ts:293</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -313,7 +387,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:310</li>
+									<li>Defined in Collection.ts:346</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -347,7 +421,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:131</li>
+									<li>Defined in Collection.ts:167</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -379,7 +453,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:150</li>
+									<li>Defined in Collection.ts:186</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -452,6 +526,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getscopesmatching" class="tsd-anchor"></a>
+					<h3>get<wbr>Scopes<wbr>Matching</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Scopes<wbr>Matching<span class="tsd-signature-symbol">(</span>regex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Collection.ts:63</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a collection scopes whose name matches a given regex</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>regex: <span class="tsd-signature-type">RegExp</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The regex that will be used against all scopes name</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="has" class="tsd-anchor"></a>
 					<h3>has</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -461,7 +566,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:122</li>
+									<li>Defined in Collection.ts:158</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -493,7 +598,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:266</li>
+									<li>Defined in Collection.ts:302</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -524,7 +629,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:274</li>
+									<li>Defined in Collection.ts:310</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -558,7 +663,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:60</li>
+									<li>Defined in Collection.ts:96</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -595,7 +700,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:294</li>
+									<li>Defined in Collection.ts:330</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -629,7 +734,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:176</li>
+									<li>Defined in Collection.ts:212</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -668,7 +773,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:221</li>
+									<li>Defined in Collection.ts:257</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -707,7 +812,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:92</li>
+									<li>Defined in Collection.ts:128</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -739,7 +844,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:193</li>
+									<li>Defined in Collection.ts:229</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -770,7 +875,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:82</li>
+									<li>Defined in Collection.ts:118</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -800,7 +905,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:235</li>
+									<li>Defined in Collection.ts:271</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -831,7 +936,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:245</li>
+									<li>Defined in Collection.ts:281</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -862,7 +967,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:205</li>
+									<li>Defined in Collection.ts:241</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -900,7 +1005,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:135</li>
+									<li>Defined in Collection.ts:171</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -955,6 +1060,12 @@
 						<a href="_collection_.collection.html" class="tsd-kind-icon">Collection</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_collection_.collection.html#combinescopeitems" class="tsd-kind-icon">combine<wbr>Scope<wbr>Items</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_collection_.collection.html#getcombinedscopeitems" class="tsd-kind-icon">get<wbr>Combined<wbr>Scope<wbr>Items</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_collection_.collection.html#persistencestrategy" class="tsd-kind-icon">persistence<wbr>Strategy</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -971,6 +1082,9 @@
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="_collection_.collection.html#recordclass" class="tsd-kind-icon">record<wbr>Class</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="_collection_.collection.html#scopesnames" class="tsd-kind-icon">scopes<wbr>Names</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="_collection_.collection.html#size" class="tsd-kind-icon">size</a>
@@ -992,6 +1106,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_collection_.collection.html#getscope" class="tsd-kind-icon">get<wbr>Scope</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_collection_.collection.html#getscopesmatching" class="tsd-kind-icon">get<wbr>Scopes<wbr>Matching</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_collection_.collection.html#has" class="tsd-kind-icon">has</a>

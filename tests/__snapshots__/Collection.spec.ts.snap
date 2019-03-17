@@ -98,26 +98,6 @@ Object {
 }
 `;
 
-exports[`Collection #setMany runs setmany in transaction 1`] = `
-Object {
-  "band_id": undefined,
-  "coverUrl": "the link",
-  "id": undefined,
-  "name": "my album",
-  "releaseDate": undefined,
-}
-`;
-
-exports[`Collection #setMany runs setmany in transaction 2`] = `
-Object {
-  "band_id": undefined,
-  "coverUrl": undefined,
-  "id": undefined,
-  "name": "my second album",
-  "releaseDate": undefined,
-}
-`;
-
 exports[`Collection #unsetMany can delete records from an array of primary keys 1`] = `
 Object {
   "band_id": undefined,

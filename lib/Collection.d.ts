@@ -27,6 +27,20 @@ export abstract class Collection<RecordType extends Record> {
    * @return {Scope<RecordType extends Record>}
    */
   getScope(name: string): Scope<RecordType> | undefined
+  readonly scopesNames: string[]
+  /**
+   * Get a collection scopes whose name matches a given regex
+   * @return {Scope<RecordType extends Record>}
+   * @param regex The regex that will be used against all scopes name
+   */
+  getScopesMatching(regex: RegExp): Array<Scope<RecordType>>
+  getCombinedScopeItems: any
+  /**
+   * Takes all scopes mathcing a regex and concat their items
+   * @return {RecordType[]}
+   * @param regex The regex that will be used against all scopes name
+   */
+  combineScopeItems: (regex: RegExp) => RecordType[]
   /**
    * Get an existing scope or create a new one
    * @param {string} name : The name of the scope
