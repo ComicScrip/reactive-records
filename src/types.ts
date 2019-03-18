@@ -30,7 +30,7 @@ export interface toManyAssociationsDescription<T> {
 export type PersistenceServiceName = string
 
 export interface PersistenceStrategy {
-  persistenceServices: Map<PersistenceServiceName, object>
+  persistenceServices: object
   loadMany(params: object, scope: Scope<Record>): Promise<any>
   loadOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
   saveOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
