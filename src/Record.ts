@@ -16,7 +16,7 @@ export class Record {
    * Usually, it's the identifier fetched from the application's backend
    */
   @observable
-  public _realPrimaryKey: PrimaryKey = null
+  public _realPrimaryKey: PrimaryKey | null = null
 
   /**
    * Get the identifier of the record
