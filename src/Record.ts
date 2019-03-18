@@ -400,40 +400,31 @@ export class Record {
 
   /**
    * Calls the record's collection 'loadOne' method with provided params
-   * @param {object} params : params passed to the persistence service
+   * @param {object} params : params passed to the 'loadOne' method of the collection's persistence strategy
    * @param {string} scopeName : The name of the scope the item should be loaded into
    */
   @action.bound
-  public async _load(
-    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
-    scopeName: string = "default"
-  ) {
+  public async _load(params: any = {}, scopeName: string = "default") {
     return this._collection.loadOne(this, params, scopeName)
   }
 
   /**
    * Calls the record's collection 'saveOne' method with provided params
-   * @param {object} params : params passed to the persistence service
+   * @param {object} params : params passed to the 'saveOne' method of the collection's persistence strategy
    * @param {string} scopeName : The name of the scope the item should be saved into
    */
   @action.bound
-  public async _save(
-    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
-    scopeName: string = "default"
-  ) {
+  public async _save(params: any = {}, scopeName: string = "default") {
     return this._collection.saveOne(this, params, scopeName)
   }
 
   /**
    * Calls the record's collection 'saveOne' method with provided params
-   * @param {object} params : params passed to the persistence service
+   * @param {object} params : params passed to the 'destroyOne' method of the collection's persistence strategy
    * @param {string} scopeName : The name of the scope the item should deleted from
    */
   @action.bound
-  public async _destroy(
-    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} },
-    scopeName: string = "default"
-  ) {
+  public async _destroy(params: any = {}, scopeName: string = "default") {
     return this._collection.destroyOne(this, params, scopeName)
   }
 

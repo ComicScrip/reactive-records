@@ -50,11 +50,7 @@ export class Scope<RecordType extends Record> {
    */
   public collection: Collection<RecordType>
 
-  constructor(
-    collection: Collection<RecordType>,
-    name: string = "default",
-    params: object = { persistenceServiceParams: {}, persistenceSrategyParams: {} }
-  ) {
+  constructor(collection: Collection<RecordType>, name: string = "default", params: object = {}) {
     this.params = params
     this.name = name
     this.collection = collection
@@ -74,7 +70,8 @@ export class Scope<RecordType extends Record> {
 
   /**
    * Load items for this scope into the scope's collection
-   * @param {object} params
+   * @param {object} params Optionnaly provide params to load the scope.
+   * If none is specified, internal params set with 'setParms' wil be passed to the collection's 'load' method
    * @return {Promise<any>}
    */
   @action.bound

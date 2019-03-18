@@ -599,15 +599,26 @@ Array [
 
   describe("persistence methods", () => {
     describe("#load", () => {
-      it("should call 'loadOne' method on the record's collection with the right params", async () => {
-        const colltionLoadOne = jest.fn()
+      it("should pass default params", async () => {
+        const collectionPersistenceMethod = jest.fn()
         const album = albumCollection.set({})
         Object.defineProperty(albumCollection, "loadOne", {
-          value: colltionLoadOne,
+          value: collectionPersistenceMethod,
+          writable: true
+        })
+        await album._load()
+        expect(collectionPersistenceMethod).toHaveBeenLastCalledWith(album, {}, "default")
+      })
+
+      it("should call 'loadOne' method on the record's collection with the right params", async () => {
+        const collectionPersistenceMethod = jest.fn()
+        const album = albumCollection.set({})
+        Object.defineProperty(albumCollection, "loadOne", {
+          value: collectionPersistenceMethod,
           writable: true
         })
         await album._load({ id: 123 }, "scope1")
-        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+        expect(collectionPersistenceMethod).toHaveBeenLastCalledWith(
           album,
           {
             id: 123
@@ -616,7 +627,7 @@ Array [
         )
 
         await album._load({ id: 123 })
-        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+        expect(collectionPersistenceMethod).toHaveBeenLastCalledWith(
           album,
           {
             id: 123
@@ -627,15 +638,26 @@ Array [
     })
 
     describe("#_save", () => {
-      it("should call 'saveOne' method on the record's collection with the right params", async () => {
-        const colltionLoadOne = jest.fn()
+      it("should pass default params", async () => {
+        const collectionPersistenceMethod = jest.fn()
         const album = albumCollection.set({})
         Object.defineProperty(albumCollection, "saveOne", {
-          value: colltionLoadOne,
+          value: collectionPersistenceMethod,
+          writable: true
+        })
+        await album._save()
+        expect(collectionPersistenceMethod).toHaveBeenLastCalledWith(album, {}, "default")
+      })
+
+      it("should call 'saveOne' method on the record's collection with the right params", async () => {
+        const collectionPersistenceMethod = jest.fn()
+        const album = albumCollection.set({})
+        Object.defineProperty(albumCollection, "saveOne", {
+          value: collectionPersistenceMethod,
           writable: true
         })
         await album._save({ id: 123 }, "scope1")
-        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+        expect(collectionPersistenceMethod).toHaveBeenLastCalledWith(
           album,
           {
             id: 123
@@ -644,7 +666,7 @@ Array [
         )
 
         await album._save({ id: 123 })
-        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+        expect(collectionPersistenceMethod).toHaveBeenLastCalledWith(
           album,
           {
             id: 123
@@ -655,15 +677,26 @@ Array [
     })
 
     describe("#destroy", () => {
-      it("should call 'destroyOne' method on the record's collection with the right params", async () => {
-        const colltionLoadOne = jest.fn()
+      it("should pass default params", async () => {
+        const collectionPersistenceMethod = jest.fn()
         const album = albumCollection.set({})
         Object.defineProperty(albumCollection, "destroyOne", {
-          value: colltionLoadOne,
+          value: collectionPersistenceMethod,
+          writable: true
+        })
+        await album._destroy()
+        expect(collectionPersistenceMethod).toHaveBeenLastCalledWith(album, {}, "default")
+      })
+
+      it("should call 'destroyOne' method on the record's collection with the right params", async () => {
+        const collectionPersistenceMethod = jest.fn()
+        const album = albumCollection.set({})
+        Object.defineProperty(albumCollection, "destroyOne", {
+          value: collectionPersistenceMethod,
           writable: true
         })
         await album._destroy({ id: 123 }, "scope1")
-        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+        expect(collectionPersistenceMethod).toHaveBeenLastCalledWith(
           album,
           {
             id: 123
@@ -672,7 +705,7 @@ Array [
         )
 
         await album._destroy({ id: 123 })
-        expect(colltionLoadOne).toHaveBeenLastCalledWith(
+        expect(collectionPersistenceMethod).toHaveBeenLastCalledWith(
           album,
           {
             id: 123

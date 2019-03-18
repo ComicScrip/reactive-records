@@ -31,8 +31,8 @@ export type PersistenceServiceName = string
 
 export interface PersistenceStrategy {
   persistenceServices: object
-  loadMany(params: object, scope: Scope<Record>): Promise<any>
-  loadOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
-  saveOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
-  destroyOne(params: object, record: Record, scope: Scope<Record>): Promise<any>
+  loadMany(params: any, scope: Scope<Record>): Promise<any>
+  loadOne(params: any, record: Record, scope: Scope<Record>): Promise<any>
+  saveOne(params: any, record: Record, scope: Scope<Record>): Promise<any>
+  destroyOne(params: any, record: Record, scope: Scope<Record>): Promise<any>
 }
