@@ -44,7 +44,8 @@ export declare class Scope<RecordType extends Record> {
   setParams(params: object): this
   /**
    * Load items for this scope into the scope's collection
-   * @param {object} params
+   * @param {object} params Optionnaly provide params to load the scope.
+   * If none is specified, internal params set with 'setParms' wil be passed to the collection's 'load' method
    * @return {Promise<any>}
    */
   load(params?: object): Promise<any>

@@ -249,7 +249,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="_realprimarykey" class="tsd-anchor"></a>
 					<h3>_real<wbr>Primary<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">_real<wbr>Primary<wbr>Key<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+					<div class="tsd-signature tsd-kind-icon">_real<wbr>Primary<wbr>Key<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in Record.ts:19</li>
@@ -533,13 +533,13 @@
 					<a name="_destroy" class="tsd-anchor"></a>
 					<h3>_destroy</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_destroy<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span>, scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">_destroy<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:433</li>
+									<li>Defined in Record.ts:427</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -550,9 +550,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{ persistenceServiceParams: {}, persistenceSrategyParams: {} }</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>: params passed to the persistence service</p>
+										<p>: params passed to the &#39;destroyOne&#39; method of the collection&#39;s persistence strategy</p>
 									</div>
 								</li>
 								<li>
@@ -602,7 +602,7 @@
 					<a name="_load" class="tsd-anchor"></a>
 					<h3>_load</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_load<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span>, scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">_load<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -619,9 +619,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{ persistenceServiceParams: {}, persistenceSrategyParams: {} }</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>: params passed to the persistence service</p>
+										<p>: params passed to the &#39;loadOne&#39; method of the collection&#39;s persistence strategy</p>
 									</div>
 								</li>
 								<li>
@@ -682,7 +682,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:444</li>
+									<li>Defined in Record.ts:435</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -705,13 +705,13 @@
 					<a name="_save" class="tsd-anchor"></a>
 					<h3>_save</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_save<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span>, scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">_save<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span>, scopeName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:420</li>
+									<li>Defined in Record.ts:417</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -722,9 +722,9 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{ persistenceServiceParams: {}, persistenceSrategyParams: {} }</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> params: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>: params passed to the persistence service</p>
+										<p>: params passed to the &#39;saveOne&#39; method of the collection&#39;s persistence strategy</p>
 									</div>
 								</li>
 								<li>

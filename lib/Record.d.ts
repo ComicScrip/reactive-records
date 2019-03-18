@@ -10,7 +10,7 @@ export declare class Record {
    * Holds the real identifier of the record
    * Usually, it's the identifier fetched from the application's backend
    */
-  _realPrimaryKey: PrimaryKey
+  _realPrimaryKey: PrimaryKey | null
   /**
    * Get the identifier of the record
    */
@@ -106,22 +106,22 @@ export declare class Record {
   _mergeProperties(properties: Partial<this>, strict?: boolean): this
   /**
    * Calls the record's collection 'loadOne' method with provided params
-   * @param {object} params : params passed to the persistence service
+   * @param {object} params : params passed to the 'loadOne' method of the collection's persistence strategy
    * @param {string} scopeName : The name of the scope the item should be loaded into
    */
-  _load(params?: object, scopeName?: string): Promise<any>
+  _load(params?: any, scopeName?: string): Promise<any>
   /**
    * Calls the record's collection 'saveOne' method with provided params
-   * @param {object} params : params passed to the persistence service
+   * @param {object} params : params passed to the 'saveOne' method of the collection's persistence strategy
    * @param {string} scopeName : The name of the scope the item should be saved into
    */
-  _save(params?: object, scopeName?: string): Promise<any>
+  _save(params?: any, scopeName?: string): Promise<any>
   /**
    * Calls the record's collection 'saveOne' method with provided params
-   * @param {object} params : params passed to the persistence service
+   * @param {object} params : params passed to the 'destroyOne' method of the collection's persistence strategy
    * @param {string} scopeName : The name of the scope the item should deleted from
    */
-  _destroy(params?: object, scopeName?: string): Promise<any>
+  _destroy(params?: any, scopeName?: string): Promise<any>
   /**
    * Tries to populate the graph object in paramters with the record's properties
    * @returns The populated given graph object with the records's Poperties and eventually its associated records properties
