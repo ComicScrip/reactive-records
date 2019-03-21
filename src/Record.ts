@@ -1,5 +1,5 @@
 import { action, computed, intercept, observable, reaction } from "mobx"
-import { uniqueId, keys, isObject, isEmpty, isArray, includes, clone } from "lodash"
+import { keys, isObject, isEmpty, isArray, includes, clone } from "lodash"
 import { Collection, PersistenceServiceName, toManyAssociationsDescription } from "./internals"
 import { toOneAssociationsDescription, OptimisticPrimaryKey, PrimaryKey, Partial } from "./types"
 
@@ -14,7 +14,7 @@ export class Record {
    */
   @observable
   public _optimisticPrimaryKey: OptimisticPrimaryKey =
-    "optimistic_" + getRandomArbitrary(0, Number.MAX_VALUE)
+    "optimistic_" + getRandomArbitrary(0, 9999999999999999999)
 
   /**
    * Holds the real identifier of the record
@@ -194,11 +194,6 @@ export class Record {
 
       const interceptArrayMutations = change => {
         // when doing myRecord.assoc.push(...) or myRecord.assoc[0] = ...
-        const existingAssociatedRecords = foreignCollection.wherePropEq(
-          foreignKey as keyof Record,
-          this._primaryKeyValue
-        )
-
         if (change.removedCount > 0) {
           const existingAssociatedRecords = foreignCollection.wherePropEq(
             foreignKey as keyof Record,
@@ -376,31 +371,62 @@ export class Record {
   }
 
   /**
-   * Safely merges given properties with the record's declared properties
-   * Only declared _ownAttributes or _toOneAssociations prop keys will be merged.
-   * If a key in given properties parameter has not been delared as a property within the record,
-   * an error will be thrown unless the 'strict' param is set to false
-   * @param properties
-   * @param strict Indicates if an an error should be thrown when a key that is not supposed to exist in the 'properties' param
+   * Merges given properties on the record
+   * @param properties a plain object with the properties that will override this record's properties
    */
   @action.bound
-  public _mergeProperties(properties: Partial<this>, strict = true): this {
+  public _mergeProperties(properties: Partial<this>): this {
     for (let i = 0, propKeys = keys(properties); i < propKeys.length; i++) {
       const propKey = propKeys[i]
-      const propValue = properties[propKey]
-
-      if (this._hasProperty(propKey)) {
-        this[propKey] = propValue
-      } else if (strict) {
-        throw new Error(
-          `Tried to assign something not defined in model '${
-            this.constructor.name
-          } associations or ownAttributes' : '${propKey}'`
-        )
-      }
+      this[propKey] = properties[propKey]
     }
 
     return this
+  }
+
+  /**
+   * Tries to populate all this record's declared properties (ownAttributes & associations) with a plain object
+   * Contrary to _mergeProperties, here we iterate over this record's properties.
+   * @param properties a plain object with the properties that will override this record's properties
+   */
+  @action.bound
+  public _hydrateWith(properties: Partial<this>): this {
+    for (let i = 0, propKeys = this._propertiesNames; i < propKeys.length; i++) {
+      const propKey = propKeys[i]
+      this[propKey] = properties[propKey]
+    }
+    return this
+  }
+
+  /**
+   * Tries to populate the graph object in paramters with the record's properties
+   * @param graph The object that will be mutated in order to recursively populate its properties with values form this record
+   * @returns The populated given graph object with the records's poperties and its associated records properties
+   */
+  public _populate(graph: object): object {
+    const ks = keys(graph)
+    const toOneAssociationNames = this._toOneAssociationsNames
+    const toManyAssociationNames = this._toManyAssociationsNames
+    for (let i = 0; i < ks.length; i++) {
+      const k = ks[i]
+      if (isObject(graph[k])) {
+        if (includes(toOneAssociationNames, k)) {
+          this[k]._populate(graph[k])
+        } else if (includes(toManyAssociationNames, k)) {
+          const associatedDesc = graph[k]
+          graph[k] = []
+          const numberOfAssociatedRecords = this[k].length
+          for (let j = 0; j < numberOfAssociatedRecords; j++) {
+            const associatedRecord = this[k][j]
+            graph[k][j] = clone(associatedDesc)
+            associatedRecord._populate(graph[k][j])
+          }
+        }
+      } else if (this[k] !== undefined) {
+        graph[k] = this[k]
+      }
+    }
+    return graph
   }
 
   /**
@@ -431,35 +457,5 @@ export class Record {
   @action.bound
   public async _destroy(params: any = {}, scopeName: string = "default") {
     return this._collection.destroyOne(this, params, scopeName)
-  }
-
-  /**
-   * Tries to populate the graph object in paramters with the record's properties
-   * @returns The populated given graph object with the records's Poperties and eventually its associated records properties
-   */
-  public _populate(graph: object): object {
-    const ks = keys(graph)
-    const toOneAssociationNames = this._toOneAssociationsNames
-    const toManyAssociationNames = this._toManyAssociationsNames
-    for (let i = 0; i < ks.length; i++) {
-      const k = ks[i]
-      if (isObject(graph[k])) {
-        if (includes(toOneAssociationNames, k)) {
-          this[k]._populate(graph[k])
-        } else if (includes(toManyAssociationNames, k)) {
-          const associatedDesc = graph[k]
-          graph[k] = []
-          const numberOfAssociatedRecords = this[k].length
-          for (let j = 0; j < numberOfAssociatedRecords; j++) {
-            const associatedRecord = this[k][j]
-            graph[k][j] = clone(associatedDesc)
-            associatedRecord._populate(graph[k][j])
-          }
-        }
-      } else if (this[k] !== undefined) {
-        graph[k] = this[k]
-      }
-    }
-    return graph
   }
 }

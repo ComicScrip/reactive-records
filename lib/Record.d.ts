@@ -96,14 +96,22 @@ export declare class Record {
    */
   _hasProperty(propNameToCheck: any): boolean
   /**
-   * Safely merges given properties with the record's declared properties
-   * Only declared _ownAttributes or _toOneAssociations prop keys will be merged.
-   * If a key in given properties parameter has not been delared as a property within the record,
-   * an error will be thrown unless the 'strict' param is set to false
-   * @param properties
-   * @param strict Indicates if an an error should be thrown when a key that is not supposed to exist in the 'properties' param
+   * Merges given properties on the record
+   * @param properties a plain object with the properties that will override this record's properties
    */
-  _mergeProperties(properties: Partial<this>, strict?: boolean): this
+  _mergeProperties(properties: Partial<this>): this
+  /**
+   * Tries to populate all this record's declared properties (ownAttributes & associations) with a plain object
+   * Contrary to _mergeProperties, here we iterate over this record's properties.
+   * @param properties a plain object with the properties that will override this record's properties
+   */
+  _hydrateWith(properties: Partial<this>): this
+  /**
+   * Tries to populate the graph object in paramters with the record's properties
+   * @param graph The object that will be mutated in order to recursively populate its properties with values form this record
+   * @returns The populated given graph object with the records's poperties and its associated records properties
+   */
+  _populate(graph: object): object
   /**
    * Calls the record's collection 'loadOne' method with provided params
    * @param {object} params : params passed to the 'loadOne' method of the collection's persistence strategy
@@ -122,9 +130,4 @@ export declare class Record {
    * @param {string} scopeName : The name of the scope the item should deleted from
    */
   _destroy(params?: any, scopeName?: string): Promise<any>
-  /**
-   * Tries to populate the graph object in paramters with the record's properties
-   * @returns The populated given graph object with the records's Poperties and eventually its associated records properties
-   */
-  _populate(graph: object): object
 }

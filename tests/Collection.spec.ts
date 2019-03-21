@@ -31,17 +31,6 @@ describe("Collection", () => {
       expect(albumCollection.size).toBe(1)
       expect(album._ownAttributes).toMatchSnapshot()
     })
-
-    it("throws an exception if record props are not valid", () => {
-      expect(albumCollection.size).toBe(0)
-      expect(() => {
-        albumCollection.set({
-          name: "my album",
-          coverUrl: "the link",
-          notADeclaredProp: 42
-        } as Partial<Album>)
-      }).toThrow()
-    })
   })
 
   describe("#setMany", () => {
@@ -53,29 +42,6 @@ describe("Collection", () => {
       ])
       expect(albumCollection.size).toBe(2)
       each(albums, album => expect(album._ownAttributes).toMatchSnapshot())
-    })
-
-    it("does not throw when and only when param 'strict' is set to false and undeclared record prop is given", () => {
-      expect(albumCollection.size).toBe(0)
-      expect(() => {
-        albumCollection.setMany(
-          [
-            { name: "my album", coverUrl: "the link" },
-            { name: "my second album", notDelared: "zdyzgf" } as Partial<Album>
-          ],
-          true
-        )
-      }).toThrow()
-
-      expect(() => {
-        albumCollection.setMany(
-          [
-            { name: "my album", coverUrl: "the link" },
-            { name: "my second album", notDelared: "zdyzgf" } as Partial<Album>
-          ],
-          false
-        )
-      }).not.toThrow()
     })
   })
 

@@ -121,32 +121,6 @@ Array [
         expect(album.name).toEqual(albumOwnAttributes.name)
         expect(album.coverUrl).toEqual(albumOwnAttributes.coverUrl)
       })
-
-      it("throws an error when the given properties contain a key not declared as a property and strict is left to true", () => {
-        const invalidProps = {
-          id: 1,
-          name: "Foxtrot",
-          coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg",
-          notADeclaredProp: 42
-        }
-
-        expect(() => {
-          album._mergeProperties(invalidProps)
-        }).toThrow()
-      })
-
-      it("does not throw an error when the given properties contain a key not declared as a property and strict is set to false", () => {
-        const invalidProps = {
-          id: 1,
-          name: "Foxtrot",
-          coverUrl: "https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg",
-          notADeclaredProp: 42
-        }
-
-        expect(() => {
-          album._mergeProperties(invalidProps, false)
-        }).not.toThrow()
-      })
     })
   })
 
@@ -861,6 +835,54 @@ Array [
         },
         tracks: [{ id: 11 }, { id: 22 }, { id: null }]
       })
+    })
+  })
+
+  describe("hydrateWith", () => {
+    it("should hydrate the record with given param", () => {
+      const album = albumCollection.set({ id: 1 })
+      album._hydrateWith({
+        name: "test",
+        tracks: [{ name: "1" }, { name: "2" }],
+        band: {
+          name: "There are two hard things in CS: cache invalidation and naming things."
+        }
+      })
+
+      const g = {
+        name: "",
+        tracks: [{ name: "" }, { name: "" }],
+        band: {
+          name: ""
+        }
+      }
+      album._populate(g)
+      expect(g).toMatchInlineSnapshot(`
+Object {
+  "band": Object {
+    "name": "There are two hard things in CS: cache invalidation and naming things.",
+  },
+  "name": "test",
+  "tracks": Array [
+    Array [
+      Object {
+        "name": "",
+      },
+      Object {
+        "name": "",
+      },
+    ],
+    Array [
+      Object {
+        "name": "",
+      },
+      Object {
+        "name": "",
+      },
+    ],
+  ],
+}
+`)
     })
   })
 })

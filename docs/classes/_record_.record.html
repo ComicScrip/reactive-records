@@ -120,6 +120,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_record_.record.html#__configuretooneassociations" class="tsd-kind-icon">__configure<wbr>ToOne<wbr>Associations</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_record_.record.html#_destroy" class="tsd-kind-icon">_destroy</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_record_.record.html#_hasproperty" class="tsd-kind-icon">_has<wbr>Property</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_record_.record.html#_hydratewith" class="tsd-kind-icon">_hydrate<wbr>With</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_record_.record.html#_load" class="tsd-kind-icon">_load</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_record_.record.html#_mergeproperties" class="tsd-kind-icon">_merge<wbr>Properties</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_record_.record.html#_populate" class="tsd-kind-icon">_populate</a></li>
@@ -233,7 +234,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="_optimisticprimarykey" class="tsd-anchor"></a>
 					<h3>_optimistic<wbr>Primary<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">_optimistic<wbr>Primary<wbr>Key<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#optimisticprimarykey" class="tsd-signature-type">OptimisticPrimaryKey</a><span class="tsd-signature-symbol"> =&nbsp;&quot;optimistic_&quot; + getRandomArbitrary(0, Number.MAX_VALUE)</span></div>
+					<div class="tsd-signature tsd-kind-icon">_optimistic<wbr>Primary<wbr>Key<span class="tsd-signature-symbol">:</span> <a href="../modules/_types_.html#optimisticprimarykey" class="tsd-signature-type">OptimisticPrimaryKey</a><span class="tsd-signature-symbol"> =&nbsp;&quot;optimistic_&quot; + getRandomArbitrary(0, 9999999999999999999)</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in Record.ts:16</li>
@@ -290,7 +291,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:305</li>
+									<li>Defined in Record.ts:300</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -313,7 +314,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:295</li>
+									<li>Defined in Record.ts:290</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -358,7 +359,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:354</li>
+									<li>Defined in Record.ts:349</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -381,7 +382,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:337</li>
+									<li>Defined in Record.ts:332</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -404,7 +405,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:346</li>
+									<li>Defined in Record.ts:341</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -427,7 +428,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:328</li>
+									<li>Defined in Record.ts:323</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -450,7 +451,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:320</li>
+									<li>Defined in Record.ts:315</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -476,7 +477,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:281</li>
+									<li>Defined in Record.ts:276</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -539,7 +540,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:432</li>
+									<li>Defined in Record.ts:458</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -576,7 +577,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:367</li>
+									<li>Defined in Record.ts:362</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -599,6 +600,38 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="_hydratewith" class="tsd-anchor"></a>
+					<h3>_hydrate<wbr>With</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">_hydrate<wbr>With<span class="tsd-signature-symbol">(</span>properties<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Record.ts:393</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tries to populate all this record&#39;s declared properties (ownAttributes &amp; associations) with a plain object
+									Contrary to _mergeProperties, here we iterate over this record&#39;s properties.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>properties: <a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a plain object with the properties that will override this record&#39;s properties</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="_load" class="tsd-anchor"></a>
 					<h3>_load</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -608,7 +641,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:412</li>
+									<li>Defined in Record.ts:438</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -639,32 +672,26 @@
 					<a name="_mergeproperties" class="tsd-anchor"></a>
 					<h3>_merge<wbr>Properties</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">_merge<wbr>Properties<span class="tsd-signature-symbol">(</span>properties<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">_merge<wbr>Properties<span class="tsd-signature-symbol">(</span>properties<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:387</li>
+									<li>Defined in Record.ts:378</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Safely merges given properties with the record&#39;s declared properties
-										Only declared _ownAttributes or _toOneAssociations prop keys will be merged.
-										If a key in given properties parameter has not been delared as a property within the record,
-									an error will be thrown unless the &#39;strict&#39; param is set to false</p>
+									<p>Merges given properties on the record</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>properties: <a href="../modules/_types_.html#partial" class="tsd-signature-type">Partial</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Indicates if an an error should be thrown when a key that is not supposed to exist in the &#39;properties&#39; param</p>
+										<p>a plain object with the properties that will override this record&#39;s properties</p>
 									</div>
 								</li>
 							</ul>
@@ -682,7 +709,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:440</li>
+									<li>Defined in Record.ts:406</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -694,10 +721,13 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>graph: <span class="tsd-signature-type">object</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The object that will be mutated in order to recursively populate its properties with values form this record</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-							<p>The populated given graph object with the records&#39;s Poperties and eventually its associated records properties</p>
+							<p>The populated given graph object with the records&#39;s poperties and its associated records properties</p>
 						</li>
 					</ul>
 				</section>
@@ -711,7 +741,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Record.ts:422</li>
+									<li>Defined in Record.ts:448</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -838,6 +868,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_record_.record.html#_hasproperty" class="tsd-kind-icon">_has<wbr>Property</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_record_.record.html#_hydratewith" class="tsd-kind-icon">_hydrate<wbr>With</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_record_.record.html#_load" class="tsd-kind-icon">_load</a>

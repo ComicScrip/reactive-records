@@ -215,12 +215,13 @@ export abstract class Collection<RecordType extends Record> {
    */
   @action.bound
   public set(recordProperties: Partial<RecordType>, strict = true): RecordType {
+    // TODO: add an option to replace or not
     if (recordProperties instanceof Record) {
       return recordProperties as RecordType
     }
     const recordClass = this.recordClass
     const recordInstance = new recordClass(this) as RecordType
-    recordInstance._mergeProperties(recordProperties, strict)
+    recordInstance._mergeProperties(recordProperties)
     this.records.set(recordInstance._primaryKeyValue, recordInstance)
 
     return recordInstance
@@ -244,6 +245,7 @@ export abstract class Collection<RecordType extends Record> {
    */
   @action.bound
   public updateRecordPrimaryKey(oldPk: PrimaryKey, newPk: PrimaryKey) {
+    if (oldPk === newPk) return
     const record = this.get(oldPk)
     if (record) {
       this.records.set(newPk, this.get(oldPk))
