@@ -16,20 +16,6 @@ It can be used to abstract data synchronisation with your backend
 and also comes with offline capabilities as it helps you to implement the custom persistence strategies your 
 very special app needs.
 
-Don't really know how to build a fast, scalable, reliable and resilient data layer ?
-
-Do you have to deal with many data sources ?
-
-Tired of having your domain logic spread across different places in your app ?
-
-Tired of having to normalize your state ?
-
-Tired of writing CRUD boilerplates ?
-
-Want something that works out of the box, but yet adaptable to your needs ?
-
-You're in the right place ! 
-
 ## Goals and assuptions
 
 This lib aims to help you write robust and efficient reactive models for your view layer to consume.
@@ -45,7 +31,7 @@ that you can ealily extend or override if needed.
 
 ## Getting started : concepts & features
 
-In this section, you will understand the basics of this library through a simple yet realistic music app example. 
+In this section, you will understand the basics of this library through a simple (yet realistic) music app example. 
 
 ### The core : Records, Collections and Scopes
 
@@ -201,7 +187,7 @@ What if I have multiple views displaying different subsets of my collection ?
 
 It's time to use scopes ! 
 Scopes are just ordered collection subsets. 
-They have a ```name``` and hold an ordered list of record primary keys. 
+They have a ```name``` and hold an ordered list of record primary keys, they can help if you doing pagination, search by attribute, etc. 
 Here's an exemple usage : 
 
 ```ts
@@ -700,7 +686,7 @@ reflect the "truth" as often as possible.
 - resilience : What happens if one of your API gateways is down ? 
 What if the user is in the middle of the desert and he would like to access some information 
 he has seen earlier, when he had some network access ?
- 
+
 In the real world, implementing data access in an app can be a challenge :
 - You may have to deal with asynchronicity
 - You want to have your data in a coherent state all the time
@@ -809,7 +795,7 @@ _Data/PersistenceStrategies/OfflineFirstStrategy.ts_
 export class OfflineFirstStrategy implements PersistenceStrategy {
   // A persistence strategy can mix multiple persistence services (data sources) 
   // in order to perform persistence operations on collections, scopes and records.
-  persistenceServices = new Map()
+  persistenceServices = {}
     
   // helper methods (not in the interface)
   get localPersistenceService() {
@@ -905,17 +891,6 @@ export class OfflineFirstStrategy implements PersistenceStrategy {
 
 
 ```
-
-## Basic usage with React
-
-## Tested environements support
-
-- ReactNative 
-- [TODO] Browsers : all majors
-
-### Real-world examples
-
-- [TODO] small music app
 
 ## Inspirations
 

@@ -3,13 +3,18 @@ import { uniqueId, keys, isObject, isEmpty, isArray, includes, clone } from "lod
 import { Collection, PersistenceServiceName, toManyAssociationsDescription } from "./internals"
 import { toOneAssociationsDescription, OptimisticPrimaryKey, PrimaryKey, Partial } from "./types"
 
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min
+}
+
 export class Record {
   /**
    * A uniquely generated identifier for the record.
    * Used for exemple when creating a new record locally that's not saved on a backend yet.
    */
   @observable
-  public _optimisticPrimaryKey: OptimisticPrimaryKey = uniqueId("optimistic_")
+  public _optimisticPrimaryKey: OptimisticPrimaryKey =
+    "optimistic_" + getRandomArbitrary(0, Number.MAX_VALUE)
 
   /**
    * Holds the real identifier of the record

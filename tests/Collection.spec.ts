@@ -277,7 +277,7 @@ describe("Collection", () => {
         let ac = new AlbumCollection()
         const ps = new NetworkOnlyStrategy()
         ac.setPersistenceStratgy(ps)
-        expect(ac.getPersistanceStrategy()).toBe(ps)
+        expect(ac.getPersistenceStrategy()).toBe(ps)
       })
 
       it("should return the collection", () => {
@@ -293,7 +293,7 @@ describe("Collection", () => {
         let ac = new AlbumCollection()
         ac.persistenceStrategy = null
         expect(() => {
-          ac.getPersistanceStrategy()
+          ac.getPersistenceStrategy()
         }).toThrowError("Please define a persistence strategy for the collection 'AlbumCollection'")
       })
     })

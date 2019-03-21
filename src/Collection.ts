@@ -31,7 +31,7 @@ export abstract class Collection<RecordType extends Record> {
 
   public persistenceStrategy: PersistenceStrategy = null
 
-  public getPersistanceStrategy(): PersistenceStrategy {
+  public getPersistenceStrategy(): PersistenceStrategy {
     if (this.persistenceStrategy === null) {
       throw new Error(
         `Please define a persistence strategy for the collection '${
@@ -305,7 +305,7 @@ export abstract class Collection<RecordType extends Record> {
    */
   @action.bound
   public async load(params: any = {}, scopeName: string = "default"): Promise<any> {
-    return this.getPersistanceStrategy().loadMany(params, this.provideScope(scopeName, params))
+    return this.getPersistenceStrategy().loadMany(params, this.provideScope(scopeName, params))
   }
 
   /**
@@ -321,7 +321,7 @@ export abstract class Collection<RecordType extends Record> {
       const r = { [this.recordClass.primaryKeyName]: record } as any
       record = this.set(r)
     }
-    return this.getPersistanceStrategy().loadOne(
+    return this.getPersistenceStrategy().loadOne(
       params,
       record as Record,
       this.provideScope(scopeName, params)
@@ -337,7 +337,7 @@ export abstract class Collection<RecordType extends Record> {
     params: any = {},
     scopeName: string = "default"
   ): Promise<any> {
-    return this.getPersistanceStrategy().saveOne(
+    return this.getPersistenceStrategy().saveOne(
       params,
       record,
       this.provideScope(scopeName, params)
@@ -345,7 +345,7 @@ export abstract class Collection<RecordType extends Record> {
   }
 
   /**
-   * Destroys one record into the collection using the collection's persitence strategy
+   * Destroys one record of the collection using the collection's persitence strategy
    */
   @action.bound
   public async destroyOne(
@@ -353,7 +353,7 @@ export abstract class Collection<RecordType extends Record> {
     params: any = {},
     scopeName: string = "default"
   ): Promise<any> {
-    return this.getPersistanceStrategy().destroyOne(
+    return this.getPersistenceStrategy().destroyOne(
       params,
       record,
       this.provideScope(scopeName, params)
