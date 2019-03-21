@@ -20,7 +20,7 @@ export abstract class Collection<RecordType extends Record> {
    */
   private scopes
   persistenceStrategy: PersistenceStrategy
-  getPersistanceStrategy(): PersistenceStrategy
+  getPersistenceStrategy(): PersistenceStrategy
   /**
    * Get a collection scope by name
    * @param {string} name : the name of the scope
@@ -144,7 +144,7 @@ export abstract class Collection<RecordType extends Record> {
    */
   saveOne(record: Record, params?: any, scopeName?: string): Promise<any>
   /**
-   * Destroys one record into the collection using the collection's persitence strategy
+   * Destroys one record of the collection using the collection's persitence strategy
    */
   destroyOne(record: Record, params?: any, scopeName?: string): Promise<any>
 }

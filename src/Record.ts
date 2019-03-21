@@ -133,7 +133,7 @@ export class Record {
             // make a Record instance out of the POJO
             newValue = foreignCollection.set(newValue)
           }
-          this[foreignKey] = newValue._primaryKeyValue
+          this[foreignKey] = !!newValue ? newValue._primaryKeyValue : newValue
           trackForeignRecordPk()
         }
       })

@@ -215,6 +215,20 @@ Array [
         expect(instance.band.name).toMatchInlineSnapshot(`"genesis"`)
       })
 
+      it("does not crash nothing when assigning null or undefined", () => {
+        let instance = new Album(albumCollection)._mergeProperties({
+          band: null as Band
+        })
+
+        expect(instance.band instanceof Band).toBeFalsy()
+
+        instance = new Album(albumCollection)._mergeProperties({
+          band: undefined as Band
+        })
+
+        expect(instance.band instanceof Band).toBeFalsy()
+      })
+
       it("works when assigninng a Record instance", () => {
         const bc = bandCollection
         const band = new Band(bandCollection)._mergeProperties({
