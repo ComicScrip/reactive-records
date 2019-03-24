@@ -1,12 +1,6 @@
 import { albumCollection as ac } from "./ressources/Album"
 import { computed, observable, reaction, toJS } from "mobx"
-import {
-  toOneAssociation,
-  Collection,
-  ownAttribute,
-  Partial,
-  Record
-} from "../src/internals"
+import { toOneAssociation, Collection, ownAttribute, Partial, Record } from "../src/internals"
 import { Track, trackCollection } from "./ressources/Track"
 import { Band, bandCollection } from "./ressources/Band"
 
@@ -49,7 +43,7 @@ describe("", () => {
       const album = albumCollection.set({
         name: "Exploding Plastic Inevitable"
       })
-      // let's programm two reactions to see what's going on as we do the operations
+      // let's program two reactions to see what's going on as we do the operations
       reaction(
         () => bandCollection.items,
         bands => {
@@ -74,9 +68,7 @@ describe("", () => {
         }),
         albumState => {
           console.log(
-            `-- album.band.name : ${albumState.bandName}, album.band_id : ${
-              albumState.band_id
-            }`
+            `-- album.band.name : ${albumState.bandName}, album.band_id : ${albumState.band_id}`
           )
         }
       )
@@ -122,11 +114,10 @@ describe("", () => {
       const album = albumCollection.set({
         name: "The Velvet Underground and Nico"
       })
-      // let's programm two reactions to see what's going on as we do the operations
+      // let's program two reactions to see what's going on as we do the operations
       reaction(
         () => album.tracks.map(t => t.name),
-        trackNames =>
-          console.log("-- album's tracks names: " + trackNames.join(", "))
+        trackNames => console.log("-- album's tracks names: " + trackNames.join(", "))
       )
       reaction(
         () =>
@@ -142,10 +133,7 @@ describe("", () => {
 
       // The simpliest way to set an album's associated
       // by assigning a POJO representation of the latter
-      album.tracks = [
-        { name: "Sunday Morning" },
-        { name: "Venus in Furs" }
-      ] as Track[]
+      album.tracks = [{ name: "Sunday Morning" }, { name: "Venus in Furs" }] as Track[]
       // the console logs :
       // -- tracksCollection [
       //  {"pkValue":"optimistic_2","name":"Sunday Morning","album_id":"optimistic_1"},

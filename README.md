@@ -246,7 +246,7 @@ import bandCollection from './Data/Ressources/Bands.ts'
 
 const album = albumCollection.set({name: 'Exploding Plastic Inevitable'})
 
-// let's programm two reactions to see what's going on as we do the operations
+// let's program two reactions to see what's going on as we do the operations
 reaction(() => bandCollection.items, bands => {
   console.log('bandCollection : [' + bands.map(band =>
     JSON.stringify({name: band.name, pkValue: band._primaryKeyValue})
@@ -374,7 +374,7 @@ demo.ts
 ```ts
 const album = albumCollection.set({ name: "The Velvet Underground and Nico" })
 ```
-Let's programm two reactions to see what's going on as we do the operations : 
+Let's program two reactions to see what's going on as we do the operations : 
 
 ```ts
 reaction(

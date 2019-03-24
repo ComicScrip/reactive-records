@@ -229,7 +229,7 @@ myScope.items.map(<span class="hljs-function"><span class="hljs-params">a</span>
 
 <span class="hljs-keyword">const</span> album = albumCollection.set({name: <span class="hljs-string">'Exploding Plastic Inevitable'</span>})
 
-<span class="hljs-comment">// let's programm two reactions to see what's going on as we do the operations</span>
+<span class="hljs-comment">// let's program two reactions to see what's going on as we do the operations</span>
 reaction(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> bandCollection.items, <span class="hljs-function"><span class="hljs-params">bands</span> =&gt;</span> {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'bandCollection : ['</span> + bands.map(<span class="hljs-function"><span class="hljs-params">band</span> =&gt;</span>
     <span class="hljs-built_in">JSON</span>.stringify({name: band.name, pkValue: band._primaryKeyValue})
@@ -309,7 +309,7 @@ album<span class="hljs-selector-class">.band</span><span class="hljs-selector-cl
 }</code></pre>
 				<p>demo.ts</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">const</span> album = albumCollection.set({ name: <span class="hljs-string">"The Velvet Underground and Nico"</span> })</code></pre>
-				<p>Let&#39;s programm two reactions to see what&#39;s going on as we do the operations : </p>
+				<p>Let&#39;s program two reactions to see what&#39;s going on as we do the operations : </p>
 				<pre><code class="language-ts">reaction(
     <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> album.tracks.map(<span class="hljs-function"><span class="hljs-params">t</span> =&gt;</span> t.name),
     <span class="hljs-function"><span class="hljs-params">trackNames</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"album's tracks names: "</span> + trackNames.join((<span class="hljs-string">', '</span>)))
