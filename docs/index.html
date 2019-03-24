@@ -601,11 +601,11 @@ album._populate(subgraph)
 				persistence methods that will rely on the latter.</p>
 				<h4 id="using-peristence-methods-in-collections-scopes-and-records">Using peristence methods in collections, scopes and records</h4>
 				<pre><code class="language-ts"><span class="hljs-keyword">const</span> createCRUDHandlers = <span class="hljs-function">(<span class="hljs-params">collectionUrl: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
-<<<<<<< HEAD
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
   <span class="hljs-comment">// This is a persistence service used by the persistenceStrategy</span>
   <span class="hljs-comment">// It useses 'axios' to sync data with the REST API  </span>
 =======
->>>>>>> b66a085d61604524317284fdf6f17fa2694a4666
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; b66a085d61604524317284fdf6f17fa2694a4666
   <span class="hljs-keyword">return</span> {
     name: <span class="hljs-string">'RESTAPI'</span>,
 
@@ -616,14 +616,14 @@ album._populate(subgraph)
     <span class="hljs-comment">// ... other persistence methods</span>
 }
 
-<<<<<<< HEAD
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 <span class="hljs-keyword">const</span> getLocalPersistenceService = <span class="hljs-function">(<span class="hljs-params">storageKey: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
   <span class="hljs-comment">// This persistnce service leverages the local storage in the browser </span>
   <span class="hljs-comment">// (it could be AsyncStorage on ReactNative, or whatever) </span>
 =======
 
 <span class="hljs-keyword">const</span> getLocalPersistenceService = <span class="hljs-function">(<span class="hljs-params">storageKey: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
->>>>>>> b66a085d61604524317284fdf6f17fa2694a4666
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; b66a085d61604524317284fdf6f17fa2694a4666
   <span class="hljs-keyword">return</span> {
     name: <span class="hljs-string">'LOCAL_STORAGE'</span>,
 
@@ -687,7 +687,7 @@ myAlbum.destroy() <span class="hljs-comment">// will call 'destroyOne' method of
 s1.load({band_id: <span class="hljs-number">1</span>}) <span class="hljs-comment">// calls 'load' on the collection with the scope's name and provided params</span></code></pre>
 				<p>Notice how we can separate data manipulaton concerns from persistence concerns ?
 				See next section to learn how to deal with those persistence concerns.</p>
-				<h4 id="implementing-generic-peristence-services-strategies">Implementing generic peristence services &amp; strategies</h4>
+				<h4 id="implementing-generic-peristence-strategies">Implementing generic peristence strategies</h4>
 				<p>In a traditonnal application, you often want perform basic operations like : </p>
 				<ul>
 					<li>Retrieve items of a collection from a remote data source (like an API) or a local one (like localStorage or AsyncStorage or whatever is avalable in your app&#39;s environement)</li>
@@ -750,8 +750,7 @@ s1.load({band_id: <span class="hljs-number">1</span>}) <span class="hljs-comment
   <span class="hljs-comment">// ... other methods ('loadOne', 'saveOne', 'destroyOne')</span>
 }
 </code></pre>
-<<<<<<< HEAD
-=======
+				<h1 id="-head">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</h1>
 				<p><em>Data/PersistenceServices/localStorage.ts</em></p>
 				<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> getLocalPersistenceService = <span class="hljs-function">(<span class="hljs-params">storageKey: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
   <span class="hljs-keyword">return</span> {
@@ -777,7 +776,21 @@ s1.load({band_id: <span class="hljs-number">1</span>}) <span class="hljs-comment
     <span class="hljs-comment">// ... other persistence methods</span>
   }
 }</code></pre>
->>>>>>> b66a085d61604524317284fdf6f17fa2694a4666
+				<blockquote>
+					<blockquote>
+						<blockquote>
+							<blockquote>
+								<blockquote>
+									<blockquote>
+										<blockquote>
+											<p>b66a085d61604524317284fdf6f17fa2694a4666</p>
+										</blockquote>
+									</blockquote>
+								</blockquote>
+							</blockquote>
+						</blockquote>
+					</blockquote>
+				</blockquote>
 				<h2 id="inspirations">Inspirations</h2>
 				<ul>
 					<li>Awesome Rails&#39; ActiveRecord</li>
