@@ -92,11 +92,8 @@ export abstract class Collection<RecordType extends Record> {
   /**
    * Add or replace one record in the collection
    * @param recordProperties A plain object reprsentation of the record's properties
-   * @param strict Indicates whether or not the method should throw an exception
-   * if one of the provided recordProperties keys is not defined
-   * as being a property of the Record subclass associated with the colection
    */
-  set(recordProperties: Partial<RecordType>, strict?: boolean): RecordType
+  set(recordProperties: Partial<RecordType>): RecordType
   /**
    * Add or replace one record in the collection
    * @param recordInstance The record instance to set in the collection
@@ -112,11 +109,8 @@ export abstract class Collection<RecordType extends Record> {
   /**
    * Add or replace multiple records in the _collection
    * @param recordPropertiesList An array of plain object reprsentation of the records' properties
-   * @param strict Indicates whether or not the method should throw an exception
-   * if one of the provided recordProperties keys is not defined
-   * as being a property of the Record subclass associated with the colection
    */
-  setMany(recordPropertiesList: Partial<RecordType>[], strict?: boolean): RecordType[]
+  setMany(recordPropertiesList: Partial<RecordType>[]): RecordType[]
   /**
    * Delete a record with a given primary key in the _collection
    * @param primaryKey The identifier of the record to delete from the _collection

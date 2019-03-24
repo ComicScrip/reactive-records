@@ -1,7 +1,5 @@
 import { action, computed, observable } from "mobx"
 import { createTransformer } from "mobx-utils"
-import * as Bluebird from "bluebird"
-Promise = Bluebird as any
 import { Record, Partial, PrimaryKey, PersistenceStrategy } from "./internals"
 import { Scope } from "./Scope"
 
@@ -209,12 +207,9 @@ export abstract class Collection<RecordType extends Record> {
   /**
    * Add or replace one record in the collection
    * @param recordProperties A plain object reprsentation of the record's properties
-   * @param strict Indicates whether or not the method should throw an exception
-   * if one of the provided recordProperties keys is not defined
-   * as being a property of the Record subclass associated with the colection
    */
   @action.bound
-  public set(recordProperties: Partial<RecordType>, strict = true): RecordType {
+  public set(recordProperties: Partial<RecordType>): RecordType {
     // TODO: add an option to replace or not
     if (recordProperties instanceof Record) {
       return recordProperties as RecordType
@@ -256,16 +251,13 @@ export abstract class Collection<RecordType extends Record> {
   /**
    * Add or replace multiple records in the _collection
    * @param recordPropertiesList An array of plain object reprsentation of the records' properties
-   * @param strict Indicates whether or not the method should throw an exception
-   * if one of the provided recordProperties keys is not defined
-   * as being a property of the Record subclass associated with the colection
    */
   @action.bound
-  public setMany(recordPropertiesList: Partial<RecordType>[], strict = true): RecordType[] {
+  public setMany(recordPropertiesList: Partial<RecordType>[]): RecordType[] {
     const recordInstances = []
     for (let i = 0; i < recordPropertiesList.length; i++) {
       const recordProperties = recordPropertiesList[i]
-      recordInstances.push(this.set(recordProperties, strict))
+      recordInstances.push(this.set(recordProperties))
     }
     return recordInstances
   }

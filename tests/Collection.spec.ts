@@ -1,6 +1,6 @@
 import { each } from "lodash"
-import { Collection, Partial, Record } from "../src/internals"
-import { Album, AlbumCollection, albumCollection } from "./internals"
+import { Collection, Record } from "../src/internals"
+import { AlbumCollection, albumCollection } from "./internals"
 import { Scope } from "../src/Scope"
 import { NetworkOnlyStrategy } from "./persistenceStrategies/NetworkOnlyStrategy"
 import { reaction } from "mobx"
@@ -27,7 +27,7 @@ describe("Collection", () => {
         name: "my album",
         coverUrl: "the link"
       })
-      albumCollection.set(album, false)
+      albumCollection.set(album)
       expect(albumCollection.size).toBe(1)
       expect(album._ownAttributes).toMatchSnapshot()
     })

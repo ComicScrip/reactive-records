@@ -262,7 +262,7 @@ export class Record {
                 existingAssociatedRecords[j][foreignKey] = null
               }
             }
-            foreignCollection.setMany(recordsToSet, false)
+            foreignCollection.setMany(recordsToSet)
           } else {
             throw new Error('You tried to assign a non array to a "toMany" association')
           }

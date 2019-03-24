@@ -64,8 +64,702 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h2 id="-wip-">[WIP]</h2>
-				<p>Nothing to see here yet ;)</p>
+				<p><img src="https://raw.githubusercontent.com/ComicScrip/reactive-records/master/tests/coverage/badge-lines.svg?sanitize=true" alt="Line coverage percent">
+					<img src="https://raw.githubusercontent.com/ComicScrip/reactive-records/master/tests/coverage/badge-statements.svg?sanitize=true" alt="Statements coverage percent">
+					<img src="https://raw.githubusercontent.com/ComicScrip/reactive-records/master/tests/coverage/badge-functions.svg?sanitize=true" alt="Function coverage percent">
+					<img src="https://raw.githubusercontent.com/ComicScrip/reactive-records/master/tests/coverage/badge-branches.svg?sanitize=true" alt="Branches coverage percent">
+				<a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square" alt="code style: prettier"></a></p>
+				<h2 id="reactive-records-">Reactive Records ?</h2>
+				<p>Reactive-records lets you describe your app&#39;s domain data and its behaviour in a very expressive and DRY manner. </p>
+				<p>It relies on the <a href="https://mobx.js.org/">Mobx</a> library to make the records of your model observable and reactive to changes.
+					It can be used to abstract data synchronisation with your backend
+					and also comes with offline capabilities as it helps you to implement the custom persistence strategies your
+				very special app needs.</p>
+				<h2 id="goals-and-assuptions">Goals and assuptions</h2>
+				<p>This lib aims to help you write robust and efficient reactive models for your view layer to consume.</p>
+				<p>While it tries to be as agnostic as possible concerning your JavaScript stack, it does come with a few assumptions about your data.
+				Reactive-records was clearly built with the relationnal/object model in mind, so in order to do anything, the following is assumed :</p>
+				<ul>
+					<li>Your business data is composed of ressources objects (Record instances, eg: users, todos, messages, unicorns, ...)
+					that have serval poperties you want to display and process. </li>
+					<li>These ressources are uniquely identified by some sort of primary key (&#39;id&#39; by default).</li>
+				</ul>
+				<p>Reactive-records tries to stay generic, but also pragmatic in its use. That&#39;s why it comes with default implementations
+				that you can ealily extend or override if needed. </p>
+				<h2 id="getting-started-concepts-features">Getting started : concepts &amp; features</h2>
+				<p>In this section, you will understand the basics of this library through a simple (yet realistic) music app example. </p>
+				<h3 id="the-core-records-collections-and-scopes">The core : Records, Collections and Scopes</h3>
+				<p><em>Data/Ressources/Albums.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {observable} <span class="hljs-keyword">from</span> <span class="hljs-string">'mobx'</span>
+<span class="hljs-keyword">import</span> {Collection, Record, ownAttribute} <span class="hljs-keyword">from</span> <span class="hljs-string">'reactive-records'</span>
+
+<span class="hljs-keyword">class</span> Album <span class="hljs-keyword">extends</span> Record {
+    <span class="hljs-comment">// declare @observable properties for oberservers of </span>
+    <span class="hljs-comment">// this record to be notified as the values are mutated</span>
+    <span class="hljs-comment">// notice how you will have nice autocompletion everywhere (and typechecking if using typescript) ?</span>
+    <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> id: <span class="hljs-built_in">number</span>
+    <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> releaseDate: <span class="hljs-built_in">Date</span>
+    <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> name: <span class="hljs-built_in">string</span>
+
+    <span class="hljs-comment">// use @computed to derive data from @observable properties</span>
+    <span class="hljs-meta">@computed</span> <span class="hljs-keyword">get</span> nameWithReleaseYear() { <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${this.name}</span> (<span class="hljs-subst">${this.releaseDate.getFullYear()}</span>)`</span> }
+}
+
+<span class="hljs-comment">// This collection acts as a store. </span>
+<span class="hljs-comment">// It will contain all the album records instances </span>
+<span class="hljs-comment">// and allow to perform operation on the latter as sets and subsets</span>
+<span class="hljs-keyword">class</span> AlbumCollection <span class="hljs-keyword">extends</span> Collection&lt;Album&gt; {
+    <span class="hljs-keyword">get</span> recordClass(): <span class="hljs-keyword">typeof</span> Album {
+        <span class="hljs-keyword">return</span> Album
+    }
+}
+
+<span class="hljs-comment">// the collections are typically used as singletons across all the app</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> albumCollection = <span class="hljs-keyword">new</span> AlbumCollection()</code></pre>
+				<h4 id="playing-with-records-and-collections">Playing with Records and Collections</h4>
+				<p><em>demo.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {reaction} <span class="hljs-keyword">from</span> <span class="hljs-string">'mobx'</span>
+<span class="hljs-keyword">import</span> {albumCollection} <span class="hljs-keyword">from</span> <span class="hljs-string">'./Data/Ressources/Albums.ts'</span>
+
+<span class="hljs-comment">// 'autorun', 'when', 'reaction' or 'observer' functions provided by mobx </span>
+<span class="hljs-comment">// can be used to react to mutations in your collection or in your records</span>
+<span class="hljs-comment">// let's program a reaction that prints the name and release year of every album in our </span>
+<span class="hljs-comment">// collection every time those pieces of information are updated</span>
+reaction(
+    <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> albumCollection.items.map(<span class="hljs-function"><span class="hljs-params">album</span> =&gt;</span> album.nameWithReleaseYear),
+    <span class="hljs-function"><span class="hljs-params">displayTitles</span> =&gt;</span> {
+        <span class="hljs-comment">// this is for exemple where you can re-render </span>
+        <span class="hljs-comment">// your UI to always reflect the last state of your data</span>
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`a simple view of albums in the collection : <span class="hljs-subst">${displayTitles.join(', ')}</span>`</span>)
+    }
+)</code></pre>
+				<p>let&#39;s create a new record : the simplest way is to create it directly form the collection thanks to the &#39;set&#39; method</p>
+				<pre><code class="language-ts">albumCollection.set({id: <span class="hljs-number">123</span>, name: <span class="hljs-string">'Nursery Cryme'</span>, releaseDate: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-string">'November 12, 1970'</span>)})</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+					<pre><code><span class="hljs-comment">"a simple view of albums in the collection : Nursery Cryme (1970)"</span></code></pre></p>
+				</details>
+				<p>If the provided record representation contains an &#39;id&#39; (or the primary key you have defined) that is already
+				in the collection, the record will be updated.</p>
+				<pre><code class="language-ts">albumCollection.set({id: <span class="hljs-number">123</span>, name: <span class="hljs-string">'Nursery Cryme'</span>, releaseDate: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-string">'November 12, 1971'</span>)})</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+					<pre><code><span class="hljs-comment">"a simple view of albums in the collection : Nursery Cryme (1971)"</span></code></pre></p>
+				</details>
+				<p>You can get a particular record in the collection by providing its primary key value</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> album = albumCollection.get(<span class="hljs-number">123</span>)</code></pre>
+				<p>You can get meta information about a record&#39;s instance, for exemple, <code>_ownAtttributeNames</code> will retrieve all properties decorated with <code>@ownAttribute</code></p>
+				<pre><code class="language-ts">album._ownAttributesNames <span class="hljs-comment">// ['id', 'name', 'releaseDate']</span>
+album._ownAttributes <span class="hljs-comment">// {id: 123, name: 'Nursery Cryme', relaseDate: Fri Nov 12 1971</span></code></pre>
+				<p>If you don&#39;t provide a primary key value, a temporary identifier value is given</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> otherAlbum = albumCollection.set({name: <span class="hljs-string">'Foxrot'</span>, releaseDate: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-string">'October 6, 1972'</span>)})
+otherAlbum._primaryKeyValue <span class="hljs-comment">// &lt;random number prefixed by 'optimistic_'&gt;</span></code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+					<pre><code><span class="hljs-comment">"a simple view of albums in the collection : Nursery Cryme (1971), Foxrot (1972)"</span></code></pre></p>
+				</details>
+				<p>Woops, there&#39;s a typo ! Let&#39;s correct that :</p>
+				<pre><code class="language-ts">otherAlbum.name = <span class="hljs-string">'Foxtrot'</span></code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+					<pre><code><span class="hljs-comment">"a simple view of albums in the collection : Nursery Cryme (1971), Foxtrot (1972)"</span></code></pre></p>
+				</details>
+				<p>For now, <code>otherAlbum</code> has a temporary identifier.
+				Let&#39;s assume we saved it in our backend and a real identifier is now available</p>
+				<pre><code class="language-ts">otherAlbum.id = <span class="hljs-number">124</span></code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code><span class="hljs-keyword">NOTHING</span> because <span class="hljs-keyword">only</span> the <span class="hljs-string">'name'</span> <span class="hljs-keyword">and</span> <span class="hljs-string">'releaseDate'</span> properties are
+involved <span class="hljs-keyword">in</span> our reaction, so <span class="hljs-keyword">nothing</span> needs <span class="hljs-keyword">to</span> be re-<span class="hljs-keyword">logged</span> ! </code></pre></p>
+				</details>
+				<h4 id="using-scopes">Using scopes</h4>
+				<p>So as we&#39;ve seen above, records are held in collections and you can access all the records in a collection with the <code>items</code> getter :</p>
+				<pre><code class="language-ts">myCollection.items <span class="hljs-comment">// [record1, record2, ...]</span></code></pre>
+				<p>But what if I want to have the items filtered, or in a specific order ?
+				What if I have multiple views displaying different subsets of my collection ?</p>
+				<p>It&#39;s time to use scopes !
+					Scopes are just ordered collection subsets.
+					They have a <code>name</code> and hold an ordered list of record primary keys, they can help if you doing pagination, search by attribute, etc.
+				Here&#39;s an exemple usage : </p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> albumCollection <span class="hljs-keyword">from</span> <span class="hljs-string">'./Data/Ressources/Albums.ts'</span>
+
+albumCollection.set([
+  {id: <span class="hljs-number">1</span>, name: <span class="hljs-string">'The Man Who Sold The World'</span>} 
+  {id: <span class="hljs-number">2</span>, name: <span class="hljs-string">'Hunky Dory'</span>} 
+  {id: <span class="hljs-number">3</span>, name: <span class="hljs-string">'The Rise And Fall Of Ziggy Stardust And The Spiders From Mars'</span>} 
+])
+
+<span class="hljs-comment">// 'provideScope' will return an existing collection scope or create a new one if it does not exist</span>
+<span class="hljs-keyword">const</span> myScope = albumCollection.provideScope(<span class="hljs-string">'scope1'</span>)
+myScope.itemPrimaryKeys = [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>]
+myScope.items.map(<span class="hljs-function"><span class="hljs-params">a</span> =&gt;</span> a.name) 
+<span class="hljs-comment">// ['The Man Who Sold The World', 'The Rise And Fall Of Ziggy Stardust And The Spiders From Mars']</span>
+
+<span class="hljs-keyword">const</span> myOtherScope = albumCollection.provideScope(<span class="hljs-string">'scope2'</span>)
+myOtherScope.itemPrimaryKeys = [<span class="hljs-number">3</span>, <span class="hljs-number">2</span>]
+myScope.items.map(<span class="hljs-function"><span class="hljs-params">a</span> =&gt;</span> a.name) 
+<span class="hljs-comment">// ['The Rise And Fall Of Ziggy Stardust And The Spiders From Mars', 'Hunky Dory']</span></code></pre>
+				<h3 id="relationships-between-records">Relationships between Records</h3>
+				<p>Nice ! We have a way to describe the own attributes of our Records.
+					But real-world apps do not work thanks to isolated domain objects, don&#39;t they ?
+					So we need to express the relations between the different types of Records we have.
+					Reactive records lets you use decorators that make some properties behave in a convinient manner,
+				and allows you to manipulate your state as a graph, here&#39;s how:  </p>
+				<h4 id="toone-associations">&quot;toOne&quot; associations</h4>
+				<p><em>Data/Ressources/Albums.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {toOneAssociation, toManyAssociation} <span class="hljs-keyword">from</span> <span class="hljs-string">'reactive-records'</span>
+
+<span class="hljs-keyword">class</span> Album <span class="hljs-keyword">extends</span> Record {
+    <span class="hljs-comment">// ... (attributes)</span>
+
+    <span class="hljs-comment">// a toOne association indicates a strong link between </span>
+    <span class="hljs-comment">// this record and the foreign record (the band of the album).</span>
+    <span class="hljs-meta">@observable</span> <span class="hljs-meta">@toOneAssociation</span>({
+        foreignCollection: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> bandCollection,
+        foreignKeyAttribute: <span class="hljs-string">"band_id"</span>
+    })  
+    band: Band
+
+    <span class="hljs-comment">// ...</span>
+}</code></pre>
+				<p><em>demo.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {reaction} <span class="hljs-keyword">from</span> <span class="hljs-string">'mobx'</span>
+<span class="hljs-keyword">import</span> albumCollection <span class="hljs-keyword">from</span> <span class="hljs-string">'./Data/Ressources/Albums.ts'</span>
+<span class="hljs-keyword">import</span> bandCollection <span class="hljs-keyword">from</span> <span class="hljs-string">'./Data/Ressources/Bands.ts'</span>
+
+<span class="hljs-keyword">const</span> album = albumCollection.set({name: <span class="hljs-string">'Exploding Plastic Inevitable'</span>})
+
+<span class="hljs-comment">// let's programm two reactions to see what's going on as we do the operations</span>
+reaction(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> bandCollection.items, <span class="hljs-function"><span class="hljs-params">bands</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'bandCollection : ['</span> + bands.map(<span class="hljs-function"><span class="hljs-params">band</span> =&gt;</span>
+    <span class="hljs-built_in">JSON</span>.stringify({name: band.name, pkValue: band._primaryKeyValue})
+  ).join(<span class="hljs-string">','</span>) + <span class="hljs-string">']'</span>)
+})
+reaction(
+    <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ({band_id: album.band_id, bandName: album.band ? album.band.name : <span class="hljs-literal">undefined</span>}), 
+    <span class="hljs-function"><span class="hljs-params">albumState</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`album.band.name : <span class="hljs-subst">${albumState.bandName}</span>, album.band_id : <span class="hljs-subst">${albumState.band_id}</span>`</span>)
+    }
+)</code></pre>
+				<p>The simplest way to associate the album with a new band is by assigning a POJO representation of the latter</p>
+				<pre><code class="language-ts">album.band = {name: <span class="hljs-string">'The Warlocks'</span>}</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>bandCollection : [{<span class="hljs-string">"name"</span>:<span class="hljs-string">"The Warlocks"</span>,<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_2"</span>}]
+album<span class="hljs-selector-class">.band</span><span class="hljs-selector-class">.name</span> : The Warlocks, album<span class="hljs-selector-class">.band_id</span> : optimistic_2</code></pre></p>
+				</details>
+				<p>Notice that a new <code>Band</code> instance is created within the dedicated collection
+					<code>album.band</code> now returns a reference to the <code>Band</code> instance and <code>album.band_id</code> matches the optimistic
+				identifier given to the band (since we did not provide an id).</p>
+				<p>Let&#39;s now assume the band has been saved on the backend and a real identifier is available</p>
+				<pre><code class="language-ts">album.band.id = <span class="hljs-number">123</span></code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>bandCollection : [{<span class="hljs-string">"name"</span>:<span class="hljs-string">"The Warlocks"</span>,<span class="hljs-string">"pkValue"</span>:<span class="hljs-number">123</span>}]
+album<span class="hljs-selector-class">.band</span><span class="hljs-selector-class">.name</span> : The Warlocks, album<span class="hljs-selector-class">.band_id</span> : <span class="hljs-number">123</span></code></pre></p>
+				</details>
+				<p>Notice that <code>album.band_id</code> is kept in sync with <code>band.id</code> !
+				So you don&#39;t ever have to worry about having to update stale ids yourself.</p>
+				<p>You could also assign an existing band instance to the album : </p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> secondBand = bandCollection.set({name: <span class="hljs-string">'The Falling Spikes'</span>, id: <span class="hljs-number">124</span>})
+album.band = secondBand</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>bandCollection : [{<span class="hljs-string">"name"</span>:<span class="hljs-string">"The Warlocks"</span>,<span class="hljs-string">"pkValue"</span>:<span class="hljs-number">123</span>},{<span class="hljs-string">"name"</span>:<span class="hljs-string">"The Falling Spikes"</span>,<span class="hljs-string">"pkValue"</span>:<span class="hljs-number">124</span>}]
+album<span class="hljs-selector-class">.band</span><span class="hljs-selector-class">.name</span> : The Falling Spikes, album<span class="hljs-selector-class">.band_id</span> : <span class="hljs-number">124</span></code></pre></p>
+				</details>
+				<p>The last way of setting up an association is to update the &#39;foreignKeyAttribute&#39; of the album</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> thirdBand = bandCollection.set({name: <span class="hljs-string">'The Velvet Underground'</span>, id: <span class="hljs-number">125</span>})
+album.band_id = thirdBand.id</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>bandCollection : [
+  {<span class="hljs-string">"name"</span>:<span class="hljs-string">"The Warlocks"</span>,<span class="hljs-string">"pkValue"</span>:<span class="hljs-number">123</span>},
+  {<span class="hljs-string">"name"</span>:<span class="hljs-string">"The Falling Spikes"</span>,<span class="hljs-string">"pkValue"</span>:<span class="hljs-number">124</span>},
+  {<span class="hljs-string">"name"</span>:<span class="hljs-string">"The Velvet Underground"</span>,<span class="hljs-string">"pkValue"</span>:<span class="hljs-number">125</span>}
+]
+album<span class="hljs-selector-class">.band</span><span class="hljs-selector-class">.name</span> : The Velvet Underground, album<span class="hljs-selector-class">.band_id</span> : <span class="hljs-number">125</span></code></pre></p>
+				</details>
+				<h4 id="tomany-associations">&quot;toMany&quot; associations</h4>
+				<p><em>Data/Ressources/Albums.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {toOneAssociation, toManyAssociation} <span class="hljs-keyword">from</span> <span class="hljs-string">'reactive-records'</span>
+<span class="hljs-keyword">import</span> {observable} <span class="hljs-keyword">from</span> <span class="hljs-string">'mobx'</span>
+
+<span class="hljs-keyword">class</span> Album <span class="hljs-keyword">extends</span> Record {
+   <span class="hljs-comment">// ... (attributes)</span>
+
+   <span class="hljs-comment">// a 'toMany' association allows the album to be linked to multiple tracks </span>
+   <span class="hljs-comment">// interally this is an observable computed value </span>
+   <span class="hljs-comment">// derived form the tracksCollection items matching the album's _primaryKeyValue </span>
+   <span class="hljs-meta">@toManyAssociation</span>&lt;Track&gt;({
+       foreignKeyAttribute: <span class="hljs-string">"album_id"</span>,
+       foreignCollection: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> trackCollection
+   })
+   tracks: <span class="hljs-built_in">Array</span>&lt;Track&gt; = []
+
+   <span class="hljs-comment">// ...</span>
+}</code></pre>
+				<p><em>Data/Ressources/Albums.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">class</span> Track <span class="hljs-keyword">extends</span> Record {
+   <span class="hljs-comment">// ... (attributes)</span>
+
+   <span class="hljs-comment">// this track is linked to one album thanks to this attribute </span>
+   <span class="hljs-comment">// which is observed by the 'tracks' attribute decorated by @toManyAssociation</span>
+   <span class="hljs-meta">@observable</span> album_id: PrimaryKey
+}</code></pre>
+				<p>demo.ts</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> album = albumCollection.set({ name: <span class="hljs-string">"The Velvet Underground and Nico"</span> })</code></pre>
+				<p>Let&#39;s programm two reactions to see what&#39;s going on as we do the operations : </p>
+				<pre><code class="language-ts">reaction(
+    <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> album.tracks.map(<span class="hljs-function"><span class="hljs-params">t</span> =&gt;</span> t.name),
+    <span class="hljs-function"><span class="hljs-params">trackNames</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"album's tracks names: "</span> + trackNames.join((<span class="hljs-string">', '</span>)))
+)
+reaction(
+    <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> trackCollection.items.map(<span class="hljs-function"><span class="hljs-params">t</span> =&gt;</span> 
+        ({pkValue: t._primaryKeyValue, name: t.name, album_id: t.album_id})
+    ),
+    <span class="hljs-function"><span class="hljs-params">tracks</span> =&gt;</span> { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`tracksCollection <span class="hljs-subst">${JSON.stringify(tracks)}</span>`</span>)}
+)</code></pre>
+				<p>The simplest way to set an album&#39;s associated by assigning a POJO representation of the latter.</p>
+				<pre><code class="language-ts">album.tracks = [{name: <span class="hljs-string">"Sunday Morning"</span>}, {name: <span class="hljs-string">"Venus in Furs"</span>}]</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>tracksCollection [
+   {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_2"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Sunday Morning"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-string">"optimistic_1"</span>},
+   {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_3"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Venus in Furs"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-string">"optimistic_1"</span>}
+]
+album<span class="hljs-symbol">'s</span> tracks names: Sunday Morning, Venus <span class="hljs-keyword">in</span> Furs</code></pre></p>
+				</details>
+				Like for 'toOne' associations, the albums set through the association are stored in the foreignCollection
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> otherTrack = trackCollection.set({name: <span class="hljs-string">"All Tomorrow's Parties"</span>})</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>tracksCollection [
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_2"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Sunday Morning"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-string">"optimistic_1"</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_3"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Venus in Furs"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-string">"optimistic_1"</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_4"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"All Tomorrow's Parties"</span>}
+]</code></pre></p>
+				</details>
+				<pre><code class="language-ts">album.tracks = [otherTrack]</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>tracksCollection [
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_2"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Sunday Morning"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-literal">null</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_3"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Venus in Furs"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-literal">null</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_4"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"All Tomorrow's Parties"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-string">"optimistic_1"</span>}
+]
+album<span class="hljs-symbol">'s</span> tracks names: <span class="hljs-type">All</span> <span class="hljs-type">Tomorrow</span><span class="hljs-symbol">'s</span> <span class="hljs-type">Parties</span></code></pre></p>
+				</details>
+				<p>Notice how you can pass an exisiting record and how the track list of the album is entirely redifined when assigning an array.
+				You can also perform operations on the array, like push(), splice(), etc</p>
+				<pre><code class="language-ts">album.tracks.push({name: <span class="hljs-string">'There She Goes Again'</span>})</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>tracksCollection [
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_2"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Sunday Morning"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-literal">null</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_3"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Venus in Furs"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-literal">null</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_4"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"All Tomorrow's Parties"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-string">"optimistic_1"</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_7"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"There She Goes Again"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-string">"optimistic_1"</span>}
+]
+album<span class="hljs-symbol">'s</span> tracks names: <span class="hljs-type">All</span> <span class="hljs-type">Tomorrow</span><span class="hljs-symbol">'s</span> <span class="hljs-type">Parties</span>, <span class="hljs-type">There</span> <span class="hljs-type">She</span> <span class="hljs-type">Goes</span> <span class="hljs-type">Again</span></code></pre></p>
+				</details>
+				<p>But also element replacement by assignation using record instances of record as POJOs</p>
+				<pre><code class="language-ts">album.tracks[<span class="hljs-number">0</span>] = trackCollection.items[<span class="hljs-number">0</span>]</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>tracksCollection [
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_2"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Sunday Morning"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-string">"optimistic_1"</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_3"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Venus in Furs"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-literal">null</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_4"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"All Tomorrow's Parties"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-literal">null</span>},
+  {<span class="hljs-string">"pkValue"</span>:<span class="hljs-string">"optimistic_7"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"There She Goes Again"</span>,<span class="hljs-string">"album_id"</span>:<span class="hljs-string">"optimistic_1"</span>}
+]
+album<span class="hljs-symbol">'s</span> tracks names: <span class="hljs-type">Sunday</span> <span class="hljs-type">Morning</span>, <span class="hljs-type">There</span> <span class="hljs-type">She</span> <span class="hljs-type">Goes</span> <span class="hljs-type">Again</span></code></pre></p>
+				</details>
+				<h4 id="getting-a-state-subgraph-out-of-a-record">Getting a state subgraph out of a record</h4>
+				<p><em>Data/Ressources/Albums.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-comment">// &lt;imports&gt;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Album <span class="hljs-keyword">extends</span> Record {
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> id: <span class="hljs-built_in">number</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> coverUrl: <span class="hljs-built_in">string</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> name: <span class="hljs-built_in">string</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> releaseDate: <span class="hljs-built_in">Date</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> band_id: PrimaryKey
+
+  <span class="hljs-meta">@toOneAssociation</span>({
+    foreignCollection: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> bandCollection, 
+    foreignKeyAttribute: <span class="hljs-string">"band_id"</span>
+  })
+  band: Partial&lt;Band&gt;
+  <span class="hljs-meta">@toManyAssociation</span>&lt;Track&gt;({
+    foreignKeyAttribute: <span class="hljs-string">"album_id"</span>, 
+    foreignCollection: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> trackCollection
+  })
+  tracks: <span class="hljs-built_in">Array</span>&lt;Partial&lt;Track&gt;&gt; = []
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> AlbumCollection <span class="hljs-keyword">extends</span> Collection&lt;Album&gt; {
+  <span class="hljs-keyword">get</span> recordClass(): <span class="hljs-keyword">typeof</span> Album {
+    <span class="hljs-keyword">return</span> Album
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> albumCollection = <span class="hljs-keyword">new</span> AlbumCollection()</code></pre>
+				<p><em>Data/Ressources/Tracks.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-comment">// &lt;imports&gt;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Track <span class="hljs-keyword">extends</span> Record <span class="hljs-keyword">implements</span> TrackAttributes {
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> id: <span class="hljs-built_in">number</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> duration: <span class="hljs-built_in">number</span> = <span class="hljs-number">0</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> name: <span class="hljs-built_in">string</span> = <span class="hljs-string">""</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> album_id: PrimaryKey
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> TrackCollection <span class="hljs-keyword">extends</span> Collection&lt;Track&gt; {
+  <span class="hljs-keyword">get</span> recordClass(): <span class="hljs-keyword">typeof</span> Track {
+    <span class="hljs-keyword">return</span> Track
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> trackCollection = <span class="hljs-keyword">new</span> TrackCollection()</code></pre>
+				<p><em>Data/Ressources/Bands.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-comment">// &lt;imports&gt;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Band <span class="hljs-keyword">extends</span> Record <span class="hljs-keyword">implements</span> BandAttributes {
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> id: <span class="hljs-built_in">number</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> name: <span class="hljs-built_in">string</span> = <span class="hljs-string">""</span>
+  <span class="hljs-meta">@observable</span> 
+  <span class="hljs-meta">@toManyAssociation</span>({
+    foreignCollection: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> artistCollection, 
+    foreignKeyAttribute: <span class="hljs-string">"band_id"</span>
+  })
+  members: <span class="hljs-built_in">Array</span>&lt;Artist&gt;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> BandCollection <span class="hljs-keyword">extends</span> Collection&lt;Band&gt; {
+  <span class="hljs-keyword">get</span> recordClass(): <span class="hljs-keyword">typeof</span> Band {
+    <span class="hljs-keyword">return</span> Band
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> bandCollection = <span class="hljs-keyword">new</span> BandCollection()</code></pre>
+				<p><em>Data/Ressources/Artists.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-comment">// &lt;imports&gt;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Artist <span class="hljs-keyword">extends</span> Record {
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> id: <span class="hljs-built_in">number</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> bio: <span class="hljs-built_in">string</span> = <span class="hljs-string">"No bio for this artist yet"</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> birthDate: <span class="hljs-built_in">string</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> firstName: <span class="hljs-built_in">string</span> = <span class="hljs-string">""</span>
+  <span class="hljs-meta">@observable</span> <span class="hljs-meta">@ownAttribute</span> lastName: <span class="hljs-built_in">string</span> = <span class="hljs-string">""</span>
+
+  <span class="hljs-meta">@computed</span>
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">get</span> fullName() {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.firstName + <span class="hljs-string">" "</span> + <span class="hljs-keyword">this</span>.lastName
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> ArtistCollection <span class="hljs-keyword">extends</span> Collection&lt;Artist&gt; {
+  <span class="hljs-keyword">get</span> recordClass(): <span class="hljs-keyword">typeof</span> Artist {
+    <span class="hljs-keyword">return</span> Artist
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> artistCollection = <span class="hljs-keyword">new</span> ArtistCollection()</code></pre>
+				<p><em>demo.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> rawAlbum = {
+  id: <span class="hljs-number">1</span>,
+  name: <span class="hljs-string">"Foxtrot"</span>,
+  tracks: [
+    { id: <span class="hljs-number">11</span>, name: <span class="hljs-string">"Watcher of the skies"</span>, duration: <span class="hljs-number">443</span> },
+    { id: <span class="hljs-number">22</span>, name: <span class="hljs-string">"Time table"</span>, duration: <span class="hljs-number">286</span> },
+    { name: <span class="hljs-string">"Horizons"</span>, duration: <span class="hljs-number">101</span> }
+  ],
+  band: {
+    id: <span class="hljs-number">123</span>,
+    name: <span class="hljs-string">"Genesis"</span>,
+    members: [
+      {
+        id: <span class="hljs-number">1</span>,
+        firstName: <span class="hljs-string">"Peter"</span>,
+        lastName: <span class="hljs-string">"Gabriel"</span>,
+        birthDate: <span class="hljs-string">"1950-02-13"</span>
+      },
+      {
+        id: <span class="hljs-number">2</span>,
+        firstName: <span class="hljs-string">"Tony"</span>,
+        lastName: <span class="hljs-string">"Banks"</span>,
+        birthDate: <span class="hljs-string">"1950-03-27"</span>
+      },
+      {
+        id: <span class="hljs-number">3</span>,
+        firstName: <span class="hljs-string">"Mike"</span>,
+        lastName: <span class="hljs-string">"Rutherford"</span>,
+        birthDate: <span class="hljs-string">"1950-10-02"</span>
+      },
+      {
+        id: <span class="hljs-number">4</span>,
+        firstName: <span class="hljs-string">"Steve"</span>,
+        lastName: <span class="hljs-string">"Hackett"</span>,
+        birthDate: <span class="hljs-string">"1950-02-12"</span>
+      },
+      {
+        id: <span class="hljs-number">5</span>,
+        firstName: <span class="hljs-string">"Phil"</span>,
+        lastName: <span class="hljs-string">"Collins"</span>,
+        birthDate: <span class="hljs-string">"1951-01-30"</span>
+      }
+    ]
+  },
+  coverUrl: <span class="hljs-string">"https://moonunderwaterblog.files.wordpress.com/2016/07/genesis-foxtrot-lp.jpg"</span>
+}
+
+<span class="hljs-keyword">const</span> album = albumCollection.set(rawAlbum)
+<span class="hljs-keyword">const</span> subgraph = {
+  name: <span class="hljs-literal">undefined</span>, 
+  band: {
+    name: <span class="hljs-literal">undefined</span>,
+    members: {
+      fullName: <span class="hljs-literal">undefined</span>
+    }
+  },
+  tracks: {
+    id: <span class="hljs-literal">null</span>
+  },
+  label: <span class="hljs-string">'Unknown label'</span> 
+  <span class="hljs-comment">// final values are treated as defaults, if the corressponding key in the record is undefined</span>
+}
+album._populate(subgraph)
+<span class="hljs-built_in">console</span>.log(subgraph)</code></pre>
+				<details><summary>See console logs </summary>
+					<p>
+						<pre><code>{
+  <span class="hljs-attribute">name</span>: <span class="hljs-string">'Foxtrot'</span>,
+  <span class="hljs-attribute">band</span>: {
+    <span class="hljs-attribute">name</span>: <span class="hljs-string">"Genesis"</span>,
+    <span class="hljs-attribute">members</span>: [
+      { <span class="hljs-attribute">fullName</span>: <span class="hljs-string">'Peter Gabriel'</span> },
+      { <span class="hljs-attribute">fullName</span>: <span class="hljs-string">'Tony Banks'</span> },
+      { <span class="hljs-attribute">fullName</span>: <span class="hljs-string">'Mike Rutherford'</span> },
+      { <span class="hljs-attribute">fullName</span>: <span class="hljs-string">'Steve Hackett'</span> },
+      { <span class="hljs-attribute">fullName</span>: <span class="hljs-string">'Phil Collins'</span> }
+    ]
+  },
+  <span class="hljs-attribute">tracks</span>: [
+    {<span class="hljs-attribute">id</span>: <span class="hljs-number">11</span>},
+    {<span class="hljs-attribute">id</span>: <span class="hljs-number">22</span>},
+    {<span class="hljs-attribute">id</span>: null}, <span class="hljs-comment">// the third track does not have an id, null is given since it was provided as default</span>
+  ]
+  <span class="hljs-attribute">label</span>: <span class="hljs-string">'Unknown label'</span> 
+  <span class="hljs-comment">// album does not have a 'label' prop, default provided in original subgraph is taken</span>
+}</code></pre></p>
+				</details>
+				<h3 id="dealing-with-persistence">Dealing with persistence</h3>
+				<p>Good persistence managment is crucial to every app&#39;s user experience. It&#39;s mostly about : </p>
+				<ul>
+					<li>speed : too long loading or processing delays makes a user go away.  </li>
+					<li>reliability : stale data might be printed on screen and give false information so we want that data to
+					reflect the &quot;truth&quot; as often as possible. </li>
+					<li>resilience : What happens if your API is down ?
+						What if the user is in the middle of the desert and he would like to access some information
+					he has seen earlier, when he had some network access ?</li>
+				</ul>
+				<p>In the real world, implementing data access in an app can be a challenge :</p>
+				<ul>
+					<li>You may have to deal with asynchronicity</li>
+					<li>You want to have your data in a coherent state all the time</li>
+					<li>You may have to deal with bad network conditions, handeling possible errors that you cannot prevent, etc</li>
+				</ul>
+				<p>Moreover, there are always tradoffs. </p>
+				<p>For exemple, if you want your lists of <whatever> to load super fastly,
+						you might want to implement some sort of client-side caching. You will have to trade off reliability for speed and resisilence, but
+				that can be totally acceptable.</p>
+				<p>One strategy could be : </p>
+				<ul>
+					<li>data is loaded form the server at a time T, we store that data in the local storage of the app. </li>
+					<li>then the next time the loading of data is required, we can directly return what&#39;s been saved in the local storage. </li>
+				</ul>
+				<p>Maybe if current time is less than T + Delay ? It&#39;s really up to you to define what&#39;s acceptable.<br>You could also display that data with a visual indication
+				informing the user that it might not be up to date (like reducing the opacity ?)</p>
+				<p>In the same time, you could send the API a request to make sure the user eventually gets the good version of the system&#39;s state.
+					That way, the user does not have to look at a loading indicator for 5 seconds,
+					when all he wanted to do was viewing previously loaded data. In the same time he knows that he is in offline mode and
+				what he sees might not be perfectly up to date, but at least he can see something !</p>
+				<p>In the browser, you could leverage APIs like localStorage or sessionStorage, or implement an offline service worker that
+				caches network calls. In React Native, you can leverage persistence APIs like AsyncStorage or Realm DB, SQLite, ...</p>
+				<p>The way records are persisted in an application is usually specific to the application.
+				That&#39;s why the persistence layer is completely abstracted in this library, thanks to <code>PersistenceStrategy</code> interface.</p>
+				<p>In a traditonnal application, you often want perform basic operations like : </p>
+				<ul>
+					<li>Retrieve items of a collection from a remote data source (like an API) or a local one (like localStorage or AsyncStorage or whatever is avalable in your app&#39;s environement)</li>
+					<li>Load, save or destroy individual records and sync changes with the data source(s).</li>
+				</ul>
+				<p>These operations are known as &quot;CRUD&quot; operations (Create, Read, Update, Delete).
+					In order to stay &quot;DRY&quot; but yet flexible, we can write generic persistence strategies
+				that can be shared between our collections (and overriden for a specific collection if necessary).</p>
+				<p>Before seeing how persistence strategies can be implemented, let&#39;s see how to use reactive-records
+				persistence methods that will rely on the latter.</p>
+				<h4 id="using-peristence-methods-in-collections-scopes-and-records">Using peristence methods in collections, scopes and records</h4>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {Album} <span class="hljs-keyword">from</span> <span class="hljs-string">'./Data/Ressources/Albums.ts'</span>
+<span class="hljs-keyword">import</span> ApiClient <span class="hljs-keyword">from</span> <span class="hljs-string">'./Services/ApiClient'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> AlbumCollection <span class="hljs-keyword">extends</span> Collection&lt;Album&gt; {
+  <span class="hljs-keyword">get</span> recordClass(): <span class="hljs-keyword">typeof</span> Album {
+    <span class="hljs-keyword">return</span> Album
+  }
+}
+
+<span class="hljs-keyword">const</span> strat = <span class="hljs-keyword">new</span> NetworkOnlyStrategy({RESTAPI: createCRUDHandlers(<span class="hljs-string">"/v1/albums"</span>)})
+<span class="hljs-keyword">const</span> albumCollection = <span class="hljs-keyword">new</span> AlbumCollection().setPersistenceStrategy(strat)
+
+<span class="hljs-keyword">await</span> albumCollection.load({band_id: <span class="hljs-number">2</span>}, <span class="hljs-string">'scope1'</span>) 
+<span class="hljs-comment">// In english : "wait until all the albums that have a band_id equal to 2 </span>
+<span class="hljs-comment">// have been loaded into the albumCollection's scope named 'scope1'"</span>
+<span class="hljs-comment">// It's the PersistenceStrategy responsability to do whatever is needed to achieve that. </span>
+<span class="hljs-comment">// 'load' will call the collection's persistence strategy's 'loadMany' method </span>
+<span class="hljs-comment">// passing along the desired collection scope </span>
+<span class="hljs-comment">// (which points back to the albumCollection with '.collection' attribute)</span>
+<span class="hljs-comment">// and the parameters of the requested subset of albums</span>
+
+<span class="hljs-comment">// You dont have to specify any parameter if you want to load all records in a scope named 'default'</span>
+<span class="hljs-keyword">await</span> albumCollection.load()
+
+<span class="hljs-comment">// You can load a particular record by providing a primaryKey or an existing record instance </span>
+albumCollection.loadOne(<span class="hljs-number">123</span>)
+
+<span class="hljs-comment">// You can also use persistence methods on records</span>
+<span class="hljs-keyword">const</span> myAlbum = albumCollection.get(<span class="hljs-number">123</span>)
+myAlbum.save() <span class="hljs-comment">// will call 'saveOne' method of the record's collection's persistenceStrategy</span>
+myAlbum.load() <span class="hljs-comment">// will call 'loadOne' method of the record's collection's persistenceStrategy</span>
+myAlbum.destroy() <span class="hljs-comment">// will call 'destroyOne' method of the record's collection's persistenceStrategy</span>
+
+<span class="hljs-comment">// There is also shortcut methods on scopes</span>
+<span class="hljs-keyword">const</span> s1 = albumCollection.provideScope(<span class="hljs-string">'scope1'</span>)
+s1.load({band_id: <span class="hljs-number">1</span>}) <span class="hljs-comment">// calls 'load' on the collection with the scope's name and provided params</span></code></pre>
+				<p>Notice how we can separate data manipulaton concerns from persistence concerns ?
+				See next section to learn how to deal with those persistence concerns.</p>
+				<h4 id="implementing-generic-peristence-services-strategies">Implementing generic peristence services &amp; strategies</h4>
+				<p>In a traditonnal application, you often want perform basic operations like : </p>
+				<ul>
+					<li>Retrieve items of a collection from a remote data source (like an API) or a local one (like localStorage or AsyncStorage or whatever is avalable in your app&#39;s environement)</li>
+					<li>Load, save or destroy individual records and sync changes to the data sources.</li>
+				</ul>
+				<p>These operations are well known as &quot;CRUD&quot; operations (Create, Read, Update, Delete).
+					In order to stay &quot;DRY&quot; but yet flexible, we can write generic persistence strategies
+				that can be shared between our collections (and overriden by some if necessary).</p>
+				<p>In order to do that, we just have to implement the <code>PersistenceStrategy</code> interface.
+				Here&#39;s an exemple of a partial implementation that first use a local persistence service before hitting a remote REST API.</p>
+				<p><em>Data/PersistenceStrategies/OfflineFirstStrategy.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> OfflineFirstStrategy <span class="hljs-keyword">implements</span> PersistenceStrategy {
+  <span class="hljs-comment">// A persistence strategy can mix multiple persistence services (data sources) </span>
+  <span class="hljs-comment">// in order to perform persistence operations on collections, scopes and records.</span>
+  persistenceServices = {}
+
+  <span class="hljs-comment">// helper methods</span>
+  <span class="hljs-keyword">get</span> localPersistenceService() {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.peristenceServices[<span class="hljs-string">'LOCAL_STORAGE'</span>]
+  }
+  <span class="hljs-keyword">get</span> remotePersistenceService() {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.peristenceServices[<span class="hljs-string">'RESTAPI'</span>]
+  }
+  <span class="hljs-keyword">async</span> loadManyWith(persistenceService, params, scope) {
+    scope.loadingFrom = persistenceService.name
+    <span class="hljs-keyword">let</span> records = <span class="hljs-keyword">await</span> persistenceService.loadMany(params, scope)
+    records = scope.collection.setMany(records)
+    scope.itemPrimaryKeys = records.map(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> r._primaryKeyValue)
+    scope.lastLoadedFrom = persistenceService.name
+    scope.lastLoadedAt = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+    <span class="hljs-keyword">return</span> records
+  }
+
+  <span class="hljs-keyword">async</span> loadMany(params, scope) {
+    <span class="hljs-keyword">let</span> records = []
+
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// First, try to fast-load records form local storage to pre-fill the collection</span>
+        records = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.loadManyWith(<span class="hljs-keyword">this</span>.localPeristenceService, params, scope)
+    } <span class="hljs-keyword">catch</span> (error) {
+        <span class="hljs-comment">// handle that</span>
+    }
+
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// Then, perform an API request to eventually get the latest data from the server</span>
+        records = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.loadManyWith(<span class="hljs-keyword">this</span>.remotePeristenceService, params, scope)
+        <span class="hljs-comment">// At this point, the API call was successful and we can cache data in local storage for the next call</span>
+        <span class="hljs-keyword">this</span>.localPersistenceService.saveScopeItems(scope, records)
+    } <span class="hljs-keyword">catch</span> (error) {
+        <span class="hljs-comment">// handle that</span>
+    }
+
+    <span class="hljs-keyword">return</span> records
+  }
+
+  <span class="hljs-comment">// ... other methods ('loadOne', 'saveOne', 'destroyOne')</span>
+}
+</code></pre>
+				<p><em>Data/PersistenceServices/remoteApi.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> createCRUDHandlers = <span class="hljs-function">(<span class="hljs-params">collectionUrl: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> {
+    name: <span class="hljs-string">'RESTAPI'</span>,
+
+    <span class="hljs-keyword">async</span> loadMany(params): <span class="hljs-built_in">Promise</span>&lt;ApiResponse&lt;<span class="hljs-built_in">any</span>&gt;&gt; {
+        <span class="hljs-keyword">return</span> axios.get(collectionUrl, params)
+    }
+
+    <span class="hljs-comment">// ... other persistence methods</span>
+}</code></pre>
+				<p><em>Data/PersistenceServices/localStorage.ts</em></p>
+				<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> getLocalPersistenceService = <span class="hljs-function">(<span class="hljs-params">storageKey: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> {
+    name: <span class="hljs-string">'LOCAL_STORAGE'</span>,
+
+    <span class="hljs-keyword">async</span> saveScope(scope: Scope&lt;Record&gt;, rawRecords: <span class="hljs-built_in">any</span>): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt; {
+      <span class="hljs-keyword">const</span> { lastLoadedFrom, lastLoadedAt, itemPrimaryKeys, params } = scope
+      <span class="hljs-keyword">const</span> payload= {
+        scopePks: itemPrimaryKeys.toJS(),
+        params,
+        lastLoadedAt,
+        lastLoadedFrom,
+        rawRecords
+      }
+
+      <span class="hljs-keyword">return</span> localStorage.set(storageKey + <span class="hljs-string">'scopes/'</span> + scope.name, payload)
+    },
+
+    <span class="hljs-keyword">async</span> loadScope(scope: Scope&lt;Record&gt;): <span class="hljs-built_in">Promise</span>&lt;ScopePayload&gt; {
+      <span class="hljs-keyword">return</span> localStorage.get(storageKey + <span class="hljs-string">'scopes/'</span> + scope.name)
+    }
+
+    <span class="hljs-comment">// ... other persistence methods</span>
+  }
+}</code></pre>
+				<h2 id="inspirations">Inspirations</h2>
+				<ul>
+					<li>Awesome Rails&#39; ActiveRecord</li>
+					<li>mobx-rest</li>
+				</ul>
+				<h2 id="dependencies">Dependencies</h2>
+				<ul>
+					<li>mobx</li>
+					<li>lodash</li>
+				</ul>
+				<h2 id="faq">FAQ</h2>
+				<h3 id="why-the-heck-all-method-names-that-are-exposed-in-record-class-start-with-_-">Why the heck all method names that are exposed in Record class start with &#39;_&#39; ?</h3>
+				<p>It&#39;s because it would be ugglier to pollute Records namespace
+					with property names that could conflict with your domain data properties.
+					Yes, there is a quite vague convention that says &#39;_&#39; shoud be the prefixer of private fields in order to discourage their use in client code.
+					But for the Record (Yes, brilliant game of words !), that&#39;s what appears to be the most convinient way of achieving the pollution reduction objective
+				without affecting the developper experience too much.</p>
+				<p>Why not use a property called &#39;attrbitutes&#39; to store data ?</p>
+				<p>Well, it&#39;s just not convinient, just imagine you want to access data on a three-level-deep association :</p>
+				<pre><code class="language-album.attributes.band.attributes.members[0].attributes.name```">
+instead of 
+
+```album.band.members[0].name</code></pre>
+				<p>Which one does the least hurt your brain ?</p>
+				<h2 id="contributing">Contributing</h2>
+				<p>Suggestions are always welcome !
+				PRs are very welcome too, as long as you test your code :)</p>
 				<h2 id="mit-license">MIT License</h2>
 				<p>Copyright (c) 2019 Pierre Genthon</p>
 				<p>Permission is hereby granted, free of charge, to any person obtaining a copy

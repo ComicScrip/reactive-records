@@ -845,44 +845,14 @@ Array [
         name: "test",
         tracks: [{ name: "1" }, { name: "2" }],
         band: {
-          name: "There are two hard things in CS: cache invalidation and naming things."
+          name: "band"
         }
       })
 
-      const g = {
-        name: "",
-        tracks: [{ name: "" }, { name: "" }],
-        band: {
-          name: ""
-        }
-      }
-      album._populate(g)
-      expect(g).toMatchInlineSnapshot(`
-Object {
-  "band": Object {
-    "name": "There are two hard things in CS: cache invalidation and naming things.",
-  },
-  "name": "test",
-  "tracks": Array [
-    Array [
-      Object {
-        "name": "",
-      },
-      Object {
-        "name": "",
-      },
-    ],
-    Array [
-      Object {
-        "name": "",
-      },
-      Object {
-        "name": "",
-      },
-    ],
-  ],
-}
-`)
+      expect(album.name).toEqual("test")
+      expect(album.band.name).toEqual("band")
+      expect(album.tracks[0].name).toEqual("1")
+      expect(album.tracks[1].name).toEqual("2")
     })
   })
 })
