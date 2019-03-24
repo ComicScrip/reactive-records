@@ -588,7 +588,7 @@ album._populate(subgraph)
 				<p>In the browser, you could leverage APIs like localStorage or sessionStorage, or implement an offline service worker that
 				caches network calls. In React Native, you can leverage persistence APIs like AsyncStorage or Realm DB, SQLite, ...</p>
 				<p>The way records are persisted in an application is usually specific to the application.
-				That&#39;s why the persistence layer is completely abstracted in this library, thanks to <code>PersistenceStrategy</code> interface.</p>
+				That&#39;s why the persistence layer is completely abstracted in this library, thanks to the <code>PersistenceStrategy</code> interface.</p>
 				<p>In a traditonnal application, you often want perform basic operations like : </p>
 				<ul>
 					<li>Retrieve items of a collection from a remote data source (like an API) or a local one (like localStorage or AsyncStorage or whatever is avalable in your app&#39;s environement)</li>
@@ -600,8 +600,42 @@ album._populate(subgraph)
 				<p>Before seeing how persistence strategies can be implemented, let&#39;s see how to use reactive-records
 				persistence methods that will rely on the latter.</p>
 				<h4 id="using-peristence-methods-in-collections-scopes-and-records">Using peristence methods in collections, scopes and records</h4>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {Album} <span class="hljs-keyword">from</span> <span class="hljs-string">'./Data/Ressources/Albums.ts'</span>
-<span class="hljs-keyword">import</span> ApiClient <span class="hljs-keyword">from</span> <span class="hljs-string">'./Services/ApiClient'</span>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> createCRUDHandlers = <span class="hljs-function">(<span class="hljs-params">collectionUrl: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> {
+    name: <span class="hljs-string">'RESTAPI'</span>,
+
+    <span class="hljs-keyword">async</span> loadMany(params): <span class="hljs-built_in">Promise</span>&lt;ApiResponse&lt;<span class="hljs-built_in">any</span>&gt;&gt; {
+        <span class="hljs-keyword">return</span> axios.get(collectionUrl, params)
+    }
+
+    <span class="hljs-comment">// ... other persistence methods</span>
+}
+
+
+<span class="hljs-keyword">const</span> getLocalPersistenceService = <span class="hljs-function">(<span class="hljs-params">storageKey: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> {
+    name: <span class="hljs-string">'LOCAL_STORAGE'</span>,
+
+    <span class="hljs-keyword">async</span> saveScope(scope: Scope&lt;Record&gt;, rawRecords: <span class="hljs-built_in">any</span>): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt; {
+      <span class="hljs-keyword">const</span> { lastLoadedFrom, lastLoadedAt, itemPrimaryKeys, params } = scope
+      <span class="hljs-keyword">const</span> payload= {
+        scopePks: itemPrimaryKeys.toJS(),
+        params,
+        lastLoadedAt,
+        lastLoadedFrom,
+        rawRecords
+      }
+
+      <span class="hljs-keyword">return</span> localStorage.set(storageKey + <span class="hljs-string">'scopes/'</span> + scope.name, payload)
+    },
+
+    <span class="hljs-keyword">async</span> loadScope(scope: Scope&lt;Record&gt;): <span class="hljs-built_in">Promise</span>&lt;ScopePayload&gt; {
+      <span class="hljs-keyword">return</span> localStorage.get(storageKey + <span class="hljs-string">'scopes/'</span> + scope.name)
+    }
+
+    <span class="hljs-comment">// ... other persistence methods</span>
+  }
+}
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> AlbumCollection <span class="hljs-keyword">extends</span> Collection&lt;Album&gt; {
   <span class="hljs-keyword">get</span> recordClass(): <span class="hljs-keyword">typeof</span> Album {
@@ -609,8 +643,12 @@ album._populate(subgraph)
   }
 }
 
-<span class="hljs-keyword">const</span> strat = <span class="hljs-keyword">new</span> NetworkOnlyStrategy({RESTAPI: createCRUDHandlers(<span class="hljs-string">"/v1/albums"</span>)})
-<span class="hljs-keyword">const</span> albumCollection = <span class="hljs-keyword">new</span> AlbumCollection().setPersistenceStrategy(strat)
+<span class="hljs-keyword">const</span> offlineFirstAlbums = <span class="hljs-keyword">new</span> OfflineFirstStrategy({
+    RESTAPI: createCRUDHandlers(<span class="hljs-string">"/v1/albums"</span>),
+    LOCAL_STORAGE: getLocalPersistenceService(<span class="hljs-string">"albums/"</span>)
+})
+
+<span class="hljs-keyword">const</span> albumCollection = <span class="hljs-keyword">new</span> AlbumCollection().setPersistenceStrategy(offlineFirstAlbums)
 
 <span class="hljs-keyword">await</span> albumCollection.load({band_id: <span class="hljs-number">2</span>}, <span class="hljs-string">'scope1'</span>) 
 <span class="hljs-comment">// In english : "wait until all the albums that have a band_id equal to 2 </span>
@@ -662,34 +700,38 @@ s1.load({band_id: <span class="hljs-number">1</span>}) <span class="hljs-comment
   <span class="hljs-keyword">get</span> remotePersistenceService() {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.peristenceServices[<span class="hljs-string">'RESTAPI'</span>]
   }
-  <span class="hljs-keyword">async</span> loadManyWith(persistenceService, params, scope) {
-    scope.loadingFrom = persistenceService.name
-    <span class="hljs-keyword">let</span> records = <span class="hljs-keyword">await</span> persistenceService.loadMany(params, scope)
-    records = scope.collection.setMany(records)
-    scope.itemPrimaryKeys = records.map(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> r._primaryKeyValue)
-    scope.lastLoadedFrom = persistenceService.name
-    scope.lastLoadedAt = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
-    <span class="hljs-keyword">return</span> records
-  }
 
   <span class="hljs-keyword">async</span> loadMany(params, scope) {
     <span class="hljs-keyword">let</span> records = []
 
     <span class="hljs-keyword">try</span> {
         <span class="hljs-comment">// First, try to fast-load records form local storage to pre-fill the collection</span>
-        records = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.loadManyWith(<span class="hljs-keyword">this</span>.localPeristenceService, params, scope)
-    } <span class="hljs-keyword">catch</span> (error) {
-        <span class="hljs-comment">// handle that</span>
-    }
+        scope.loadingFrom = <span class="hljs-keyword">this</span>.localPersistenceService.name
+        <span class="hljs-keyword">const</span> localPayload = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.localPeristenceService.loadScope(scope)
+        <span class="hljs-keyword">if</span> (localPayload) {
+            <span class="hljs-comment">// Note that in a real Mobx app, you would maybe user 'runInAction' </span>
+            <span class="hljs-comment">// or generator functions, see : https://mobx.js.org/best/actions.html</span>
+            scope.collection.setMany(localPayload.rawRecords)
+            scope.itemPrimaryKeys = localPayload.scopePks
+            scope.params = localPayload.params
+            scope.lastLoadedAt = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+            scope.lastLoadedFrom = <span class="hljs-keyword">this</span>.localPersistenceService.name
+            scope.loadingFrom = <span class="hljs-literal">null</span>
+        }
+    } <span class="hljs-keyword">catch</span> (error) { <span class="hljs-comment">/* handle errors here */</span> }
 
     <span class="hljs-keyword">try</span> {
         <span class="hljs-comment">// Then, perform an API request to eventually get the latest data from the server</span>
-        records = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.loadManyWith(<span class="hljs-keyword">this</span>.remotePeristenceService, params, scope)
-        <span class="hljs-comment">// At this point, the API call was successful and we can cache data in local storage for the next call</span>
-        <span class="hljs-keyword">this</span>.localPersistenceService.saveScopeItems(scope, records)
-    } <span class="hljs-keyword">catch</span> (error) {
-        <span class="hljs-comment">// handle that</span>
-    }
+        scope.loadingFrom = <span class="hljs-keyword">this</span>.remotePersistenceService.name
+        <span class="hljs-keyword">const</span> apiResponse = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.remotePeristenceService.loadMany(params)
+        records = scope.collection.setMany(apiResponse.data)
+        scope.loadingFrom = <span class="hljs-literal">null</span>
+        scope.lastLoadedAt = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+        scope.lastLoadedFrom = <span class="hljs-keyword">this</span>.remotePersistenceService.name
+        <span class="hljs-comment">// At this point, the API call was successful and we can cache data in local storage </span>
+        <span class="hljs-comment">// for the next call</span>
+        <span class="hljs-keyword">this</span>.localPersistenceService.saveScopeItems(scope, apiResponse.data)
+    } <span class="hljs-keyword">catch</span> (error) { <span class="hljs-comment">/* handle errors here */</span> }
 
     <span class="hljs-keyword">return</span> records
   }
@@ -697,17 +739,6 @@ s1.load({band_id: <span class="hljs-number">1</span>}) <span class="hljs-comment
   <span class="hljs-comment">// ... other methods ('loadOne', 'saveOne', 'destroyOne')</span>
 }
 </code></pre>
-				<p><em>Data/PersistenceServices/remoteApi.ts</em></p>
-				<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> createCRUDHandlers = <span class="hljs-function">(<span class="hljs-params">collectionUrl: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
-  <span class="hljs-keyword">return</span> {
-    name: <span class="hljs-string">'RESTAPI'</span>,
-
-    <span class="hljs-keyword">async</span> loadMany(params): <span class="hljs-built_in">Promise</span>&lt;ApiResponse&lt;<span class="hljs-built_in">any</span>&gt;&gt; {
-        <span class="hljs-keyword">return</span> axios.get(collectionUrl, params)
-    }
-
-    <span class="hljs-comment">// ... other persistence methods</span>
-}</code></pre>
 				<p><em>Data/PersistenceServices/localStorage.ts</em></p>
 				<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> getLocalPersistenceService = <span class="hljs-function">(<span class="hljs-params">storageKey: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
   <span class="hljs-keyword">return</span> {

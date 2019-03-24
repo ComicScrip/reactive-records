@@ -730,7 +730,7 @@ In the browser, you could leverage APIs like localStorage or sessionStorage, or 
 caches network calls. In React Native, you can leverage persistence APIs like AsyncStorage or Realm DB, SQLite, ...
 
 The way records are persisted in an application is usually specific to the application.
-That's why the persistence layer is completely abstracted in this library, thanks to ```PersistenceStrategy``` interface.
+That's why the persistence layer is completely abstracted in this library, thanks to the ```PersistenceStrategy``` interface.
 
 In a traditonnal application, you often want perform basic operations like : 
 - Retrieve items of a collection from a remote data source (like an API) or a local one (like localStorage or AsyncStorage or whatever is avalable in your app's environement)
@@ -746,8 +746,42 @@ persistence methods that will rely on the latter.
 #### Using peristence methods in collections, scopes and records
 
 ```ts
-import {Album} from './Data/Ressources/Albums.ts'
-import ApiClient from './Services/ApiClient'
+const createCRUDHandlers = (collectionUrl: string) => {
+  return {
+    name: 'RESTAPI',
+    
+    async loadMany(params): Promise<ApiResponse<any>> {
+        return axios.get(collectionUrl, params)
+    }
+    
+    // ... other persistence methods
+}
+
+
+const getLocalPersistenceService = (storageKey: string) => {
+  return {
+    name: 'LOCAL_STORAGE',
+
+    async saveScope(scope: Scope<Record>, rawRecords: any): Promise<any> {
+      const { lastLoadedFrom, lastLoadedAt, itemPrimaryKeys, params } = scope
+      const payload= {
+        scopePks: itemPrimaryKeys.toJS(),
+        params,
+        lastLoadedAt,
+        lastLoadedFrom,
+        rawRecords
+      }
+
+      return localStorage.set(storageKey + 'scopes/' + scope.name, payload)
+    },
+    
+    async loadScope(scope: Scope<Record>): Promise<ScopePayload> {
+      return localStorage.get(storageKey + 'scopes/' + scope.name)
+    }
+
+    // ... other persistence methods
+  }
+}
 
 export class AlbumCollection extends Collection<Album> {
   get recordClass(): typeof Album {
@@ -755,8 +789,12 @@ export class AlbumCollection extends Collection<Album> {
   }
 }
 
-const strat = new NetworkOnlyStrategy({RESTAPI: createCRUDHandlers("/v1/albums")})
-const albumCollection = new AlbumCollection().setPersistenceStrategy(strat)
+const offlineFirstAlbums = new OfflineFirstStrategy({
+    RESTAPI: createCRUDHandlers("/v1/albums"),
+    LOCAL_STORAGE: getLocalPersistenceService("albums/")
+})
+
+const albumCollection = new AlbumCollection().setPersistenceStrategy(offlineFirstAlbums)
 
 await albumCollection.load({band_id: 2}, 'scope1') 
 // In english : "wait until all the albums that have a band_id equal to 2 
@@ -813,34 +851,38 @@ export class OfflineFirstStrategy implements PersistenceStrategy {
   get remotePersistenceService() {
     return this.peristenceServices['RESTAPI']
   }
-  async loadManyWith(persistenceService, params, scope) {
-    scope.loadingFrom = persistenceService.name
-    let records = await persistenceService.loadMany(params, scope)
-    records = scope.collection.setMany(records)
-    scope.itemPrimaryKeys = records.map(r => r._primaryKeyValue)
-    scope.lastLoadedFrom = persistenceService.name
-    scope.lastLoadedAt = new Date()
-    return records
-  }
   
   async loadMany(params, scope) {
     let records = []
     
     try {
         // First, try to fast-load records form local storage to pre-fill the collection
-        records = await this.loadManyWith(this.localPeristenceService, params, scope)
-    } catch (error) {
-        // handle that
-    }
+        scope.loadingFrom = this.localPersistenceService.name
+        const localPayload = await this.localPeristenceService.loadScope(scope)
+        if (localPayload) {
+            // Note that in a real Mobx app, you would maybe user 'runInAction' 
+            // or generator functions, see : https://mobx.js.org/best/actions.html
+            scope.collection.setMany(localPayload.rawRecords)
+            scope.itemPrimaryKeys = localPayload.scopePks
+            scope.params = localPayload.params
+            scope.lastLoadedAt = new Date()
+            scope.lastLoadedFrom = this.localPersistenceService.name
+            scope.loadingFrom = null
+        }
+    } catch (error) { /* handle errors here */ }
     
     try {
         // Then, perform an API request to eventually get the latest data from the server
-        records = await this.loadManyWith(this.remotePeristenceService, params, scope)
-        // At this point, the API call was successful and we can cache data in local storage for the next call
-        this.localPersistenceService.saveScopeItems(scope, records)
-    } catch (error) {
-        // handle that
-    }
+        scope.loadingFrom = this.remotePersistenceService.name
+        const apiResponse = await this.remotePeristenceService.loadMany(params)
+        records = scope.collection.setMany(apiResponse.data)
+        scope.loadingFrom = null
+        scope.lastLoadedAt = new Date()
+        scope.lastLoadedFrom = this.remotePersistenceService.name
+        // At this point, the API call was successful and we can cache data in local storage 
+        // for the next call
+        this.localPersistenceService.saveScopeItems(scope, apiResponse.data)
+    } catch (error) { /* handle errors here */ }
     
     return records
   }
@@ -848,19 +890,6 @@ export class OfflineFirstStrategy implements PersistenceStrategy {
   // ... other methods ('loadOne', 'saveOne', 'destroyOne')
 }
 
-```
-_Data/PersistenceServices/remoteApi.ts_
-```ts
-export const createCRUDHandlers = (collectionUrl: string) => {
-  return {
-    name: 'RESTAPI',
-    
-    async loadMany(params): Promise<ApiResponse<any>> {
-        return axios.get(collectionUrl, params)
-    }
-    
-    // ... other persistence methods
-}
 ```
 
 _Data/PersistenceServices/localStorage.ts_
@@ -892,16 +921,10 @@ export const getLocalPersistenceService = (storageKey: string) => {
 ```
 
 
-
 ## Inspirations
 
 - Awesome Rails' ActiveRecord
 - mobx-rest
-
-## Dependencies
-
-- mobx
-- lodash
 
 ## FAQ
 
