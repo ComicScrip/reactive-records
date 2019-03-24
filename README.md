@@ -747,8 +747,11 @@ persistence methods that will rely on the latter.
 
 ```ts
 const createCRUDHandlers = (collectionUrl: string) => {
+<<<<<<< HEAD
   // This is a persistence service used by the persistenceStrategy
   // It useses 'axios' to sync data with the REST API  
+=======
+>>>>>>> b66a085d61604524317284fdf6f17fa2694a4666
   return {
     name: 'RESTAPI',
     
@@ -759,9 +762,14 @@ const createCRUDHandlers = (collectionUrl: string) => {
     // ... other persistence methods
 }
 
+<<<<<<< HEAD
 const getLocalPersistenceService = (storageKey: string) => {
   // This persistnce service leverages the local storage in the browser 
   // (it could be AsyncStorage on ReactNative, or whatever) 
+=======
+
+const getLocalPersistenceService = (storageKey: string) => {
+>>>>>>> b66a085d61604524317284fdf6f17fa2694a4666
   return {
     name: 'LOCAL_STORAGE',
 
@@ -894,6 +902,39 @@ export class OfflineFirstStrategy implements PersistenceStrategy {
 }
 
 ```
+<<<<<<< HEAD
+=======
+
+_Data/PersistenceServices/localStorage.ts_
+```ts
+export const getLocalPersistenceService = (storageKey: string) => {
+  return {
+    name: 'LOCAL_STORAGE',
+
+    async saveScope(scope: Scope<Record>, rawRecords: any): Promise<any> {
+      const { lastLoadedFrom, lastLoadedAt, itemPrimaryKeys, params } = scope
+      const payload= {
+        scopePks: itemPrimaryKeys.toJS(),
+        params,
+        lastLoadedAt,
+        lastLoadedFrom,
+        rawRecords
+      }
+
+      return localStorage.set(storageKey + 'scopes/' + scope.name, payload)
+    },
+    
+    async loadScope(scope: Scope<Record>): Promise<ScopePayload> {
+      return localStorage.get(storageKey + 'scopes/' + scope.name)
+    }
+
+    // ... other persistence methods
+  }
+}
+```
+
+
+>>>>>>> b66a085d61604524317284fdf6f17fa2694a4666
 ## Inspirations
 
 - Awesome Rails' ActiveRecord
