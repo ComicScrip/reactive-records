@@ -1,7 +1,5 @@
 import { action, computed, observable } from "mobx"
-import * as Bluebird from "bluebird"
-Promise = Bluebird as any
-import { Record, Partial, PrimaryKey, Collection, PersistenceServiceName } from "./internals"
+import { Record, PrimaryKey, Collection, PersistenceServiceName } from "./internals"
 
 /**
  * A subset of a collection

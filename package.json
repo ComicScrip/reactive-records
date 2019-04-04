@@ -1,6 +1,6 @@
 {
   "name": "reactive-records",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Observable business records",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -70,7 +70,6 @@
     ]
   },
   "dependencies": {
-    "bluebird": "^3.5.2",
     "lodash": "^4.17.10",
     "mobx": "^4.9.2",
     "mobx-utils": "^5.2.0"
