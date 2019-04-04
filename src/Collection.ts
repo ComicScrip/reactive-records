@@ -353,4 +353,13 @@ export abstract class Collection<RecordType extends Record> {
       this.provideScope(scopeName, params)
     )
   }
+
+  /**
+   * Unset all scopes and records from the collection
+   */
+  @action.bound
+  reset() {
+    this.scopes = new Map()
+    this.clear()
+  }
 }

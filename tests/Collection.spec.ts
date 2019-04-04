@@ -3,7 +3,7 @@ import { Collection, Record } from "../src/internals"
 import { AlbumCollection, albumCollection } from "./internals"
 import { Scope } from "../src/Scope"
 import { NetworkOnlyStrategy } from "./persistenceStrategies/NetworkOnlyStrategy"
-import { reaction } from "mobx"
+import { computed, reaction } from "mobx"
 
 describe("Collection", () => {
   beforeEach(() => {
@@ -173,6 +173,40 @@ describe("Collection", () => {
           "myScreenPage2"
         ])
       })
+
+      it("should react when scope items are updated", () => {
+        const a1 = albumCollection.set({ id: 1 })
+        const a2 = albumCollection.set({ id: 2 })
+        const a3 = albumCollection.set({ id: 3 })
+        const s1 = albumCollection.provideScope("s1")
+
+        class MyStore {
+          @computed
+          get derived() {
+            let items = []
+            albumCollection.getScopesMatching(/s/).forEach(scope => {
+              scope.items.forEach(item => {
+                items.push(item)
+              })
+            })
+
+            return items
+          }
+        }
+        const store = new MyStore()
+        const onChange = jest.fn()
+        reaction(
+          () => store.derived,
+          items => {
+            onChange(items)
+          }
+        )
+
+        s1.itemPrimaryKeys = [1, 2]
+        expect(onChange).toHaveBeenCalledWith([a1, a2])
+        s1.itemPrimaryKeys = [1, 2, 3]
+        expect(onChange).toHaveBeenCalledWith([a1, a2, a3])
+      })
     })
 
     describe("#combineScopeItems", () => {
@@ -329,6 +363,17 @@ describe("Collection", () => {
         const customScope = albumCollection.provideScope("scope1")
         await albumCollection.destroyOne(record, {}, customScope.name)
         expect(destroyAlbum).toHaveBeenLastCalledWith({}, record, customScope)
+      })
+    })
+
+    describe("reset", () => {
+      it("should clear all records and scopes", () => {
+        albumCollection.provideScope("s1")
+        albumCollection.set({ id: 1 })
+
+        albumCollection.reset()
+        expect(albumCollection.scopesNames.length).toEqual(0)
+        expect(albumCollection.items.length).toEqual(0)
       })
     })
   })

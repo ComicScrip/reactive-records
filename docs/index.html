@@ -601,11 +601,8 @@ album._populate(subgraph)
 				persistence methods that will rely on the latter.</p>
 				<h4 id="using-peristence-methods-in-collections-scopes-and-records">Using peristence methods in collections, scopes and records</h4>
 				<pre><code class="language-ts"><span class="hljs-keyword">const</span> createCRUDHandlers = <span class="hljs-function">(<span class="hljs-params">collectionUrl: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
   <span class="hljs-comment">// This is a persistence service used by the persistenceStrategy</span>
   <span class="hljs-comment">// It useses 'axios' to sync data with the REST API  </span>
-=======
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; b66a085d61604524317284fdf6f17fa2694a4666
   <span class="hljs-keyword">return</span> {
     name: <span class="hljs-string">'RESTAPI'</span>,
 
@@ -614,16 +611,12 @@ album._populate(subgraph)
     }
 
     <span class="hljs-comment">// ... other persistence methods</span>
+  }
 }
 
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 <span class="hljs-keyword">const</span> getLocalPersistenceService = <span class="hljs-function">(<span class="hljs-params">storageKey: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
   <span class="hljs-comment">// This persistnce service leverages the local storage in the browser </span>
   <span class="hljs-comment">// (it could be AsyncStorage on ReactNative, or whatever) </span>
-=======
-
-<span class="hljs-keyword">const</span> getLocalPersistenceService = <span class="hljs-function">(<span class="hljs-params">storageKey: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; b66a085d61604524317284fdf6f17fa2694a4666
   <span class="hljs-keyword">return</span> {
     name: <span class="hljs-string">'LOCAL_STORAGE'</span>,
 
@@ -748,49 +741,7 @@ s1.load({band_id: <span class="hljs-number">1</span>}) <span class="hljs-comment
   }
 
   <span class="hljs-comment">// ... other methods ('loadOne', 'saveOne', 'destroyOne')</span>
-}
-</code></pre>
-				<h1 id="-head">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</h1>
-				<p><em>Data/PersistenceServices/localStorage.ts</em></p>
-				<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> getLocalPersistenceService = <span class="hljs-function">(<span class="hljs-params">storageKey: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
-  <span class="hljs-keyword">return</span> {
-    name: <span class="hljs-string">'LOCAL_STORAGE'</span>,
-
-    <span class="hljs-keyword">async</span> saveScope(scope: Scope&lt;Record&gt;, rawRecords: <span class="hljs-built_in">any</span>): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt; {
-      <span class="hljs-keyword">const</span> { lastLoadedFrom, lastLoadedAt, itemPrimaryKeys, params } = scope
-      <span class="hljs-keyword">const</span> payload= {
-        scopePks: itemPrimaryKeys.toJS(),
-        params,
-        lastLoadedAt,
-        lastLoadedFrom,
-        rawRecords
-      }
-
-      <span class="hljs-keyword">return</span> localStorage.set(storageKey + <span class="hljs-string">'scopes/'</span> + scope.name, payload)
-    },
-
-    <span class="hljs-keyword">async</span> loadScope(scope: Scope&lt;Record&gt;): <span class="hljs-built_in">Promise</span>&lt;ScopePayload&gt; {
-      <span class="hljs-keyword">return</span> localStorage.get(storageKey + <span class="hljs-string">'scopes/'</span> + scope.name)
-    }
-
-    <span class="hljs-comment">// ... other persistence methods</span>
-  }
 }</code></pre>
-				<blockquote>
-					<blockquote>
-						<blockquote>
-							<blockquote>
-								<blockquote>
-									<blockquote>
-										<blockquote>
-											<p>b66a085d61604524317284fdf6f17fa2694a4666</p>
-										</blockquote>
-									</blockquote>
-								</blockquote>
-							</blockquote>
-						</blockquote>
-					</blockquote>
-				</blockquote>
 				<h2 id="inspirations">Inspirations</h2>
 				<ul>
 					<li>Awesome Rails&#39; ActiveRecord</li>
