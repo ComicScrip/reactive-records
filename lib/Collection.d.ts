@@ -141,4 +141,8 @@ export abstract class Collection<RecordType extends Record> {
    * Destroys one record of the collection using the collection's persitence strategy
    */
   destroyOne(record: Record, params?: any, scopeName?: string): Promise<any>
+  /**
+   * Unset all scopes and records from the collection
+   */
+  reset(): void
 }

@@ -1,4 +1,4 @@
-import { action, computed, observable } from "mobx"
+import { action, computed, observable, ObservableMap } from "mobx"
 import { createTransformer } from "mobx-utils"
 import { Record, Partial, PrimaryKey, PersistenceStrategy } from "./internals"
 import { Scope } from "./Scope"
@@ -12,8 +12,16 @@ export abstract class Collection<RecordType extends Record> {
    * Holds all the collection's records' instances
    * The map is indexed by the records' primary key values.
    */
-  @observable.shallow
-  private records = new Map<PrimaryKey, RecordType>()
+  @observable
+  private records: ObservableMap<PrimaryKey, RecordType> = observable.map()
+
+  /**
+   * The collection's scopes
+   */
+  @observable
+  private scopes: ObservableMap<string, Scope<RecordType>> = observable.map()
+
+  public persistenceStrategy: PersistenceStrategy = null
 
   /**
    * Get the collection's records' constructor
@@ -21,14 +29,9 @@ export abstract class Collection<RecordType extends Record> {
   public abstract get recordClass(): typeof Record
 
   /**
-   * The collection's scopes
-   * @type {Map}
+   * Returns the persistence strategy for this collection, or throw an error is not defined
+   * @return {PersistenceStrategy}
    */
-  @observable
-  private scopes = new Map<string, Scope<RecordType>>()
-
-  public persistenceStrategy: PersistenceStrategy = null
-
   public getPersistenceStrategy(): PersistenceStrategy {
     if (this.persistenceStrategy === null) {
       throw new Error(
@@ -49,6 +52,10 @@ export abstract class Collection<RecordType extends Record> {
     return this.scopes.get(name)
   }
 
+  /**
+   * Returns all the collection scopes names in an array
+   * @return {string[]}
+   */
   public get scopesNames(): string[] {
     return (this.scopes as any)._keys
   }
@@ -64,6 +71,9 @@ export abstract class Collection<RecordType extends Record> {
       .map(name => this.scopes.get(name))
   }
 
+  /**
+   * Filters all the collection scopes with a regex and return their items concatenated
+   */
   public getCombinedScopeItems = ((regex: RegExp) => {
     const scopeNames = this.scopesNames
     let items = []
@@ -77,7 +87,7 @@ export abstract class Collection<RecordType extends Record> {
   }).bind(this)
 
   /**
-   * Takes all scopes mathcing a regex and concat their items
+   * Takes all scopes matching a regex and concat their items
    * @return {RecordType[]}
    * @param regex The regex that will be used against all scopes name
    */
@@ -117,6 +127,10 @@ export abstract class Collection<RecordType extends Record> {
     this.scopes.set(scope.name, scope)
   }
 
+  /**
+   * remove a scope from the collection
+   * @param {Scope<RecordType extends Record>} scope
+   */
   @action.bound
   public unsetScope(scope: Scope<RecordType>) {
     this.scopes.delete(scope.name)
@@ -133,6 +147,10 @@ export abstract class Collection<RecordType extends Record> {
     return this
   }
 
+  /**
+   * Get an array of the collection's record's primary keys
+   * @return {PrimaryKey[]}
+   */
   @computed
   get itemsPrimaryKeys(): PrimaryKey[] {
     // ObservebaleMap.prototype._keys is much faster than keys() and returns directly what we need
@@ -171,6 +189,12 @@ export abstract class Collection<RecordType extends Record> {
     return this.records.get(primaryKey)
   }
 
+  /**
+   * Return the collection items filtered by a value on a property
+   * @param {keyof RecordType} propName
+   * @param propValue
+   * @return {RecordType[]}
+   */
   public wherePropEq(propName: keyof RecordType, propValue: any): RecordType[] {
     const filteredRecords = []
     for (let i = 0; i < this.items.length; i++) {
@@ -359,7 +383,7 @@ export abstract class Collection<RecordType extends Record> {
    */
   @action.bound
   reset() {
-    this.scopes = new Map()
+    this.scopes = observable.map()
     this.clear()
   }
 }
