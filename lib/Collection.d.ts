@@ -11,15 +11,18 @@ export abstract class Collection<RecordType extends Record> {
    */
   private records
   /**
+   * The collection's scopes
+   */
+  private scopes
+  persistenceStrategy: PersistenceStrategy
+  /**
    * Get the collection's records' constructor
    */
   abstract readonly recordClass: typeof Record
   /**
-   * The collection's scopes
-   * @type {Map}
+   * Returns the persistence strategy for this collection, or throw an error is not defined
+   * @return {PersistenceStrategy}
    */
-  private scopes
-  persistenceStrategy: PersistenceStrategy
   getPersistenceStrategy(): PersistenceStrategy
   /**
    * Get a collection scope by name
@@ -27,6 +30,10 @@ export abstract class Collection<RecordType extends Record> {
    * @return {Scope<RecordType extends Record>}
    */
   getScope(name: string): Scope<RecordType> | undefined
+  /**
+   * Returns all the collection scopes names in an array
+   * @return {string[]}
+   */
   readonly scopesNames: string[]
   /**
    * Get a collection scopes whose name matches a given regex
@@ -34,9 +41,12 @@ export abstract class Collection<RecordType extends Record> {
    * @param regex The regex that will be used against all scopes name
    */
   getScopesMatching(regex: RegExp): Array<Scope<RecordType>>
+  /**
+   * Filters all the collection scopes with a regex and return their items concatenated
+   */
   getCombinedScopeItems: any
   /**
-   * Takes all scopes mathcing a regex and concat their items
+   * Takes all scopes matching a regex and concat their items
    * @return {RecordType[]}
    * @param regex The regex that will be used against all scopes name
    */
@@ -53,6 +63,10 @@ export abstract class Collection<RecordType extends Record> {
    * @param {Scope<RecordType extends Record>} scope
    */
   setScope(scope: Scope<RecordType>): void
+  /**
+   * remove a scope from the collection
+   * @param {Scope<RecordType extends Record>} scope
+   */
   unsetScope(scope: Scope<RecordType>): void
   /**
    * Set the collection's persistence strategy
@@ -60,6 +74,10 @@ export abstract class Collection<RecordType extends Record> {
    * @return {Collection<Record>} : The collection
    */
   setPersistenceStratgy(ps: PersistenceStrategy): this
+  /**
+   * Get an array of the collection's record's primary keys
+   * @return {PrimaryKey[]}
+   */
   readonly itemsPrimaryKeys: PrimaryKey[]
   /**
    * Get a list of the _collection's record instances
@@ -78,6 +96,12 @@ export abstract class Collection<RecordType extends Record> {
    * @return The record instance or undefined if there is no record with the given primary key
    */
   get(primaryKey: PrimaryKey): RecordType
+  /**
+   * Return the collection items filtered by a value on a property
+   * @param {keyof RecordType} propName
+   * @param propValue
+   * @return {RecordType[]}
+   */
   wherePropEq(propName: keyof RecordType, propValue: any): RecordType[]
   /**
    * Get multiple record instances in the _collection form their primary keys

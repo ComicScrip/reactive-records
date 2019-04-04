@@ -156,12 +156,12 @@
 					<div class="tsd-signature tsd-kind-icon">combine<wbr>Scope<wbr>Items<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> =&nbsp;createTransformer(this.getCombinedScopeItems) as (regex: RegExp) &#x3D;&gt; RecordType[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Collection.ts:84</li>
+							<li>Defined in Collection.ts:94</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Takes all scopes mathcing a regex and concat their items</p>
+							<p>Takes all scopes matching a regex and concat their items</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>returns</dt>
@@ -199,9 +199,14 @@
 					<div class="tsd-signature tsd-kind-icon">get<wbr>Combined<wbr>Scope<wbr>Items<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;((regex: RegExp) &#x3D;&gt; {const scopeNames &#x3D; this.scopesNameslet items &#x3D; []for (let i &#x3D; 0; i &lt; scopeNames.length; i++) {const scope &#x3D; scopeNames[i]if (scope.match(regex)) {items &#x3D; items.concat(this.scopes.get(scope).items)}}return items}).bind(this)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Collection.ts:67</li>
+							<li>Defined in Collection.ts:77</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Filters all the collection scopes with a regex and return their items concatenated</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="persistencestrategy" class="tsd-anchor"></a>
@@ -209,14 +214,14 @@
 					<div class="tsd-signature tsd-kind-icon">persistence<wbr>Strategy<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_types_.persistencestrategy.html" class="tsd-signature-type">PersistenceStrategy</a><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Collection.ts:30</li>
+							<li>Defined in Collection.ts:24</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="records" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> records</h3>
-					<div class="tsd-signature tsd-kind-icon">records<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;PrimaryKey, RecordType&gt;()</span></div>
+					<div class="tsd-signature tsd-kind-icon">records<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ObservableMap</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;observable.map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in Collection.ts:16</li>
@@ -232,21 +237,16 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="scopes" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> scopes</h3>
-					<div class="tsd-signature tsd-kind-icon">scopes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, Scope&lt;RecordType&gt;&gt;()</span></div>
+					<div class="tsd-signature tsd-kind-icon">scopes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ObservableMap</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;observable.map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Collection.ts:28</li>
+							<li>Defined in Collection.ts:22</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The collection&#39;s scopes</p>
 						</div>
-						<dl class="tsd-comment-tags">
-							<dt>type</dt>
-							<dd><p>{Map}</p>
-							</dd>
-						</dl>
 					</div>
 				</section>
 			</section>
@@ -262,7 +262,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:147</li>
+									<li>Defined in Collection.ts:165</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -285,9 +285,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:137</li>
+									<li>Defined in Collection.ts:155</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get an array of the collection&#39;s record&#39;s primary keys</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_types_.html#primarykey" class="tsd-signature-type">PrimaryKey</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
@@ -302,7 +307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:21</li>
+									<li>Defined in Collection.ts:29</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -324,9 +329,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:52</li>
+									<li>Defined in Collection.ts:59</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns all the collection scopes names in an array</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
@@ -341,7 +351,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:203</li>
+									<li>Defined in Collection.ts:227</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -367,7 +377,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:292</li>
+									<li>Defined in Collection.ts:316</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -389,7 +399,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:345</li>
+									<li>Defined in Collection.ts:369</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -423,7 +433,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:170</li>
+									<li>Defined in Collection.ts:188</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -455,7 +465,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:189</li>
+									<li>Defined in Collection.ts:213</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -486,9 +496,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:32</li>
+									<li>Defined in Collection.ts:35</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the persistence strategy for this collection, or throw an error is not defined</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_types_.persistencestrategy.html" class="tsd-signature-type">PersistenceStrategy</a></h4>
 						</li>
 					</ul>
@@ -503,7 +518,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:48</li>
+									<li>Defined in Collection.ts:51</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -537,7 +552,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:61</li>
+									<li>Defined in Collection.ts:68</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -568,7 +583,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:161</li>
+									<li>Defined in Collection.ts:179</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -600,7 +615,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:301</li>
+									<li>Defined in Collection.ts:325</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -631,7 +646,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:309</li>
+									<li>Defined in Collection.ts:333</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -665,7 +680,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:94</li>
+									<li>Defined in Collection.ts:104</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -702,7 +717,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:361</li>
+									<li>Defined in Collection.ts:385</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -724,7 +739,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:329</li>
+									<li>Defined in Collection.ts:353</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -758,7 +773,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:212</li>
+									<li>Defined in Collection.ts:236</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -789,7 +804,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:256</li>
+									<li>Defined in Collection.ts:280</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -820,7 +835,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:131</li>
+									<li>Defined in Collection.ts:145</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -852,7 +867,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:230</li>
+									<li>Defined in Collection.ts:254</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -883,7 +898,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:116</li>
+									<li>Defined in Collection.ts:126</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -913,7 +928,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:270</li>
+									<li>Defined in Collection.ts:294</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -944,7 +959,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:280</li>
+									<li>Defined in Collection.ts:304</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -975,13 +990,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:121</li>
+									<li>Defined in Collection.ts:135</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>remove a scope from the collection</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>scope: <a href="_scope_.scope.html" class="tsd-signature-type">Scope</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RecordType</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -998,7 +1020,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:242</li>
+									<li>Defined in Collection.ts:266</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1036,9 +1058,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Collection.ts:174</li>
+									<li>Defined in Collection.ts:198</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return the collection items filtered by a value on a property</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
