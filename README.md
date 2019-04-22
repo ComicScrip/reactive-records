@@ -864,7 +864,7 @@ export class OfflineFirstStrategy implements PersistenceStrategy {
         scope.loadingFrom = this.localPersistenceService.name
         const localPayload = await this.localPeristenceService.loadScope(scope)
         if (localPayload) {
-            // Note that in a real Mobx app, you would maybe user 'runInAction' 
+            // Note that in a real Mobx app, you would maybe use 'runInAction' 
             // or generator functions, see : https://mobx.js.org/best/actions.html
             scope.collection.setMany(localPayload.rawRecords)
             scope.itemPrimaryKeys = localPayload.scopePks
