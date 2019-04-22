@@ -909,7 +909,7 @@ Yes, there is a quite vague convention that says '_' shoud be the prefixer of pr
 But for the Record (Yes, brilliant game of words !), that's what appears to be the most convinient way of achieving the pollution reduction objective 
 without affecting the developper experience too much.
 
-Why not use a property called 'attrbitutes' to store data ?
+Why not use a property called 'attributes' to store data ?
 
 Well, it's just not convinient, just imagine you want to access data on a three-level-deep association :
 
