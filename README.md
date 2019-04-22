@@ -20,7 +20,7 @@ This lib aims to help you write robust and efficient reactive models for your vi
 While it tries to be as agnostic as possible concerning your JavaScript stack, it does come with a few assumptions about your data. 
 Reactive-records was clearly built with the relationnal/object model in mind, so in order to do anything, the following is assumed :
  - Your business data is composed of ressources objects (Record instances, eg: users, todos, messages, unicorns, ...)
- that have serval poperties you want to display and process. 
+ that have several poperties you want to display and process. 
  - These ressources are uniquely identified by some sort of primary key ('id' by default).
 
 Reactive-records tries to stay generic, but also pragmatic in its use. That's why it comes with default implementations
