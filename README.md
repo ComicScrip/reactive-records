@@ -706,7 +706,7 @@ In the real world, implementing data access in an app can be a challenge :
 - You want to have your data in a coherent state all the time
 - You may have to deal with bad network conditions, handeling possible errors that you cannot prevent, etc
 
-Moreover, there are always tradoffs. 
+Moreover, there are always tradeoffs. 
 
 For exemple, if you want your lists of <whatever> to load super fastly,
 you might want to implement some sort of client-side caching. You will have to trade off reliability for speed and resisilence, but 
