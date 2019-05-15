@@ -807,6 +807,18 @@ Array [
       })
     })
 
+    it("should not crash if a toOneAssociation has no _populate method (when it is undefined for exemple)", () => {
+      const album = albumCollection.set(rawAlbum as Album)
+      album.band = null
+      let graph = {
+        name: undefined,
+        band: {
+          name: undefined
+        }
+      }
+      expect(() => album._populate(graph)).not.toThrow()
+    })
+
     it("should work with toMany association", () => {
       const album = albumCollection.set(rawAlbum as Album)
       let graph = {

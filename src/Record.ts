@@ -2,6 +2,7 @@ import { action, computed, intercept, observable, reaction } from "mobx"
 import { keys, isObject, isEmpty, isArray, includes, clone } from "lodash"
 import { Collection, PersistenceServiceName, toManyAssociationsDescription } from "./internals"
 import { toOneAssociationsDescription, OptimisticPrimaryKey, PrimaryKey, Partial } from "./types"
+import { type } from "os"
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min
@@ -411,7 +412,9 @@ export class Record {
       const k = ks[i]
       if (isObject(graph[k])) {
         if (includes(toOneAssociationNames, k)) {
-          this[k]._populate(graph[k])
+          if (this[k] && typeof this[k]._populate === "function") {
+            this[k]._populate(graph[k])
+          }
         } else if (includes(toManyAssociationNames, k)) {
           const associatedDesc = graph[k]
           graph[k] = []
