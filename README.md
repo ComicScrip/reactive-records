@@ -20,7 +20,7 @@ This lib aims to help you write robust and efficient reactive models for your vi
 While it tries to be as agnostic as possible concerning your JavaScript stack, it does come with a few assumptions about your data. 
 Reactive-records was clearly built with the relationnal/object model in mind, so in order to do anything, the following is assumed :
  - Your business data is composed of ressources objects (Record instances, eg: users, todos, messages, unicorns, ...)
- that have serval poperties you want to display and process. 
+ that have several poperties you want to display and process. 
  - These ressources are uniquely identified by some sort of primary key ('id' by default).
 
 Reactive-records tries to stay generic, but also pragmatic in its use. That's why it comes with default implementations
@@ -706,7 +706,7 @@ In the real world, implementing data access in an app can be a challenge :
 - You want to have your data in a coherent state all the time
 - You may have to deal with bad network conditions, handeling possible errors that you cannot prevent, etc
 
-Moreover, there are always tradoffs. 
+Moreover, there are always tradeoffs. 
 
 For exemple, if you want your lists of <whatever> to load super fastly,
 you might want to implement some sort of client-side caching. You will have to trade off reliability for speed and resisilence, but 
@@ -761,7 +761,7 @@ const createCRUDHandlers = (collectionUrl: string) => {
 }
 
 const getLocalPersistenceService = (storageKey: string) => {
-  // This persistnce service leverages the local storage in the browser 
+  // This persistence service leverages the local storage in the browser 
   // (it could be AsyncStorage on ReactNative, or whatever) 
   return {
     name: 'LOCAL_STORAGE',
@@ -802,14 +802,14 @@ const albumCollection = new AlbumCollection().setPersistenceStrategy(offlineFirs
 
 await albumCollection.load({band_id: 2}, 'scope1') 
 // In english : "wait until all the albums that have a band_id equal to 2 
-// have been loaded into the albumCollection's scope named 'scope1'"
-// It's the PersistenceStrategy responsability to do whatever is needed to achieve that. 
+// are loaded into the albumCollection's scope named 'scope1'"
+// It's the PersistenceStrategy responsibility to do whatever is needed to achieve that. 
 // 'load' will call the collection's persistence strategy's 'loadMany' method 
 // passing along the desired collection scope 
 // (which points back to the albumCollection with '.collection' attribute)
 // and the parameters of the requested subset of albums
 
-// You dont have to specify any parameter if you want to load all records in a scope named 'default'
+// You don't have to specify any parameter if you want to load all records in a scope named 'default'
 await albumCollection.load()
 
 // You can load a particular record by providing a primaryKey or an existing record instance 
@@ -864,7 +864,7 @@ export class OfflineFirstStrategy implements PersistenceStrategy {
         scope.loadingFrom = this.localPersistenceService.name
         const localPayload = await this.localPeristenceService.loadScope(scope)
         if (localPayload) {
-            // Note that in a real Mobx app, you would maybe user 'runInAction' 
+            // Note that in a real Mobx app, you would maybe use 'runInAction' 
             // or generator functions, see : https://mobx.js.org/best/actions.html
             scope.collection.setMany(localPayload.rawRecords)
             scope.itemPrimaryKeys = localPayload.scopePks
@@ -903,13 +903,13 @@ export class OfflineFirstStrategy implements PersistenceStrategy {
 
 ### Why the heck all method names that are exposed in Record class start with '_' ?
 
-It's because it would be ugglier to pollute Records namespace
+It's because it would be ugglier to pollute records namespaces
 with property names that could conflict with your domain data properties. 
 Yes, there is a quite vague convention that says '_' shoud be the prefixer of private fields in order to discourage their use in client code. 
-But for the Record (Yes, brilliant game of words !), that's what appears to be the most convinient way of achieving the pollution reduction objective 
-without affecting the developper experience too much.
+But that's what appears to be the most convinient way of achieving the pollution reduction objective 
+without affecting the developer experience too much.
 
-Why not use a property called 'attrbitutes' to store data ?
+Why not use a property called 'attributes' to store data ?
 
 Well, it's just not convinient, just imagine you want to access data on a three-level-deep association :
 
