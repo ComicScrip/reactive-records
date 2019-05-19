@@ -268,6 +268,68 @@ Array [
         expect(a.band_id).toEqual(a.band._primaryKeyValue)
       })
 
+      it("works with mergePropsOnAssignation boolean", () => {
+        class Album2 extends Record {
+          @observable
+          @ownAttribute
+          id: PrimaryKey
+          @observable
+          @ownAttribute
+          name: string
+          @observable
+          @toOneAssociation({
+            foreignCollection: () => bandCollection,
+            mergePropsOnAssignation: true
+          })
+          band: Partial<Band>
+          @observable
+          @ownAttribute
+          band_id: PrimaryKey
+        }
+
+        class AlbumCollection2 extends Collection<Album2> {
+          get recordClass(): typeof Album2 {
+            return Album2
+          }
+        }
+
+        const a = new Album2(new AlbumCollection2())
+        a.band = bandCollection.set({ name: "genesis" })
+        a.band = { name: "yes" }
+        expect(a.band.name).toEqual("yes")
+      })
+
+      it("works with mergePropsOnAssignation func", () => {
+        class Album2 extends Record {
+          @observable
+          @ownAttribute
+          id: PrimaryKey
+          @observable
+          @ownAttribute
+          name: string
+          @observable
+          @toOneAssociation({
+            foreignCollection: () => bandCollection,
+            mergePropsOnAssignation: () => true
+          })
+          band: Partial<Band>
+          @observable
+          @ownAttribute
+          band_id: PrimaryKey
+        }
+
+        class AlbumCollection2 extends Collection<Album2> {
+          get recordClass(): typeof Album2 {
+            return Album2
+          }
+        }
+
+        const a = new Album2(new AlbumCollection2())
+        a.band = bandCollection.set({ name: "genesis" })
+        a.band = { name: "yes" }
+        expect(a.band.name).toEqual("yes")
+      })
+
       it("throws when 'foreignCollection' param does not return an instance of Collection", () => {
         class Album2 extends Record {
           @observable
@@ -350,6 +412,78 @@ Array [
         const a = new Album(new AlbumCollection())
         a.tracks = [{ name: "test" }] as Track[]
         expect(a.tracks.length).toBe(1)
+      })
+
+      it("works with mergePropsOnAssignation boolean", () => {
+        class Album extends Record {
+          @observable
+          @ownAttribute
+          id: PrimaryKey
+          @observable
+          @ownAttribute
+          name: string
+          @toManyAssociation<Track>({
+            foreignCollection: () => trackCollection,
+            mergePropsOnAssignation: true
+          })
+          tracks: Array<Track> = []
+          @observable
+          @ownAttribute
+          band_id: PrimaryKey
+        }
+
+        class AlbumCollection extends Collection<Album> {
+          get recordClass(): typeof Album {
+            return Album
+          }
+        }
+
+        const a = new Album(new AlbumCollection())
+        a.tracks = [{ id: 1, name: "test", duration: 500 }] as Track[]
+        a.tracks = [{ id: 1, name: "test2" }, { id: 2, name: "test3", duration: 600 }] as Track[]
+        expect(a.tracks.length).toBe(2)
+        expect(a.tracks.filter(t => t.id === 1)[0].name).toBe("test2")
+        expect(a.tracks.filter(t => t.id === 1)[0].duration).toBe(500)
+        expect(a.tracks.filter(t => t.id === 2)[0].duration).toBe(600)
+        expect(a.tracks.filter(t => t.id === 2)[0].name).toBe("test3")
+        a.tracks.push({ id: 1, name: "abc" } as any)
+        expect(a.tracks.filter(t => t.id === 1)[0].name).toBe("abc")
+        a.tracks[1] = { id: 2, name: "newname" } as any
+        expect(a.tracks.filter(t => t.id === 2)[0].name).toBe("newname")
+      })
+
+      it("works with mergePropsOnAssignation func", () => {
+        class Album extends Record {
+          @observable
+          @ownAttribute
+          id: PrimaryKey
+          @observable
+          @ownAttribute
+          name: string
+          @toManyAssociation<Track>({
+            foreignCollection: () => trackCollection,
+            mergePropsOnAssignation: () => true
+          })
+          tracks: Array<Track> = []
+          @observable
+          @ownAttribute
+          band_id: PrimaryKey
+        }
+
+        class AlbumCollection extends Collection<Album> {
+          get recordClass(): typeof Album {
+            return Album
+          }
+        }
+
+        const a = new Album(new AlbumCollection())
+        a.tracks = [{ id: 1, name: "test", duration: 500 }] as Track[]
+        a.tracks = [{ id: 1, name: "test2" }, { id: 2, name: "test3", duration: 600 }] as Track[]
+        expect(a.tracks.length).toBe(2)
+        expect(a.tracks.filter(t => t.id === 1)[0].name).toBe("test2")
+        expect(a.tracks.filter(t => t.id === 1)[0].duration).toBe(500)
+        expect(a.tracks.filter(t => t.id === 2)[0].duration).toBe(600)
+        expect(a.tracks.filter(t => t.id === 2)[0].name).toBe("test3")
       })
 
       it("throws when 'foreignCollection' param does not return an instance of Collection", () => {

@@ -86,6 +86,10 @@ export class Record {
     for (let i = 0; i < this._toOneAssociationsNames.length; i++) {
       const associationName = this._toOneAssociationsNames[i]
       const associationDesc = this._toOneAssociations[associationName]
+      const shouldMerge =
+        typeof associationDesc.mergePropsOnAssignation === "function"
+          ? associationDesc.mergePropsOnAssignation()
+          : !!associationDesc.mergePropsOnAssignation
       const foreignCollection = associationDesc.foreignCollection()
       if (!(foreignCollection instanceof Collection)) {
         throw new Error(
@@ -132,7 +136,9 @@ export class Record {
           if (isObject(newValue) && !(newValue instanceof Record)) {
             // when doing "myRecord.assoc = {...}"
             // make a Record instance out of the POJO
-            newValue = foreignCollection.set(newValue)
+            newValue = shouldMerge
+              ? foreignCollection.merge(newValue)
+              : foreignCollection.set(newValue)
           }
           this[foreignKey] = !!newValue ? newValue._primaryKeyValue : newValue
           trackForeignRecordPk()
@@ -158,6 +164,10 @@ export class Record {
     for (let i = 0; i < this._toManyAssociationsNames.length; i++) {
       const associationName = this._toManyAssociationsNames[i]
       const associationDesc = this._toManyAssociations[associationName]
+      const shouldMerge =
+        typeof associationDesc.mergePropsOnAssignation === "function"
+          ? associationDesc.mergePropsOnAssignation()
+          : !!associationDesc.mergePropsOnAssignation
 
       const foreignCollection = associationDesc.foreignCollection()
       if (!(foreignCollection instanceof Collection)) {
@@ -209,7 +219,9 @@ export class Record {
           for (let j = 0; j < change.added.length; j++) {
             const pushed = change.added[j]
             pushed[foreignKey] = this._primaryKeyValue
-            change.added[j] = foreignCollection.set(pushed)
+            change.added[j] = shouldMerge
+              ? foreignCollection.merge(pushed)
+              : foreignCollection.set(pushed)
           }
         }
         if (change.type === "update") {
@@ -222,7 +234,9 @@ export class Record {
 
           if (change.newValue) {
             change.newValue[foreignKey] = this._primaryKeyValue
-            change.newValue = foreignCollection.set(change.newValue)
+            change.newValue = shouldMerge
+              ? foreignCollection.merge(change.newValue)
+              : foreignCollection.set(change.newValue)
           }
         }
         return change
@@ -263,7 +277,11 @@ export class Record {
                 existingAssociatedRecords[j][foreignKey] = null
               }
             }
-            foreignCollection.setMany(recordsToSet)
+            if (shouldMerge) {
+              foreignCollection.mergeMany(recordsToSet)
+            } else {
+              foreignCollection.setMany(recordsToSet)
+            }
           } else {
             throw new Error('You tried to assign a non array to a "toMany" association')
           }

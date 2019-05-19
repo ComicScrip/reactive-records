@@ -12,6 +12,7 @@ export interface RecordConstructor {
 export interface toOneAssociationDescription<T> {
   foreignCollection: () => Collection<Record>
   foreignKeyAttribute?: keyof T
+  mergePropsOnAssignation?: (() => boolean) | boolean
 }
 
 export interface toOneAssociationsDescription<T> {
@@ -21,6 +22,7 @@ export interface toOneAssociationsDescription<T> {
 export interface toManyAssociationDescription<T> {
   foreignCollection: () => Collection<Record>
   foreignKeyAttribute?: keyof T
+  mergePropsOnAssignation?: (() => boolean) | boolean
 }
 
 export interface toManyAssociationsDescription<T> {

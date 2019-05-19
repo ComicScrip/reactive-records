@@ -234,13 +234,30 @@ export abstract class Collection<RecordType extends Record> {
    */
   @action.bound
   public set(recordProperties: Partial<RecordType>): RecordType {
-    // TODO: add an option to replace or not
     if (recordProperties instanceof Record) {
       return recordProperties as RecordType
     }
     const recordClass = this.recordClass
     const recordInstance = new recordClass(this) as RecordType
     recordInstance._mergeProperties(recordProperties)
+    this.records.set(recordInstance._primaryKeyValue, recordInstance)
+
+    return recordInstance
+  }
+
+  /**
+   * Add or update one record in the collection
+   * @param recordProperties A plain object reprsentation of the record's properties
+   */
+  @action.bound
+  public merge(recordProperties: Partial<RecordType>): RecordType {
+    const recordClass = this.recordClass
+    const recordInstance =
+      this.get(recordProperties[recordClass.primaryKeyName]) ||
+      (new recordClass(this) as RecordType)
+    recordInstance._mergeProperties(
+      recordProperties instanceof Record ? recordProperties._ownAttributes : recordProperties
+    )
     this.records.set(recordInstance._primaryKeyValue, recordInstance)
 
     return recordInstance
@@ -273,7 +290,7 @@ export abstract class Collection<RecordType extends Record> {
   }
 
   /**
-   * Add or replace multiple records in the _collection
+   * Add or replace multiple records in the collection
    * @param recordPropertiesList An array of plain object reprsentation of the records' properties
    */
   @action.bound
@@ -282,6 +299,22 @@ export abstract class Collection<RecordType extends Record> {
     for (let i = 0; i < recordPropertiesList.length; i++) {
       const recordProperties = recordPropertiesList[i]
       recordInstances.push(this.set(recordProperties))
+    }
+    return recordInstances
+  }
+
+  /**
+   * Add or update multiple records in the collection
+   * Properties form the recordPropertiesList will be merged into existing
+   * records properties if the records already exist in the collection
+   * @param recordPropertiesList An array of plain object reprsentation of the records' properties
+   */
+  @action.bound
+  public mergeMany(recordPropertiesList: Partial<RecordType>[]): RecordType[] {
+    const recordInstances = []
+    for (let i = 0; i < recordPropertiesList.length; i++) {
+      const recordProperties = recordPropertiesList[i]
+      recordInstances.push(this.merge(recordProperties))
     }
     return recordInstances
   }

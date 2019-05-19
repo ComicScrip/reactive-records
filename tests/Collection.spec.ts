@@ -10,6 +10,37 @@ describe("Collection", () => {
     albumCollection.clear()
   })
 
+  describe("merge", () => {
+    it("can merge a record from an object reprentation", () => {
+      expect(albumCollection.size).toBe(0)
+      albumCollection.merge({
+        id: 1,
+        name: "my album",
+        coverUrl: "the link"
+      })
+      const newalbum = albumCollection.merge({
+        id: 1,
+        name: "my new album"
+      })
+      expect(albumCollection.size).toBe(1)
+      expect(newalbum.coverUrl).toEqual("the link")
+      expect(newalbum.name).toEqual("my new album")
+    })
+
+    it("can merge a record from a record instance", () => {
+      expect(albumCollection.size).toBe(0)
+      const album = albumCollection.set({
+        id: 1,
+        name: "my album",
+        coverUrl: "the link"
+      })
+      const newalbum = albumCollection.merge(album)
+      expect(albumCollection.size).toBe(1)
+      expect(newalbum.coverUrl).toEqual("the link")
+      expect(newalbum.name).toEqual("my album")
+    })
+  })
+
   describe("#set", () => {
     it("can set a record from an object reprentation", () => {
       expect(albumCollection.size).toBe(0)
@@ -42,6 +73,27 @@ describe("Collection", () => {
       ])
       expect(albumCollection.size).toBe(2)
       each(albums, album => expect(album._ownAttributes).toMatchSnapshot())
+    })
+  })
+
+  describe("#mergeMany", () => {
+    it("can set records from an array of record plain objects", () => {
+      expect(albumCollection.size).toBe(0)
+      const albums = albumCollection.mergeMany([
+        { id: 1, name: "my album", coverUrl: "the link" },
+        { id: 2, name: "my second album" }
+      ])
+
+      const newAlbums = albumCollection.mergeMany([
+        { id: 1, name: "my new album", releaseDate: new Date() },
+        { id: 3, name: "my third album" }
+      ])
+
+      expect(albumCollection.size).toEqual(3)
+      expect(albumCollection.get(1).name).toEqual("my new album")
+      expect(albumCollection.get(1).coverUrl).toEqual("the link")
+      expect(albumCollection.get(2).name).toEqual("my second album")
+      expect(albumCollection.get(3).name).toEqual("my third album")
     })
   })
 
